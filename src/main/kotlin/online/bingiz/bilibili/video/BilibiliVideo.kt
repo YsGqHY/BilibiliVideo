@@ -1,11 +1,32 @@
 package online.bingiz.bilibili.video
 
+import online.bingiz.bilibili.video.internal.util.infoMessageAsLang
 import taboolib.common.platform.Plugin
-import taboolib.common.platform.function.info
 
 object BilibiliVideo : Plugin() {
+    /**
+     * 初始化
+     */
+    override fun onLoad() {
+        infoMessageAsLang("Loading")
+        infoMessageAsLang("Loaded")
+    }
 
+    /**
+     * 启动
+     *
+     */
     override fun onEnable() {
-        info("Successfully running ExamplePlugin!")
+        infoMessageAsLang("Enabling")
+        infoMessageAsLang("Enabled")
+    }
+
+    /**
+     * 关闭
+     *
+     */
+    override fun onDisable() {
+        infoMessageAsLang("Disabling")
+        infoMessageAsLang("Disabled")
     }
 }
