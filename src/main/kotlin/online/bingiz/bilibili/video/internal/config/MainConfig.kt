@@ -10,6 +10,10 @@ import taboolib.module.configuration.Configuration
  * @constructor Create empty Main config
  */
 object MainConfig {
+    /**
+     * Config
+     * 配置文件
+     */
     @Config(value = "config.yml", autoReload = true)
     lateinit var config: Configuration
         private set

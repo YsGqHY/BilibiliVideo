@@ -3,6 +3,12 @@ package online.bingiz.bilibili.video
 import online.bingiz.bilibili.video.internal.util.infoMessageAsLang
 import taboolib.common.platform.Plugin
 
+/**
+ * Bilibili video
+ * Bilibili 视频
+ *
+ * @constructor Create empty Bilibili video
+ */
 object BilibiliVideo : Plugin() {
     /**
      * 初始化
