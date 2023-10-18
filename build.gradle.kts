@@ -29,6 +29,10 @@ repositories {
 }
 
 dependencies {
+    compileOnly("com.squareup.retrofit2:retrofit:2.9.0")
+    compileOnly("com.squareup.retrofit2:converter-gson:2.9.0")
+    compileOnly("com.google.zxing:core:3.5.2")
+    compileOnly("com.google.code.gson:gson:2.10.1")
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11902:11902-minimize:mapped")
     compileOnly("ink.ptms.core:v11902:11902-minimize:universal")
