@@ -1,8 +1,9 @@
 package online.bingiz.bilibili.video.internal.engine.drive
 
 import okhttp3.ResponseBody
-import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateResponse
-import online.bingiz.bilibili.video.internal.entity.QRCodeScanningResponse
+import online.bingiz.bilibili.video.internal.entity.BilibiliResult
+import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
+import online.bingiz.bilibili.video.internal.entity.QRCodeScanningData
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -19,7 +20,7 @@ interface BilibiliDrive {
      * @return
      */
     @GET("https://passport.bilibili.com/x/passport-login/web/qrcode/generate")
-    fun applyQRCodeGenerate(): Call<QRCodeGenerateResponse>
+    fun applyQRCodeGenerate(): Call<BilibiliResult<QRCodeGenerateData>>
 
     /**
      * Scanning QRCode
@@ -28,7 +29,7 @@ interface BilibiliDrive {
      * @return
      */
     @GET("https://api.bilibili.com/x/passport-login/web/qrcode/poll")
-    fun scanningQRCode(@Query("qrcode_key") key: String): Call<QRCodeScanningResponse>
+    fun scanningQRCode(@Query("qrcode_key") key: String): Call<BilibiliResult<QRCodeScanningData>>
 
     /**
      * Action like triple
