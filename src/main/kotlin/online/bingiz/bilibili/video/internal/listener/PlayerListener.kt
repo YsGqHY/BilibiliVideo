@@ -1,5 +1,6 @@
 package online.bingiz.bilibili.video.internal.listener
 
+import online.bingiz.bilibili.video.internal.cache.cookieCache
 import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
@@ -35,6 +36,8 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerQuitEvent(event: PlayerQuitEvent) {
         val player = event.player
+        // 删除玩家缓存数据
+        cookieCache.invalidate(player.uniqueId)
         // 卸载玩家数据容器
         player.releaseDataContainer()
     }
