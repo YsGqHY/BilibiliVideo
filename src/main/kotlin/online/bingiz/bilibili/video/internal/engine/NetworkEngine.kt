@@ -1,6 +1,5 @@
 package online.bingiz.bilibili.video.internal.engine
 
-import online.bingiz.bilibili.video.api.event.CookieCacheWriteEvent
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliDrive
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
@@ -74,7 +73,6 @@ object NetworkEngine {
                                         0 -> {
                                             val list = response.headers().values("Set-Cookie")
                                             cookieCache.put(player.uniqueId, list)
-                                            CookieCacheWriteEvent(player).call()
                                             player.infoAsLang("GenerateUseCookieSuccess")
                                             this.cancel()
                                         }
