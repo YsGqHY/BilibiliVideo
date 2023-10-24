@@ -13,10 +13,15 @@ import taboolib.expansion.setupPlayerDatabase
  * @constructor Create empty Bilibili video
  */
 @RuntimeDependencies(
+    // Retrofit网络请求组件
     RuntimeDependency("com.squareup.retrofit2:retrofit:2.9.0"),
     RuntimeDependency("com.squareup.retrofit2:converter-gson:2.9.0"),
+    // 二维码生成组件
     RuntimeDependency("com.google.zxing:core:3.5.2"),
+    // GSON序列化组件
     RuntimeDependency("com.google.code.gson:gson:2.10.1"),
+    // 本地缓存组件
+    RuntimeDependency("com.github.ben-manes.caffeine:caffeine:2.9.3")
 )
 object BilibiliVideo : Plugin() {
     /**

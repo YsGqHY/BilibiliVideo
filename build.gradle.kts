@@ -29,6 +29,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly("com.github.ben-manes.caffeine:caffeine:2.9.3")
     compileOnly("com.squareup.retrofit2:retrofit:2.9.0")
     compileOnly("com.squareup.retrofit2:converter-gson:2.9.0")
     compileOnly("com.google.zxing:core:3.5.2")
