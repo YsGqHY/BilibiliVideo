@@ -6,6 +6,7 @@ import online.bingiz.bilibili.video.internal.engine.drive.BilibiliDrive
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
 import online.bingiz.bilibili.video.internal.util.infoAsLang
+import online.bingiz.bilibili.video.internal.util.toBufferedImage
 import org.bukkit.entity.Player
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,7 +51,7 @@ object NetworkEngine {
                     val body = response.body()
                     if (body != null && body.code == 0) {
                         // 向玩家副手发送二维码地图
-                        player.sendMap(body.data.url, NMSMap.Hand.OFF) {
+                        player.sendMap(body.data.url.toBufferedImage(128), NMSMap.Hand.OFF) {
                             name = "&a&lBilibili扫码登陆".colored()
                             shiny()
                             lore.clear()
