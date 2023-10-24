@@ -1,7 +1,7 @@
 package online.bingiz.bilibili.video.internal.command
 
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
-import online.bingiz.bilibili.video.internal.util.infoAsLang
+import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

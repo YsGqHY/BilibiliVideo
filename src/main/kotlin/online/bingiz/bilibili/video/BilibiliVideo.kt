@@ -1,6 +1,6 @@
 package online.bingiz.bilibili.video
 
-import online.bingiz.bilibili.video.internal.util.infoMessageAsLang
+import online.bingiz.bilibili.video.internal.helper.infoMessageAsLang
 import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.Plugin

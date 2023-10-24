@@ -1,10 +1,17 @@
-package online.bingiz.bilibili.video.internal.util
+package online.bingiz.bilibili.video.internal.helper
 
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import java.awt.Color
 import java.awt.image.BufferedImage
 
+/**
+ * To buffered image
+ * 将URL转换为BufferedImage
+ *
+ * @param size
+ * @return
+ */
 fun String.toBufferedImage(size: Int): BufferedImage {
     val writer = QRCodeWriter()
     val bitMatrix = writer.encode(this, BarcodeFormat.QR_CODE, size, size)

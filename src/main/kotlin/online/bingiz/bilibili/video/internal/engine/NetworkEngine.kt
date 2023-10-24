@@ -4,8 +4,8 @@ import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliDrive
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
-import online.bingiz.bilibili.video.internal.util.infoAsLang
-import online.bingiz.bilibili.video.internal.util.toBufferedImage
+import online.bingiz.bilibili.video.internal.helper.infoAsLang
+import online.bingiz.bilibili.video.internal.helper.toBufferedImage
 import org.bukkit.entity.Player
 import retrofit2.Call
 import retrofit2.Callback

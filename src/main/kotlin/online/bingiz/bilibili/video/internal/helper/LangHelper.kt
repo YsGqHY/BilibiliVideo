@@ -1,4 +1,4 @@
-package online.bingiz.bilibili.video.internal.util
+package online.bingiz.bilibili.video.internal.helper
 
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
