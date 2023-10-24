@@ -4,6 +4,7 @@ import online.bingiz.bilibili.video.internal.util.infoMessageAsLang
 import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.Plugin
+import taboolib.expansion.setupPlayerDatabase
 
 /**
  * Bilibili video
@@ -32,6 +33,9 @@ object BilibiliVideo : Plugin() {
      */
     override fun onEnable() {
         infoMessageAsLang("Enabling")
+        infoMessageAsLang("Database")
+        setupPlayerDatabase()
+        infoMessageAsLang("Databased")
         infoMessageAsLang("Enabled")
     }
 
