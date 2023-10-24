@@ -4,6 +4,7 @@ import okhttp3.ResponseBody
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
 import online.bingiz.bilibili.video.internal.entity.QRCodeScanningData
+import online.bingiz.bilibili.video.internal.entity.TripleData
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -46,7 +47,7 @@ interface BilibiliDrive {
         @Field("aid") aid: String,
         @Field("bvid") bvid: String,
         @Field("csrf") csrf: String
-    ): Call<ResponseBody>
+    ): Call<BilibiliResult<TripleData>>
 
     /**
      * Check cookie refresh token
