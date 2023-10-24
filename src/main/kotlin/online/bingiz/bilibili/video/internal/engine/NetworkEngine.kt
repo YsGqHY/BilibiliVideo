@@ -2,7 +2,8 @@ package online.bingiz.bilibili.video.internal.engine
 
 import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.cookieCache
-import online.bingiz.bilibili.video.internal.engine.drive.BilibiliDrive
+import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
+import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
 import online.bingiz.bilibili.video.internal.entity.TripleData
@@ -29,13 +30,38 @@ import taboolib.module.nms.sendMap
 object NetworkEngine {
     /**
      * Bilibili API
-     * 用来构建API服务
+     * 哔哩哔哩API驱动
      */
-    private val bilibiliAPI: BilibiliDrive by lazy {
+    private val bilibiliAPI by lazy {
         Retrofit.Builder()
+            .baseUrl("https://api.bilibili.com/x")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(BilibiliDrive::class.java)
+            .create(BilibiliApiDrive::class.java)
+    }
+
+    /**
+     * Bilibili passport API
+     * 哔哩哔哩通行证驱动API
+     */
+    private val bilibiliPassportAPI by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://passport.bilibili.com/x")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(BilibiliPassportDrive::class.java)
+    }
+
+    /**
+     * Bilibili website API
+     * 哔哩哔哩网站驱动API
+     */
+    private val bilibiliWebsiteAPI by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://www.bilibili.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(BilibiliPassportDrive::class.java)
     }
 
     /**
@@ -44,7 +70,7 @@ object NetworkEngine {
      * @param player
      */
     fun generateBilibiliQRCodeUrl(player: Player) {
-        bilibiliAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
+        bilibiliPassportAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
             override fun onResponse(
                 call: Call<BilibiliResult<QRCodeGenerateData>>,
                 response: Response<BilibiliResult<QRCodeGenerateData>>
@@ -117,7 +143,7 @@ object NetworkEngine {
      */
     fun getTripleStatus(player: Player, bvid: String) {
         cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct=") }?.let {
-            bilibiliAPI.actionLikeTriple("", bvid, it.replace("bili_jct", "csrf"))
+            bilibiliPassportAPI.actionLikeTriple("", bvid, it.replace("bili_jct", "csrf"))
                 .enqueue(object : Callback<BilibiliResult<TripleData>> {
                     override fun onResponse(
                         call: Call<BilibiliResult<TripleData>>,
