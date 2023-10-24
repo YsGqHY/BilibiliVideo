@@ -1,9 +1,11 @@
 package online.bingiz.bilibili.video.internal.engine
 
+import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliDrive
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
+import online.bingiz.bilibili.video.internal.entity.TripleData
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import online.bingiz.bilibili.video.internal.helper.toBufferedImage
 import org.bukkit.entity.Player
@@ -13,6 +15,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import taboolib.common.platform.function.submit
+import taboolib.expansion.getDataContainer
 import taboolib.module.chat.colored
 import taboolib.module.nms.NMSMap
 import taboolib.module.nms.sendMap
@@ -73,6 +76,8 @@ object NetworkEngine {
                                         0 -> {
                                             val list = response.headers().values("Set-Cookie")
                                             cookieCache.put(player.uniqueId, list)
+                                            player.getDataContainer()["refresh_token"] = result.data.refreshToken
+                                            player.getDataContainer()["timestamp"] = result.data.timestamp
                                             player.infoAsLang("GenerateUseCookieSuccess")
                                             this.cancel()
                                         }
@@ -103,4 +108,68 @@ object NetworkEngine {
         })
     }
 
+    /**
+     * Get triple status
+     * 获取三连状态
+     *
+     * @param player 玩家
+     * @param bvid  视频BV号
+     */
+    fun getTripleStatus(player: Player, bvid: String) {
+        cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct=") }?.let {
+            bilibiliAPI.actionLikeTriple("", bvid, it.replace("bili_jct", "csrf"))
+                .enqueue(object : Callback<BilibiliResult<TripleData>> {
+                    override fun onResponse(
+                        call: Call<BilibiliResult<TripleData>>,
+                        response: Response<BilibiliResult<TripleData>>
+                    ) {
+                        if (response.isSuccessful) {
+                            val body = response.body()
+                            if (body != null) {
+                                when (body.code) {
+                                    0 -> {
+                                        val tripleData = body.data
+                                        if (tripleData.coin && tripleData.fav && tripleData.like) {
+                                            TripleSendRewardsEvent(player, bvid).call()
+                                        } else {
+                                            player.infoAsLang(
+                                                "GetTripleStatusFailure",
+                                                tripleData.like,
+                                                tripleData.coin,
+                                                tripleData.multiply,
+                                                tripleData.fav
+                                            )
+                                        }
+                                    }
+
+                                    -101 -> {
+                                        player.infoAsLang("GetTripleStatusCookieInvalid")
+                                    }
+
+                                    10003 -> {
+                                        player.infoAsLang("GetTripleStatusTargetFailed")
+                                    }
+
+                                    else -> {
+                                        player.infoAsLang(
+                                            "GetTripleStatusFailure",
+                                            response.body()?.message ?: "Bilibili未提供任何错误信息"
+                                        )
+                                    }
+                                }
+                            } else {
+                                player.infoAsLang(
+                                    "GetTripleStatusRefuse",
+                                    response.body()?.message ?: "Bilibili未提供任何错误信息"
+                                )
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BilibiliResult<TripleData>>, t: Throwable) {
+                        player.infoAsLang("NetworkRequestFailure", t.message ?: "Bilibili未提供任何错误信息。")
+                    }
+                })
+        } ?: player.infoAsLang("GetTripleStatusCookieInvalid")
+    }
 }

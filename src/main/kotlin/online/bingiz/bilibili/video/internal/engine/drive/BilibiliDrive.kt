@@ -46,7 +46,7 @@ interface BilibiliDrive {
     fun actionLikeTriple(
         @Field("aid") aid: String,
         @Field("bvid") bvid: String,
-        @Field("csrf") csrf: String
+        @Header("Cookie") csrf: String
     ): Call<BilibiliResult<TripleData>>
 
     /**
