@@ -3,6 +3,8 @@ package online.bingiz.bilibili.video.internal.listener
 import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.expansion.releaseDataContainer
+import taboolib.expansion.setupDataContainer
 
 /**
  * Player listener
@@ -19,7 +21,9 @@ object PlayerListener {
      */
     @SubscribeEvent
     fun onPlayerLoginEvent(event: PlayerLoginEvent) {
-
+        val player = event.player
+        // 载入玩家数据容器
+        player.setupDataContainer()
     }
 
     /**
@@ -30,6 +34,8 @@ object PlayerListener {
      */
     @SubscribeEvent
     fun onPlayerQuitEvent(event: PlayerQuitEvent) {
-
+        val player = event.player
+        // 卸载玩家数据容器
+        player.releaseDataContainer()
     }
 }
