@@ -13,7 +13,7 @@ import java.util.*
 private val gson: Gson = Gson()
 
 // 泛化抵抗
-private val listStringType = TypeToken<List<String>>().type
+private val listStringType = object : TypeToken<List<String>>() {}.type
 
 val cookieCache = Caffeine.newBuilder()
     .maximumSize(100)
@@ -26,5 +26,5 @@ val cookieCache = Caffeine.newBuilder()
     .build<UUID, List<String>> {
         Bukkit.getPlayer(it)?.getDataContainer()?.get("cookie")?.let { json ->
             gson.fromJson(json, listStringType)
-        } ?: ?: infoMessageAsLang ("WarnPlayerNotOnline")
+        }
     }
