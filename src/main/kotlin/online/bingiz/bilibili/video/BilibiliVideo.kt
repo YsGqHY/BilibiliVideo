@@ -3,8 +3,11 @@ package online.bingiz.bilibili.video
 import online.bingiz.bilibili.video.internal.helper.infoMessageAsLang
 import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
+import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.expansion.setupPlayerDatabase
+import taboolib.module.metrics.Metrics
+import taboolib.platform.util.bukkitPlugin
 
 /**
  * Bilibili video
@@ -41,6 +44,9 @@ object BilibiliVideo : Plugin() {
         infoMessageAsLang("Database")
         setupPlayerDatabase()
         infoMessageAsLang("Databased")
+        infoMessageAsLang("Metrics")
+        Metrics(20132, bukkitPlugin.description.version, Platform.BUKKIT)
+        infoMessageAsLang("Metricsed")
         infoMessageAsLang("Enabled")
     }
 
