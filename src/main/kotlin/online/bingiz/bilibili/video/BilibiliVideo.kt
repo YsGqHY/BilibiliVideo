@@ -24,7 +24,9 @@ import taboolib.platform.util.bukkitPlugin
     // GSON序列化组件
     RuntimeDependency("com.google.code.gson:gson:2.10.1"),
     // 本地缓存组件
-    RuntimeDependency("com.github.ben-manes.caffeine:caffeine:2.9.3")
+    RuntimeDependency("com.github.ben-manes.caffeine:caffeine:2.9.3"),
+    // OKHTTP网络请求组件
+    RuntimeDependency("com.squareup.okhttp3:okhttp:4.11.0")
 )
 object BilibiliVideo : Plugin() {
     /**
