@@ -4,9 +4,8 @@ import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
-import online.bingiz.bilibili.video.internal.entity.BilibiliResult
-import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
-import online.bingiz.bilibili.video.internal.entity.TripleData
+import online.bingiz.bilibili.video.internal.entity.*
+import online.bingiz.bilibili.video.internal.helper.DatabaseHelper
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import online.bingiz.bilibili.video.internal.helper.toBufferedImage
 import org.bukkit.entity.Player
@@ -101,10 +100,17 @@ object NetworkEngine {
                                     when (result.data.code) {
                                         0 -> {
                                             val list = response.headers().values("Set-Cookie")
-                                            cookieCache.put(player.uniqueId, list)
-                                            player.getDataContainer()["refresh_token"] = result.data.refreshToken
-                                            player.getDataContainer()["timestamp"] = result.data.timestamp
-                                            player.infoAsLang("GenerateUseCookieSuccess")
+                                            val mid = checkRepeatabilityMid(list)
+                                            // 检查重复的MID
+                                            if (mid == null) {
+                                                player.infoAsLang("GenerateUseCookieRepeatabilityMid")
+                                            } else {
+                                                cookieCache.put(player.uniqueId, list)
+                                                player.getDataContainer()["mid"] = mid
+                                                player.getDataContainer()["refresh_token"] = result.data.refreshToken
+                                                player.getDataContainer()["timestamp"] = result.data.timestamp
+                                                player.infoAsLang("GenerateUseCookieSuccess")
+                                            }
                                             this.cancel()
                                         }
 
@@ -198,4 +204,32 @@ object NetworkEngine {
                 })
         } ?: player.infoAsLang("GetTripleStatusCookieInvalid")
     }
+
+    /**
+     * Check repeatability mid
+     * 检查重复的MID
+     *
+     * @param player 玩家
+     * @param cookie cookie
+     * @param tripleData 三连数据
+     */
+    fun checkRepeatabilityMid(cookie: List<String>): String? {
+        // 获取 SASSDATA
+        val sassData = cookie.find { it.startsWith("SASSDATA") } ?: return null
+        // 获取用户信息
+        val response = bilibiliAPI.getUserInfo(sassData).execute()
+        // 判断请求是否成功并且返回的数据 code 是否为 0
+        return when {
+            response.isSuccessful && response.body()?.code == 0 -> {
+                // 获取 MID
+                val mid = response.body()?.data?.mid ?: return null
+                // 如果数据库中存在该 MID 则返回 null，否则返回 MID
+                if (DatabaseHelper.searchPlayerByMid(mid)) null else mid
+            }
+
+            else -> null
+        }
+    }
+
+
 }
