@@ -1,5 +1,6 @@
 package online.bingiz.bilibili.video.internal.command
 
+import online.bingiz.bilibili.video.internal.config.MainConfig
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import org.bukkit.Bukkit
@@ -35,6 +36,18 @@ object MainCommand {
         }
         execute<Player> { sender, _, _ ->
             NetworkEngine.generateBilibiliQRCodeUrl(sender)
+        }
+    }
+
+    @CommandBody(permission = "BilibiliVideo.command.receive", permissionDefault = PermissionDefault.TRUE)
+    val receive = subCommand {
+        dynamic {
+            suggestion<Player> { _, _ ->
+                MainConfig.receiveMap.keys.toList()
+            }
+            execute<Player> { sender, _, argument ->
+                NetworkEngine.getTripleStatus(sender, argument)
+            }
         }
     }
 }

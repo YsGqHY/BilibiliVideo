@@ -9,6 +9,6 @@ import taboolib.platform.type.BukkitProxyEvent
  *
  * @property player player
  * @property cookie cookie
- * @constructor Create empty Q r code scanner success event
+ * @constructor Create empty QRCode scanner success event
  */
 class QRCodeScannerLoginEvent(val player: Player, val cookie: List<String>) : BukkitProxyEvent()

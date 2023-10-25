@@ -1,5 +1,7 @@
 package online.bingiz.bilibili.video.internal.config
 
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 
@@ -17,4 +19,16 @@ object MainConfig {
     @Config(value = "config.yml", autoReload = true)
     lateinit var config: Configuration
         private set
+
+    var receiveMap: Map<String, List<String>> = mapOf()
+
+    @Awake(LifeCycle.ENABLE)
+    fun registerAutoReload() {
+        config.onReload { reloadAction() }
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun reloadAction() {
+        receiveMap = config.getKeys(false).associateWith { config.getStringList(it) }
+    }
 }

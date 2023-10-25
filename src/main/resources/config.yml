@@ -1,0 +1,5 @@
+# 命令支持Kether
+# 例如: tell "hello world"
+# 相关文档：https://kether.tabooproject.org/
+BV1Qs411d7pd:
+  - "tell 'hello world'"
