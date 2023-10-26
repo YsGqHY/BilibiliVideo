@@ -44,8 +44,8 @@ repositories {
 
 dependencies {
     compileOnly("com.github.ben-manes.caffeine:caffeine:2.9.3")
-    compileOnly("com.squareup.retrofit2:retrofit:2.9.0")
-    compileOnly("com.squareup.retrofit2:converter-gson:2.9.0")
+    taboo("com.squareup.retrofit2:retrofit:2.9.0")
+    taboo("com.squareup.retrofit2:converter-gson:2.9.0")
     compileOnly("com.google.zxing:core:3.5.2")
     compileOnly("com.google.code.gson:gson:2.10.1")
     compileOnly("ink.ptms:nms-all:1.0.0")

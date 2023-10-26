@@ -17,8 +17,8 @@ import taboolib.platform.util.bukkitPlugin
  */
 @RuntimeDependencies(
     // Retrofit网络请求组件
-    RuntimeDependency("com.squareup.retrofit2:retrofit:2.9.0"),
-    RuntimeDependency("com.squareup.retrofit2:converter-gson:2.9.0"),
+//    RuntimeDependency("com.squareup.retrofit2:retrofit:2.9.0"),
+//    RuntimeDependency("com.squareup.retrofit2:converter-gson:2.9.0"),
     // 二维码生成组件
     RuntimeDependency("com.google.zxing:core:3.5.2"),
     // GSON序列化组件
@@ -26,9 +26,9 @@ import taboolib.platform.util.bukkitPlugin
     // 本地缓存组件
     RuntimeDependency("com.github.ben-manes.caffeine:caffeine:2.9.3"),
     // OKHTTP网络请求组件
-    RuntimeDependency("com.squareup.okhttp3:okhttp:4.11.0"),
+//    RuntimeDependency("com.squareup.okhttp3:okhttp:4.11.0"),
     // OKIO网络请求组件
-    RuntimeDependency("com.squareup.okio:okio:3.2.0")
+//    RuntimeDependency("com.squareup.okio:okio:3.2.0")
 )
 object BilibiliVideo : Plugin() {
     /**

@@ -4,7 +4,9 @@ import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
-import online.bingiz.bilibili.video.internal.entity.*
+import online.bingiz.bilibili.video.internal.entity.BilibiliResult
+import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
+import online.bingiz.bilibili.video.internal.entity.TripleData
 import online.bingiz.bilibili.video.internal.helper.DatabaseHelper
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import online.bingiz.bilibili.video.internal.helper.toBufferedImage
@@ -209,9 +211,7 @@ object NetworkEngine {
      * Check repeatability mid
      * 检查重复的MID
      *
-     * @param player 玩家
      * @param cookie cookie
-     * @param tripleData 三连数据
      */
     fun checkRepeatabilityMid(cookie: List<String>): String? {
         // 获取 SASSDATA
