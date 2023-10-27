@@ -26,7 +26,7 @@ object MainCommand {
     val login = subCommand {
         // 可指定玩家启动登陆流程
         // 可选参数
-        dynamic(optional = true) {
+        dynamic(optional = true, permission = "BilibiliVideo.command.login.sender") {
             suggestPlayers()
             execute<CommandSender> { _, _, argument ->
                 Bukkit.getPlayerExact(argument)?.let { player ->

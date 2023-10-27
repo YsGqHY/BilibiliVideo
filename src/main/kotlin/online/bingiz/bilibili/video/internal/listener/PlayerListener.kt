@@ -1,9 +1,11 @@
 package online.bingiz.bilibili.video.internal.listener
 
+import com.google.gson.Gson
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.expansion.getDataContainer
 import taboolib.expansion.releaseDataContainer
 import taboolib.expansion.setupDataContainer
 
@@ -14,6 +16,8 @@ import taboolib.expansion.setupDataContainer
  * @constructor Create empty Player listener
  */
 object PlayerListener {
+    private val gson: Gson = Gson()
+
     /**
      * On player login event
      * 玩家登录事件
@@ -36,6 +40,10 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerQuitEvent(event: PlayerQuitEvent) {
         val player = event.player
+        // 保存玩家Cookie数据
+        cookieCache.get(player.uniqueId)?.let {
+            player.getDataContainer()["cookie"] = gson.toJson(it)
+        }
         // 删除玩家缓存数据
         cookieCache.invalidate(player.uniqueId)
         // 卸载玩家数据容器

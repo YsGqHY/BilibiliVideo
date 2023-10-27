@@ -2,6 +2,7 @@ package online.bingiz.bilibili.video.internal.engine
 
 import okhttp3.OkHttpClient
 import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
+import online.bingiz.bilibili.video.internal.cache.bvCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.cache.qrCodeKeyCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
@@ -20,6 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import taboolib.common.platform.function.submit
+import taboolib.common.platform.function.warning
 import taboolib.expansion.getDataContainer
 import taboolib.module.chat.colored
 import taboolib.module.nms.NMSMap
@@ -165,8 +167,21 @@ object NetworkEngine {
      * @param bvid  视频BV号
      */
     fun getTripleStatus(player: Player, bvid: String) {
-        cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct=") }?.let {
-            bilibiliPassportAPI.actionLikeTriple("", bvid, it.replace("bili_jct", "csrf"))
+        bvCache[player.uniqueId to bvid]?.let {
+            if (it) {
+                player.infoAsLang("GetTripleStatusRepeat")
+                return
+            }
+        }
+        val csrf = cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct=") }
+            ?.replace("bili_jct=", "")
+            ?.split(";")
+            ?.get(0)
+        val sessData = cookieCache[player.uniqueId]?.first { it.startsWith("SESSDATA") }
+            ?.split(";")
+            ?.get(0)
+        if (csrf != null && sessData != null) {
+            bilibiliAPI.actionLikeTriple(bvid, csrf, sessData)
                 .enqueue(object : Callback<BilibiliResult<TripleData>> {
                     override fun onResponse(
                         call: Call<BilibiliResult<TripleData>>,
@@ -179,6 +194,8 @@ object NetworkEngine {
                                     0 -> {
                                         val tripleData = body.data
                                         if (tripleData.coin && tripleData.fav && tripleData.like) {
+                                            player.getDataContainer()[bvid] = true
+                                            bvCache.put(player.uniqueId to bvid, true)
                                             TripleSendRewardsEvent(player, bvid).call()
                                         } else {
                                             player.infoAsLang(
@@ -212,6 +229,9 @@ object NetworkEngine {
                                     response.body()?.message ?: "Bilibili未提供任何错误信息"
                                 )
                             }
+                        } else {
+                            warning("请求失败")
+                            warning("失败原因：${response.code()}")
                         }
                     }
 
@@ -219,7 +239,7 @@ object NetworkEngine {
                         player.infoAsLang("NetworkRequestFailure", t.message ?: "Bilibili未提供任何错误信息。")
                     }
                 })
-        } ?: player.infoAsLang("GetTripleStatusCookieInvalid")
+        }
     }
 
     /**

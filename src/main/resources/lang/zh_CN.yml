@@ -17,6 +17,7 @@ GenerateUseCookieQRCodeTimeout: "&4&l获取账户登陆数据超时，请重新�
 NetworkRequestFailure: "&4&l与Bilibili服务器通信失败，错误信息：&c&l{0}"
 NetworkRequestRefuse: "&4&l与Bilibili服务器通信被拒，错误信息：&c&l{0}"
 GetTripleStatusFailure: "&4&l稿件条件不满足，无法发放奖励。点赞({0}) / 投币({1}) / 硬币数({2}) / 收藏({3})"
+GetTripleStatusRepeat: "&4&l你已经领取过奖励了，无法再次领取!"
 GetTripleStatusRefuse: "&4&l与Bilibili服务器通信被拒，错误信息：&c&l{0}"
 GetTripleStatusCookieInvalid: "&4&l获取稿件信息失败，账户登陆数据已失效。"
 GetTripleStatusTargetFailed: "&4&l获取稿件信息失败，稿件已消失。"

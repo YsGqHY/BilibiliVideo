@@ -4,7 +4,6 @@ import okhttp3.ResponseBody
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
 import online.bingiz.bilibili.video.internal.entity.QRCodeScanningData
-import online.bingiz.bilibili.video.internal.entity.TripleData
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -31,23 +30,6 @@ interface BilibiliPassportDrive {
      */
     @GET("passport-login/web/qrcode/poll")
     fun scanningQRCode(@Query("qrcode_key") key: String): Call<BilibiliResult<QRCodeScanningData>>
-
-    /**
-     * Action like triple
-     *
-     * @param aid
-     * @param bvid
-     * @param csrf
-     * @return
-     */
-    @FormUrlEncoded
-    @Headers("Content-Type: application/x-www-form-urlencoded")
-    @POST("web-interface/archive/like/triple")
-    fun actionLikeTriple(
-        @Field("aid") aid: String,
-        @Field("bvid") bvid: String,
-        @Header("Cookie") csrf: String
-    ): Call<BilibiliResult<TripleData>>
 
     /**
      * Check cookie refresh token
