@@ -218,7 +218,7 @@ object NetworkEngine {
 
                                     else -> {
                                         player.infoAsLang(
-                                            "GetTripleStatusFailure",
+                                            "GetTripleStatusError",
                                             response.body()?.message ?: "Bilibili未提供任何错误信息"
                                         )
                                     }
