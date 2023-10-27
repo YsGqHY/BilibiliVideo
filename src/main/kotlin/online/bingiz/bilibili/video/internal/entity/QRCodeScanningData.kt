@@ -18,7 +18,7 @@ data class QRCodeScanningData(
     @SerializedName("refresh_token")
     val refreshToken: String,
     @SerializedName("timestamp")
-    val timestamp: Int,
+    val timestamp: Long,
     @SerializedName("code")
     val code: Int,
     @SerializedName("message")

@@ -18,6 +18,6 @@ interface BilibiliWebsiteDrive {
      *
      * @return
      */
-    @GET("/correspond/1/{correspondPath}")
+    @GET("correspond/1/{correspondPath}")
     fun getRefreshCSRF(@Path("correspondPath") correspondPath: String): Call<ResponseBody>
 }

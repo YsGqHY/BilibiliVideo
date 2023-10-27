@@ -1,7 +1,9 @@
 package online.bingiz.bilibili.video.internal.engine
 
+import okhttp3.OkHttpClient
 import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.cookieCache
+import online.bingiz.bilibili.video.internal.cache.qrCodeKeyCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
@@ -10,6 +12,7 @@ import online.bingiz.bilibili.video.internal.entity.TripleData
 import online.bingiz.bilibili.video.internal.helper.DatabaseHelper
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import online.bingiz.bilibili.video.internal.helper.toBufferedImage
+import online.bingiz.bilibili.video.internal.interceptor.ReceivedCookiesInterceptor
 import org.bukkit.entity.Player
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,11 +38,15 @@ object NetworkEngine {
      */
     private val bilibiliAPI by lazy {
         Retrofit.Builder()
-            .baseUrl("https://api.bilibili.com/x")
+            .baseUrl("https://api.bilibili.com/x/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BilibiliApiDrive::class.java)
     }
+
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(ReceivedCookiesInterceptor())
+        .build()
 
     /**
      * Bilibili passport API
@@ -47,8 +54,9 @@ object NetworkEngine {
      */
     private val bilibiliPassportAPI by lazy {
         Retrofit.Builder()
-            .baseUrl("https://passport.bilibili.com/x")
+            .baseUrl("https://passport.bilibili.com/x/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
             .create(BilibiliPassportDrive::class.java)
     }
@@ -59,7 +67,7 @@ object NetworkEngine {
      */
     private val bilibiliWebsiteAPI by lazy {
         Retrofit.Builder()
-            .baseUrl("https://www.bilibili.com")
+            .baseUrl("https://www.bilibili.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BilibiliPassportDrive::class.java)
@@ -80,7 +88,7 @@ object NetworkEngine {
                     val body = response.body()
                     if (body != null && body.code == 0) {
                         // 向玩家副手发送二维码地图
-                        player.sendMap(body.data.url.toBufferedImage(128), NMSMap.Hand.OFF) {
+                        player.sendMap(body.data.url.toBufferedImage(128), NMSMap.Hand.MAIN) {
                             name = "&a&lBilibili扫码登陆".colored()
                             shiny()
                             lore.clear()
@@ -95,34 +103,41 @@ object NetworkEngine {
                         // 出现以下情况后会自动取消任务：
                         // 1. 玩家扫码登陆成功
                         // 2. 二维码已超时
-                        submit(async = true, delay = 20L, period = 20L) {
-                            val execute = bilibiliAPI.scanningQRCode(body.data.qrCodeKey).execute()
+                        submit(async = true, delay = 20L * 9, period = 20L * 3) {
+                            val qrCodeKey = body.data.qrCodeKey
+                            val execute = bilibiliPassportAPI.scanningQRCode(qrCodeKey).execute()
                             if (execute.isSuccessful) {
                                 execute.body()?.let { result ->
                                     when (result.data.code) {
                                         0 -> {
-                                            val list = response.headers().values("Set-Cookie")
-                                            val mid = checkRepeatabilityMid(list)
-                                            // 检查重复的MID
-                                            if (mid == null) {
-                                                player.infoAsLang("GenerateUseCookieRepeatabilityMid")
-                                            } else {
-                                                cookieCache.put(player.uniqueId, list)
-                                                player.getDataContainer()["mid"] = mid
-                                                player.getDataContainer()["refresh_token"] = result.data.refreshToken
-                                                player.getDataContainer()["timestamp"] = result.data.timestamp
-                                                player.infoAsLang("GenerateUseCookieSuccess")
+                                            qrCodeKeyCache[qrCodeKey]?.let {
+                                                val mid = checkRepeatabilityMid(player, it)
+                                                // 检查重复的MID
+                                                if (mid == null) {
+                                                    player.infoAsLang("GenerateUseCookieRepeatabilityMid")
+                                                } else {
+                                                    cookieCache.put(player.uniqueId, it)
+                                                    player.getDataContainer()["mid"] = mid
+                                                    player.getDataContainer()["refresh_token"] =
+                                                        result.data.refreshToken
+                                                    player.getDataContainer()["timestamp"] = result.data.timestamp
+                                                    player.infoAsLang("GenerateUseCookieSuccess")
+                                                }
+                                                this.cancel()
                                             }
-                                            this.cancel()
                                         }
 
                                         86038 -> {
-                                            player.inventory
                                             player.infoAsLang("GenerateUseCookieQRCodeTimeout")
                                             this.cancel()
                                         }
+
+                                        else -> {
+                                            return@submit
+                                        }
                                     }
                                 }
+                                player.updateInventory()
                             }
                         }
                     } else {
@@ -213,18 +228,18 @@ object NetworkEngine {
      *
      * @param cookie cookie
      */
-    fun checkRepeatabilityMid(cookie: List<String>): String? {
+    fun checkRepeatabilityMid(player: Player, cookie: List<String>): String? {
         // 获取 SASSDATA
-        val sassData = cookie.find { it.startsWith("SASSDATA") } ?: return null
+        val sessData = cookie.find { it.startsWith("SESSDATA") } ?: return null
         // 获取用户信息
-        val response = bilibiliAPI.getUserInfo(sassData).execute()
+        val response = bilibiliAPI.getUserInfo(sessData).execute()
         // 判断请求是否成功并且返回的数据 code 是否为 0
         return when {
-            response.isSuccessful && response.body()?.code == 0 -> {
+            response.isSuccessful -> {
                 // 获取 MID
                 val mid = response.body()?.data?.mid ?: return null
                 // 如果数据库中存在该 MID 则返回 null，否则返回 MID
-                if (DatabaseHelper.searchPlayerByMid(mid)) null else mid
+                if (DatabaseHelper.searchPlayerByMid(player, mid)) null else mid
             }
 
             else -> null

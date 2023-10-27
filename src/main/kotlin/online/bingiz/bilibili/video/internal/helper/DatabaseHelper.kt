@@ -1,5 +1,6 @@
 package online.bingiz.bilibili.video.internal.helper
 
+import org.bukkit.entity.Player
 import taboolib.expansion.playerDatabase
 
 
@@ -28,7 +29,7 @@ object DatabaseHelper {
      * @param mid mid
      * @return player name
      */
-    fun searchPlayerByMid(mid: String): Boolean {
+    fun searchPlayerByMid(player: Player,mid: String): Boolean {
         return playerDatabaseSource?.let {
             playerDatabaseTable?.select(it) {
                 where {
@@ -36,7 +37,7 @@ object DatabaseHelper {
                     "value" eq mid
                 }
             }?.firstOrNull {
-                true
+                player.uniqueId.toString() != getString("user")
             } ?: false
         } ?: false
     }
