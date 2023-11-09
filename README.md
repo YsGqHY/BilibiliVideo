@@ -43,6 +43,10 @@ BV1Qs411d7pD:
 
 > Jenkins由 **[物语云计算](https://www.wuyuidc.com/)** 提供算力支持
 
+### 🔧构建趋势
+
+![Jenkins](https://ci-dev.bingzi.online/job/BilibiliVideo/buildTimeGraph/png)
+
 ## 📉匿名统计
 
 ![bStats](https://bstats.org/signatures/bukkit/BilibiliVideo.svg)
