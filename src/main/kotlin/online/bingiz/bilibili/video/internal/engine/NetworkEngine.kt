@@ -14,12 +14,15 @@ import online.bingiz.bilibili.video.internal.helper.DatabaseHelper
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import online.bingiz.bilibili.video.internal.helper.toBufferedImage
 import online.bingiz.bilibili.video.internal.interceptor.ReceivedCookiesInterceptor
+import online.bingiz.bilibili.video.internal.interceptor.UserAgentInterceptor
 import org.bukkit.entity.Player
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import taboolib.common.platform.function.pluginId
+import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.function.warning
 import taboolib.expansion.getDataContainer
@@ -34,6 +37,11 @@ import taboolib.module.nms.sendMap
  * @constructor Create empty Network engine
  */
 object NetworkEngine {
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(ReceivedCookiesInterceptor())
+        .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion"))
+        .build()
+
     /**
      * Bilibili API
      * 哔哩哔哩API驱动
@@ -42,13 +50,10 @@ object NetworkEngine {
         Retrofit.Builder()
             .baseUrl("https://api.bilibili.com/x/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
             .create(BilibiliApiDrive::class.java)
     }
-
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(ReceivedCookiesInterceptor())
-        .build()
 
     /**
      * Bilibili passport API
@@ -71,6 +76,7 @@ object NetworkEngine {
         Retrofit.Builder()
             .baseUrl("https://www.bilibili.com/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
             .create(BilibiliPassportDrive::class.java)
     }
