@@ -39,7 +39,7 @@ import taboolib.module.nms.sendMap
 object NetworkEngine {
     private val client = OkHttpClient.Builder()
         .addInterceptor(ReceivedCookiesInterceptor())
-        .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion"))
+        .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion(lhby233@outlook.com)"))
         .build()
 
     /**
