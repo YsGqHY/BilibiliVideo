@@ -42,3 +42,7 @@ BV1Qs411d7pD:
 - [Jenkins](https://ci-dev.bingzi.online/job/BilibiliVideo/)(推荐大陆访问)
 
 > Jenkins由 **[物语云计算](https://www.wuyuidc.com/)** 提供算力支持
+
+## 📉匿名统计
+
+![bStats](https://bstats.org/signatures/bukkit/BilibiliVideo.svg)
