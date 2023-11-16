@@ -33,4 +33,43 @@ interface BilibiliApiDrive {
         @Field("csrf") csrf: String,
         @Header("Cookie") sessData: String
     ): Call<BilibiliResult<TripleData>>
+
+    /**
+     * Has like
+     * 是否被点赞
+     *
+     * @param sessData
+     * @param bvid
+     */
+    @GET("web-interface/archive/has/like")
+    fun hasLike(
+        @Header("Cookie") sessData: String,
+        @Query("bvid") bvid: String
+    )
+
+    /**
+     * Has coins
+     * 是否被投币
+     *
+     * @param sessData
+     * @param bvid
+     */
+    @GET("web-interface/archive/coins")
+    fun hasCoins(
+        @Header("Cookie") sessData: String,
+        @Query("bvid") bvid: String
+    )
+
+    /**
+     * Has favoured
+     * 是否被收藏
+     *
+     * @param sessData
+     * @param bvid
+     */
+    @GET("v2/fav/video/favoured")
+    fun hasFavoured(
+        @Header("Cookie") sessData: String,
+        @Query("bvid") bvid: String
+    )
 }
