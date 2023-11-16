@@ -186,7 +186,7 @@ object NetworkEngine {
         val sessData = cookieCache[player.uniqueId]?.first { it.startsWith("SESSDATA") }
             ?.split(";")
             ?.get(0) + ",bili_jct=${csrf},buvid3=BUVID3"
-        if (csrf != null && sessData != null) {
+        if (csrf != null) {
             bilibiliAPI.actionLikeTriple(bvid, csrf, sessData)
                 .enqueue(object : Callback<BilibiliResult<TripleData>> {
                     override fun onResponse(
