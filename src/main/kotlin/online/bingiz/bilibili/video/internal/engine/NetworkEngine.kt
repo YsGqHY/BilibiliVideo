@@ -12,6 +12,7 @@ import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
 import online.bingiz.bilibili.video.internal.entity.TripleData
 import online.bingiz.bilibili.video.internal.helper.DatabaseHelper
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
+import online.bingiz.bilibili.video.internal.helper.sendMapVersionCompatible
 import online.bingiz.bilibili.video.internal.helper.toBufferedImage
 import online.bingiz.bilibili.video.internal.interceptor.ReceivedCookiesInterceptor
 import online.bingiz.bilibili.video.internal.interceptor.UserAgentInterceptor
@@ -28,7 +29,6 @@ import taboolib.common.platform.function.warning
 import taboolib.expansion.getDataContainer
 import taboolib.module.chat.colored
 import taboolib.module.nms.NMSMap
-import taboolib.module.nms.sendMap
 
 /**
  * Network engine
@@ -96,7 +96,7 @@ object NetworkEngine {
                     val body = response.body()
                     if (body != null && body.code == 0) {
                         // 向玩家副手发送二维码地图
-                        player.sendMap(body.data.url.toBufferedImage(128), NMSMap.Hand.MAIN) {
+                        player.sendMapVersionCompatible(body.data.url.toBufferedImage(128), NMSMap.Hand.MAIN) {
                             name = "&a&lBilibili扫码登陆".colored()
                             shiny()
                             lore.clear()
