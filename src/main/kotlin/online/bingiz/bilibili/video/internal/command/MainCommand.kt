@@ -40,7 +40,7 @@ object MainCommand {
         }
     }
 
-    @CommandBody(permission = "", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(permission = "BilibiliVideo.command.show", permissionDefault = PermissionDefault.TRUE)
     val show = subCommand {
         execute<Player> { sender, _, _ ->
             // 因为是网络操作并且下层未进行异步操作

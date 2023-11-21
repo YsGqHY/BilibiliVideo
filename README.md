@@ -1,7 +1,26 @@
+<h1 align="center">
+    BilibiliVideo
+</h1>
+
+<hr>
+
+<p align="center" class="shields">
+    <a href="https://github.com/BingZi-233/BilibiliVideo/issues" style="text-decoration:none">
+        <img src="https://img.shields.io/github/issues/BingZi-233/BilibiliVideo.svg" alt="GitHub issues"/>
+    </a>
+    <a href="https://github.com/BingZi-233/BilibiliVideo/blob/master/LICENSE" style="text-decoration:none" >
+        <img src="https://img.shields.io/github/license/BingZi-233/BilibiliVideo" alt="GitHub license"/>
+    </a>
+    <a href='https://ci-dev.bingzi.online/job/BilibiliVideo/'>
+        <img src='https://ci-dev.bingzi.online/job/BilibiliVideo/badge/icon' alt="Build Status">
+    </a>
+</p>
+
 ## 命令
 
 - bilibilivideo reload - 重载配置文件（无效命令，仅图个心里安慰）
 - bilibilivideo login - 绑定命令
+- bilibilivideo show - 查看绑定账户
 - bilibilivideo receive - 领取奖励命令
 
 ## 权限
@@ -9,6 +28,7 @@
 - BilibiliVideo.command.use - 使用命令的权限
 - BilibiliVideo.command.reload - 重载配置文件的权限，默认仅OP可用
 - BilibiliVideo.command.login - 绑定命令的权限，默认全员可用
+- BilibiliVideo.command.show - 查看命令的权限，默认全员可用
 - BilibiliVideo.command.receive - 领取奖励命令的权限，默认全员可用
 
 ## 配置文件
