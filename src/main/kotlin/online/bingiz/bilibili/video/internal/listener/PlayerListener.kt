@@ -24,7 +24,7 @@ object PlayerListener {
      *
      * @param event PlayerLoginEvent
      */
-//    @SubscribeEvent
+    @SubscribeEvent
     fun onPlayerLoginEvent(event: PlayerLoginEvent) {
         val player = event.player
         // 载入玩家数据容器
@@ -37,7 +37,7 @@ object PlayerListener {
      *
      * @param event PlayerQuitEvent
      */
-//    @SubscribeEvent
+    @SubscribeEvent
     fun onPlayerQuitEvent(event: PlayerQuitEvent) {
         val player = event.player
         // 保存玩家Cookie数据
@@ -48,18 +48,5 @@ object PlayerListener {
         cookieCache.invalidate(player.uniqueId)
         // 卸载玩家数据容器
         player.releaseDataContainer()
-    }
-
-    /**
-     * On player quit clear cache
-     * 玩家退出清理缓存
-     *
-     * @param event PlayerQuitEvent
-     */
-    @SubscribeEvent
-    fun onPlayerQuitClearCache(event: PlayerQuitEvent) {
-        val player = event.player
-        // 删除玩家缓存数据
-        cookieCache.invalidate(player.uniqueId)
     }
 }

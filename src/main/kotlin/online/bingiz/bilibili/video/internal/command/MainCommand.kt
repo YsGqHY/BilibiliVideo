@@ -7,6 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.*
+import taboolib.common.platform.function.submit
 
 @CommandHeader(
     name = "bilibili-video",
@@ -36,6 +37,19 @@ object MainCommand {
         }
         execute<Player> { sender, _, _ ->
             NetworkEngine.generateBilibiliQRCodeUrl(sender)
+        }
+    }
+
+    @CommandBody(permission = "", permissionDefault = PermissionDefault.TRUE)
+    val show = subCommand {
+        execute<Player> { sender, _, _ ->
+            // 因为是网络操作并且下层未进行异步操作
+            // 以防卡死主线程，故这里进行异步操作
+            submit(async = true) {
+                NetworkEngine.getPlayerBindUserInfo(sender)?.let {
+                    sender.infoAsLang("CommandShowBindUserInfo", it.uname, it.mid)
+                } ?: sender.infoAsLang("CommandShowBindUserInfoNotFound")
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
 import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
 import online.bingiz.bilibili.video.internal.entity.TripleData
+import online.bingiz.bilibili.video.internal.entity.UserInfoData
 import online.bingiz.bilibili.video.internal.helper.DatabaseHelper
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import online.bingiz.bilibili.video.internal.helper.sendMapVersionCompatible
@@ -248,13 +249,34 @@ object NetworkEngine {
         }
     }
 
+    fun getPlayerBindUserInfo(player: Player): UserInfoData? {
+        return cookieCache[player.uniqueId]?.let {
+            val userInfoData = getUserInfo(it) ?: return null
+            userInfoData
+        }
+    }
+
     /**
      * Check repeatability mid
      * 检查重复的MID
      *
      * @param cookie cookie
      */
-    fun checkRepeatabilityMid(player: Player, cookie: List<String>): String? {
+    private fun checkRepeatabilityMid(player: Player, cookie: List<String>): String? {
+        // 获取 MID
+        val mid = getUserInfo(cookie)?.mid ?: return null
+        // 如果数据库中存在该 MID 则返回 null，否则返回 MID
+        return if (DatabaseHelper.searchPlayerByMid(player, mid)) null else mid
+    }
+
+    /**
+     * Get user info
+     * 获取用户信息
+     *
+     * @param cookie cookie
+     * @return
+     */
+    fun getUserInfo(cookie: List<String>): UserInfoData? {
         // 获取 SASSDATA
         val sessData = cookie.find { it.startsWith("SESSDATA") } ?: return null
         // 获取用户信息
@@ -263,9 +285,7 @@ object NetworkEngine {
         return when {
             response.isSuccessful -> {
                 // 获取 MID
-                val mid = response.body()?.data?.mid ?: return null
-                // 如果数据库中存在该 MID 则返回 null，否则返回 MID
-                if (DatabaseHelper.searchPlayerByMid(player, mid)) null else mid
+                response.body()?.data ?: return null
             }
 
             else -> null

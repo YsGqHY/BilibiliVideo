@@ -5,6 +5,7 @@ import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
+import taboolib.expansion.setupPlayerDatabase
 import taboolib.module.metrics.Metrics
 import taboolib.platform.util.bukkitPlugin
 
@@ -37,9 +38,9 @@ object BilibiliVideo : Plugin() {
      */
     override fun onEnable() {
         infoMessageAsLang("Enabling")
-//        infoMessageAsLang("Database")
-//        setupPlayerDatabase()
-//        infoMessageAsLang("Databased")
+        infoMessageAsLang("Database")
+        setupPlayerDatabase()
+        infoMessageAsLang("Databased")
         infoMessageAsLang("Metrics")
         Metrics(20132, bukkitPlugin.description.version, Platform.BUKKIT)
         infoMessageAsLang("Metricsed")
