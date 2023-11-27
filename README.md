@@ -21,6 +21,7 @@
 - bilibilivideo reload - 重载配置文件（无效命令，仅图个心里安慰）
 - bilibilivideo login - 绑定命令
 - bilibilivideo show - 查看绑定账户
+- bilibilivideo logout - 清理Cookie
 - bilibilivideo receive - 领取奖励命令
 
 ## 权限
@@ -29,6 +30,7 @@
 - BilibiliVideo.command.reload - 重载配置文件的权限，默认仅OP可用
 - BilibiliVideo.command.login - 绑定命令的权限，默认全员可用
 - BilibiliVideo.command.show - 查看命令的权限，默认全员可用
+- BilibiliVideo.command.logout - 清理Cookie命令的权限，默认全员可用
 - BilibiliVideo.command.receive - 领取奖励命令的权限，默认全员可用
 
 ## 配置文件

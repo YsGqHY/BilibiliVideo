@@ -1,5 +1,6 @@
 package online.bingiz.bilibili.video.internal.command
 
+import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.config.MainConfig
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
@@ -10,10 +11,10 @@ import taboolib.common.platform.command.*
 import taboolib.common.platform.function.submit
 
 @CommandHeader(
-    name = "bilibili-video",
-    aliases = ["bv", "bilibilivideo"],
-    permission = "BilibiliVideo.command.use",
-    permissionDefault = PermissionDefault.TRUE
+        name = "bilibili-video",
+        aliases = ["bv", "bilibilivideo"],
+        permission = "BilibiliVideo.command.use",
+        permissionDefault = PermissionDefault.TRUE
 )
 object MainCommand {
     @CommandBody(permission = "BilibiliVideo.command.reload", permissionDefault = PermissionDefault.OP)
@@ -50,6 +51,14 @@ object MainCommand {
                     sender.infoAsLang("CommandShowBindUserInfo", it.uname, it.mid)
                 } ?: sender.infoAsLang("CommandShowBindUserInfoNotFound")
             }
+        }
+    }
+
+    @CommandBody(permission = "BilibiliVideo.command.logout", permissionDefault = PermissionDefault.TRUE)
+    val logout = subCommand {
+        execute<Player> { sender, _, _ ->
+            cookieCache.invalidate(sender.uniqueId)
+            sender.infoAsLang("CommandLogoutSuccess")
         }
     }
 

@@ -24,3 +24,4 @@ GetTripleStatusCookieInvalid: "&4&l获取稿件信息失败，账户登陆数据
 GetTripleStatusTargetFailed: "&4&l获取稿件信息失败，稿件已消失。"
 CommandShowBindUserInfo: "&a&l已成功绑定账户信息, 您绑定的账户为: {0}({1})"
 CommandShowBindUserInfoNotFound: "&4&l为查询到绑定账户信息！"
+CommandLogoutSuccess: "&a&l你的Bilibili缓存已被清理，现在您可以重新登录。注意：这并不会将您的Bilibili账户与您解绑。"
