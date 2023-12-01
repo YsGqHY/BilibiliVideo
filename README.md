@@ -2,8 +2,6 @@
     BilibiliVideo
 </h1>
 
-<hr>
-
 <p align="center" class="shields">
     <a href="https://github.com/BingZi-233/BilibiliVideo/issues" style="text-decoration:none">
         <img src="https://img.shields.io/github/issues/BingZi-233/BilibiliVideo.svg" alt="GitHub issues"/>
@@ -16,11 +14,6 @@
     </a>
 </p>
 
-## 免责声明
-
-> 1. 本插件仅供学习交流使用，请勿用于商业用途，若有违反国家法律法规以及相关法律法规的行为，本插件概不负责。
-> 2. 若因本插件导致B站账号被封禁或视频限流、封禁和下架等情况，本插件概不负责。
-> 3. **当您开始使用本插件时，将默认您已经阅读并完全理解上述情况且会遵守相关法律法规和相关公司规定。**
 
 ## 命令
 
@@ -78,3 +71,9 @@ BV1Qs411d7pD:
 ## 📉匿名统计
 
 ![bStats](https://bstats.org/signatures/bukkit/BilibiliVideo.svg)
+
+## 免责声明
+
+1. 本插件仅供学习交流使用，请勿用于商业用途，若有违反国家法律法规以及相关法律法规的行为，本插件概不负责。
+2. 若因本插件导致B站账号被封禁或视频限流、封禁和下架等情况，本插件概不负责。
+3. **当您开始使用本插件时，将默认您已经阅读并完全理解上述情况且会遵守相关法律法规和相关公司规定。**
