@@ -119,13 +119,16 @@ object NetworkEngine {
                                 execute.body()?.let { result ->
                                     when (result.data.code) {
                                         0 -> {
-                                            qrCodeKeyCache[qrCodeKey]?.let {
-                                                val mid = checkRepeatabilityMid(player, it)
+                                            qrCodeKeyCache[qrCodeKey]?.let { list ->
+                                                // 提取Cookie中有效部分
+                                                // 这里不知道为什么会传递一些容易产生干扰的信息进来
+                                                val cookieList = list.map { it.split(";")[0] }
+                                                val mid = checkRepeatabilityMid(player, cookieList)
                                                 // 检查重复的MID
                                                 if (mid == null) {
                                                     player.infoAsLang("GenerateUseCookieRepeatabilityMid")
                                                 } else {
-                                                    cookieCache.put(player.uniqueId, it)
+                                                    cookieCache.put(player.uniqueId, cookieList)
                                                     player.getDataContainer()["mid"] = mid
                                                     player.getDataContainer()["refresh_token"] =
                                                         result.data.refreshToken
@@ -187,7 +190,7 @@ object NetworkEngine {
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->
                 list.first { it.startsWith("SESSDATA") }.let {
-                    it.substring(0, it.length).split(";")[0] + ",buvid3;"
+                    it.substring(0, it.length) + ",buvid3;"
                 }
             } ?: return
         if (csrf != null) {
