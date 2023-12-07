@@ -1,6 +1,7 @@
 package online.bingiz.bilibili.video.internal.listener
 
 import com.google.gson.Gson
+import online.bingiz.bilibili.video.internal.cache.baffleCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -40,6 +41,8 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerQuitEvent(event: PlayerQuitEvent) {
         val player = event.player
+        // 清除玩家冷却
+        baffleCache.reset(player.name)
         // 保存玩家Cookie数据
         cookieCache.get(player.uniqueId)?.let {
             player.getDataContainer()["cookie"] = gson.toJson(it)

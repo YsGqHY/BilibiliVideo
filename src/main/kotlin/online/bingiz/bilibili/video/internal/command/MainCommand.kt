@@ -1,5 +1,6 @@
 package online.bingiz.bilibili.video.internal.command
 
+import online.bingiz.bilibili.video.internal.cache.baffleCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.config.MainConfig
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
@@ -11,10 +12,10 @@ import taboolib.common.platform.command.*
 import taboolib.common.platform.function.submit
 
 @CommandHeader(
-        name = "bilibili-video",
-        aliases = ["bv", "bilibilivideo"],
-        permission = "BilibiliVideo.command.use",
-        permissionDefault = PermissionDefault.TRUE
+    name = "bilibili-video",
+    aliases = ["bv", "bilibilivideo"],
+    permission = "BilibiliVideo.command.use",
+    permissionDefault = PermissionDefault.TRUE
 )
 object MainCommand {
     @CommandBody(permission = "BilibiliVideo.command.reload", permissionDefault = PermissionDefault.OP)
@@ -44,6 +45,10 @@ object MainCommand {
     @CommandBody(permission = "BilibiliVideo.command.show", permissionDefault = PermissionDefault.TRUE)
     val show = subCommand {
         execute<Player> { sender, _, _ ->
+            if (baffleCache.hasNext(sender.name).not()) {
+                sender.infoAsLang("CommandBaffle")
+                return@execute
+            }
             // 因为是网络操作并且下层未进行异步操作
             // 以防卡死主线程，故这里进行异步操作
             submit(async = true) {
@@ -69,6 +74,10 @@ object MainCommand {
                 MainConfig.receiveMap.keys.toList()
             }
             execute<Player> { sender, _, argument ->
+                if (baffleCache.hasNext(sender.name).not()) {
+                    sender.infoAsLang("CommandBaffle")
+                    return@execute
+                }
                 NetworkEngine.getTripleStatus(sender, argument)
             }
         }
