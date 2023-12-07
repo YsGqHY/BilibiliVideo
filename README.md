@@ -22,6 +22,7 @@
 - bilibilivideo show - 查看绑定账户
 - bilibilivideo logout - 清理Cookie
 - bilibilivideo receive - 领取奖励命令
+- bilibilivideo receive [bv] show - 领取奖励命令(查看模式，并不会使用玩家账户三连视频)
 
 ## 权限
 

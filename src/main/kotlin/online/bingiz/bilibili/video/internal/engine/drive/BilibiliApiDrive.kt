@@ -1,8 +1,6 @@
 package online.bingiz.bilibili.video.internal.engine.drive
 
-import online.bingiz.bilibili.video.internal.entity.BilibiliResult
-import online.bingiz.bilibili.video.internal.entity.TripleData
-import online.bingiz.bilibili.video.internal.entity.UserInfoData
+import online.bingiz.bilibili.video.internal.entity.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -45,7 +43,7 @@ interface BilibiliApiDrive {
     fun hasLike(
         @Header("Cookie") sessData: String,
         @Query("bvid") bvid: String
-    )
+    ): Call<BilibiliResult<Int>>
 
     /**
      * Has coins
@@ -58,7 +56,7 @@ interface BilibiliApiDrive {
     fun hasCoins(
         @Header("Cookie") sessData: String,
         @Query("bvid") bvid: String
-    )
+    ): Call<BilibiliResult<CoinsData>>
 
     /**
      * Has favoured
@@ -71,5 +69,5 @@ interface BilibiliApiDrive {
     fun hasFavoured(
         @Header("Cookie") sessData: String,
         @Query("bvid") bvid: String
-    )
+    ): Call<BilibiliResult<FavouredData>>
 }

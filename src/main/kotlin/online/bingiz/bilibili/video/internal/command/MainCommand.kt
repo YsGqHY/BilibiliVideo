@@ -69,7 +69,7 @@ object MainCommand {
 
     @CommandBody(permission = "BilibiliVideo.command.receive", permissionDefault = PermissionDefault.TRUE)
     val receive = subCommand {
-        dynamic {
+        dynamic(comment = "bv") {
             suggestion<Player> { _, _ ->
                 MainConfig.receiveMap.keys.toList()
             }
@@ -79,6 +79,17 @@ object MainCommand {
                     return@execute
                 }
                 NetworkEngine.getTripleStatus(sender, argument)
+            }
+            literal("show", optional = true) {
+                execute<Player> { sender, context, _ ->
+                    if (baffleCache.hasNext(sender.name).not()) {
+                        sender.infoAsLang("CommandBaffle")
+                        return@execute
+                    }
+                    submit(async = true) {
+                        NetworkEngine.getTripleStatusShow(sender, context["bv"])
+                    }
+                }
             }
         }
     }

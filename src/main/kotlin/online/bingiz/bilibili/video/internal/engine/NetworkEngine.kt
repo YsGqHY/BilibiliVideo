@@ -255,6 +255,75 @@ object NetworkEngine {
         }
     }
 
+    /**
+     * Get triple status show
+     * 获取三连状态(查看模式)
+     *
+     * @param player 玩家
+     * @param bvid  视频BV号
+     */
+    fun getTripleStatusShow(player: Player, bvid: String) {
+        bvCache[player.uniqueId to bvid]?.let {
+            if (it) {
+                player.infoAsLang("GetTripleStatusRepeat")
+                return
+            }
+        }
+        val csrf = cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct") }
+            ?.replace("bili_jct=", "")
+            ?.split(";")
+            ?.get(0)
+        val sessData =
+            cookieCache[player.uniqueId]?.let { list ->
+                list.first { it.startsWith("SESSDATA") }.let {
+                    it.substring(0, it.length) + ",buvid3;"
+                }
+            } ?: return
+        if (csrf == null) {
+            return
+        }
+        bilibiliAPI.hasLike(sessData, bvid).execute().let {
+            if (it.isSuccessful) {
+                it.body()?.data?.let { count ->
+                    if (count < 1) {
+                        player.infoAsLang("GetTripleStatusFailureNotLike")
+                        return
+                    }
+                }
+            } else {
+                player.infoAsLang("NetworkRequestFailureCode", it.code())
+            }
+        }
+        bilibiliAPI.hasCoins(sessData, bvid).execute().let {
+            if (it.isSuccessful) {
+                it.body()?.data?.multiply?.let { count ->
+                    if (count < 1) {
+                        player.infoAsLang("GetTripleStatusFailureNotCoins")
+                        return
+                    }
+                }
+            } else {
+                player.infoAsLang("NetworkRequestFailureCode", it.code())
+            }
+        }
+        bilibiliAPI.hasFavoured(sessData, bvid).execute().let {
+            if (it.isSuccessful) {
+                it.body()?.data?.let {
+                    if (it.favoured.not()) {
+                        player.infoAsLang("GetTripleStatusFailureNotFavoured")
+                        return
+                    }
+                }
+            } else {
+                player.infoAsLang("NetworkRequestFailureCode", it.code())
+            }
+        }
+        player.getDataContainer()[bvid] = true
+        bvCache.put(player.uniqueId to bvid, true)
+        TripleSendRewardsEvent(player, bvid).call()
+    }
+
+
     fun getPlayerBindUserInfo(player: Player): UserInfoData? {
         return cookieCache[player.uniqueId]?.let {
             val userInfoData = getUserInfo(it) ?: return null
