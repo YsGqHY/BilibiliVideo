@@ -1,12 +1,10 @@
 package online.bingiz.bilibili.video.internal.helper
 
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.console
 import taboolib.module.lang.sendInfo
 import taboolib.module.lang.sendWarn
-import taboolib.platform.util.sendInfo
-import taboolib.platform.util.sendWarn
 
 internal fun infoMessageAsLang(node: String) {
     console().sendInfo(node)
@@ -24,32 +22,32 @@ internal fun warningMessageAsLang(node: String, vararg args: Any) {
     console().sendWarn(node, *args)
 }
 
-internal fun CommandSender.infoAsLang(node: String) {
-    if (this is Player) {
+internal fun ProxyCommandSender.infoAsLang(node: String) {
+    if (this is ProxyPlayer) {
         this.sendInfo(node)
     } else {
         infoMessageAsLang(node)
     }
 }
 
-internal fun CommandSender.infoAsLang(node: String, vararg args: Any) {
-    if (this is Player) {
+internal fun ProxyCommandSender.infoAsLang(node: String, vararg args: Any) {
+    if (this is ProxyPlayer) {
         this.sendInfo(node, *args)
     } else {
         infoMessageAsLang(node, *args)
     }
 }
 
-internal fun CommandSender.warningAsLang(node: String) {
-    if (this is Player) {
+internal fun ProxyCommandSender.warningAsLang(node: String) {
+    if (this is ProxyPlayer) {
         this.sendWarn(node)
     } else {
         warningMessageAsLang(node)
     }
 }
 
-internal fun CommandSender.warningAsLang(node: String, vararg args: Any) {
-    if (this is Player) {
+internal fun ProxyCommandSender.warningAsLang(node: String, vararg args: Any) {
+    if (this is ProxyPlayer) {
         this.sendWarn(node, *args)
     } else {
         warningMessageAsLang(node, *args)

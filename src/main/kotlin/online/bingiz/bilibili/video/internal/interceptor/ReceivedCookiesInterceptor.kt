@@ -6,7 +6,7 @@ import online.bingiz.bilibili.video.internal.cache.qrCodeKeyCache
 
 class ReceivedCookiesInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        var originalResponse: Response = chain.proceed(chain.request())
+        val originalResponse: Response = chain.proceed(chain.request())
         if (originalResponse.headers("Set-Cookie").isNotEmpty()) {
             chain.request().url().queryParameter("qrcode_key")?.let {
                 qrCodeKeyCache.put(it, originalResponse.headers("Set-Cookie"))

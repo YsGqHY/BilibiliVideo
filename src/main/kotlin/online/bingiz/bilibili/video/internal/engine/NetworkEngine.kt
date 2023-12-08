@@ -23,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.pluginId
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.submit
@@ -87,7 +88,7 @@ object NetworkEngine {
      *
      * @param player
      */
-    fun generateBilibiliQRCodeUrl(player: Player) {
+    fun generateBilibiliQRCodeUrl(player: ProxyPlayer) {
         bilibiliPassportAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
             override fun onResponse(
                 call: Call<BilibiliResult<QRCodeGenerateData>>,
@@ -149,7 +150,9 @@ object NetworkEngine {
                                         }
                                     }
                                 }
-                                player.updateInventory()
+                                if (player is Player) {
+                                    player.updateInventory()
+                                }
                             }
                         }
                     } else {
@@ -176,7 +179,7 @@ object NetworkEngine {
      * @param player 玩家
      * @param bvid  视频BV号
      */
-    fun getTripleStatus(player: Player, bvid: String) {
+    fun getTripleStatus(player: ProxyPlayer, bvid: String) {
         bvCache[player.uniqueId to bvid]?.let {
             if (it) {
                 player.infoAsLang("GetTripleStatusRepeat")
@@ -262,7 +265,7 @@ object NetworkEngine {
      * @param player 玩家
      * @param bvid  视频BV号
      */
-    fun getTripleStatusShow(player: Player, bvid: String) {
+    fun getTripleStatusShow(player: ProxyPlayer, bvid: String) {
         bvCache[player.uniqueId to bvid]?.let {
             if (it) {
                 player.infoAsLang("GetTripleStatusRepeat")
@@ -324,7 +327,7 @@ object NetworkEngine {
     }
 
 
-    fun getPlayerBindUserInfo(player: Player): UserInfoData? {
+    fun getPlayerBindUserInfo(player: ProxyPlayer): UserInfoData? {
         return cookieCache[player.uniqueId]?.let {
             val userInfoData = getUserInfo(it) ?: return null
             userInfoData
@@ -337,7 +340,7 @@ object NetworkEngine {
      *
      * @param cookie cookie
      */
-    private fun checkRepeatabilityMid(player: Player, cookie: List<String>): String? {
+    private fun checkRepeatabilityMid(player: ProxyPlayer, cookie: List<String>): String? {
         // 获取 MID
         val mid = getUserInfo(cookie)?.mid ?: return null
         // 如果数据库中存在该 MID 则返回 null，否则返回 MID

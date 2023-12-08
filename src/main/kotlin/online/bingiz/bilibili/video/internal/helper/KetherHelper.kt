@@ -1,6 +1,6 @@
 package online.bingiz.bilibili.video.internal.helper
 
-import org.bukkit.command.CommandSender
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.library.kether.LocalizedException
 import taboolib.module.kether.KetherShell.eval
 import taboolib.module.kether.ScriptOptions
@@ -11,7 +11,7 @@ import taboolib.module.kether.ScriptOptions
  *
  * @param sender 执行者
  */
-fun String.ketherEval(sender: CommandSender) {
+fun String.ketherEval(sender: ProxyCommandSender) {
     evalScript(listOf(this), sender)
 }
 
@@ -21,7 +21,7 @@ fun String.ketherEval(sender: CommandSender) {
  *
  * @param sender 执行者
  */
-fun List<String>.ketherEval(sender: CommandSender) {
+fun List<String>.ketherEval(sender: ProxyCommandSender) {
     evalScript(this, sender)
 }
 
@@ -32,7 +32,7 @@ fun List<String>.ketherEval(sender: CommandSender) {
  * @param script 脚本
  * @param sender 执行者
  */
-private fun evalScript(script: List<String>, sender: CommandSender) {
+private fun evalScript(script: List<String>, sender: ProxyCommandSender) {
     try {
         eval(script, ScriptOptions.builder().sender(sender).build())
     } catch (e: LocalizedException) {

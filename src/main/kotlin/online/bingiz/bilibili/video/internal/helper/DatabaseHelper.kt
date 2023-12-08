@@ -1,6 +1,6 @@
 package online.bingiz.bilibili.video.internal.helper
 
-import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyPlayer
 import taboolib.expansion.playerDatabase
 
 
@@ -29,7 +29,7 @@ object DatabaseHelper {
      * @param mid mid
      * @return player name
      */
-    fun searchPlayerByMid(player: Player,mid: String): Boolean {
+    fun searchPlayerByMid(player: ProxyPlayer, mid: String): Boolean {
         return playerDatabaseSource?.let {
             playerDatabaseTable?.select(it) {
                 where {

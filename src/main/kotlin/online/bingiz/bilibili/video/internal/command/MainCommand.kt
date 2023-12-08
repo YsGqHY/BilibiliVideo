@@ -5,10 +5,10 @@ import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.config.MainConfig
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.*
+import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.submit
 
 @CommandHeader(
@@ -20,7 +20,7 @@ import taboolib.common.platform.function.submit
 object MainCommand {
     @CommandBody(permission = "BilibiliVideo.command.reload", permissionDefault = PermissionDefault.OP)
     val reload = subCommand {
-        execute<CommandSender> { sender, _, _ ->
+        execute<ProxyCommandSender> { sender, _, _ ->
             sender.infoAsLang("CommandReloadSuccess")
         }
     }
@@ -31,20 +31,20 @@ object MainCommand {
         // 可选参数
         dynamic(optional = true, permission = "BilibiliVideo.command.login.sender") {
             suggestPlayers()
-            execute<CommandSender> { _, _, argument ->
-                Bukkit.getPlayerExact(argument)?.let { player ->
+            execute<ProxyCommandSender> { _, _, argument ->
+                getProxyPlayer(argument)?.let { player ->
                     NetworkEngine.generateBilibiliQRCodeUrl(player)
                 }
             }
         }
-        execute<Player> { sender, _, _ ->
+        execute<ProxyPlayer> { sender, _, _ ->
             NetworkEngine.generateBilibiliQRCodeUrl(sender)
         }
     }
 
     @CommandBody(permission = "BilibiliVideo.command.show", permissionDefault = PermissionDefault.TRUE)
     val show = subCommand {
-        execute<Player> { sender, _, _ ->
+        execute<ProxyPlayer> { sender, _, _ ->
             if (baffleCache.hasNext(sender.name).not()) {
                 sender.infoAsLang("CommandBaffle")
                 return@execute
@@ -61,7 +61,7 @@ object MainCommand {
 
     @CommandBody(permission = "BilibiliVideo.command.logout", permissionDefault = PermissionDefault.TRUE)
     val logout = subCommand {
-        execute<Player> { sender, _, _ ->
+        execute<ProxyPlayer> { sender, _, _ ->
             cookieCache.invalidate(sender.uniqueId)
             sender.infoAsLang("CommandLogoutSuccess")
         }
@@ -70,10 +70,10 @@ object MainCommand {
     @CommandBody(permission = "BilibiliVideo.command.receive", permissionDefault = PermissionDefault.TRUE)
     val receive = subCommand {
         dynamic(comment = "bv") {
-            suggestion<Player> { _, _ ->
+            suggestion<ProxyPlayer> { _, _ ->
                 MainConfig.receiveMap.keys.toList()
             }
-            execute<Player> { sender, _, argument ->
+            execute<ProxyPlayer> { sender, _, argument ->
                 if (baffleCache.hasNext(sender.name).not()) {
                     sender.infoAsLang("CommandBaffle")
                     return@execute
@@ -81,7 +81,7 @@ object MainCommand {
                 NetworkEngine.getTripleStatus(sender, argument)
             }
             literal("show", optional = true) {
-                execute<Player> { sender, context, _ ->
+                execute<ProxyPlayer> { sender, context, _ ->
                     if (baffleCache.hasNext(sender.name).not()) {
                         sender.infoAsLang("CommandBaffle")
                         return@execute

@@ -1,6 +1,6 @@
 package online.bingiz.bilibili.video.api.event
 
-import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyPlayer
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
@@ -11,4 +11,4 @@ import taboolib.platform.type.BukkitProxyEvent
  * @property bvid 视频BV号
  * @constructor Create empty Triple send rewards event
  */
-class TripleSendRewardsEvent(val player: Player, val bvid: String) : BukkitProxyEvent()
+class TripleSendRewardsEvent(val player: ProxyPlayer, val bvid: String) : BukkitProxyEvent()
