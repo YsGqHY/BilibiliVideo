@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.bvCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
+import online.bingiz.bilibili.video.internal.cache.midCache
 import online.bingiz.bilibili.video.internal.cache.qrCodeKeyCache
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
@@ -86,6 +87,10 @@ object NetworkEngine {
      * @param player
      */
     fun generateBilibiliQRCodeUrl(player: ProxyPlayer) {
+        player.getDataContainer()["mid"]?.let {
+            player.warningAsLang("DoNotAllowRebinding")
+            return
+        }
         bilibiliPassportAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
             override fun onResponse(
                 call: Call<BilibiliResult<QRCodeGenerateData>>,
@@ -122,16 +127,24 @@ object NetworkEngine {
                                                 // 这里不知道为什么会传递一些容易产生干扰的信息进来
                                                 val cookieList = list.map { it.split(";")[0] }
                                                 val mid = checkRepeatabilityMid(player, cookieList)
-                                                // 检查重复的MID
-                                                if (mid == null) {
-                                                    player.infoAsLang("GenerateUseCookieRepeatabilityMid")
-                                                } else {
-                                                    cookieCache.put(player.uniqueId, cookieList)
-                                                    player.getDataContainer()["mid"] = mid
-                                                    player.getDataContainer()["refresh_token"] =
-                                                        result.data.refreshToken
-                                                    player.getDataContainer()["timestamp"] = result.data.timestamp
-                                                    player.infoAsLang("GenerateUseCookieSuccess")
+                                                when {
+                                                    // 检查重复的MID
+                                                    mid == null -> {
+                                                        player.infoAsLang("GenerateUseCookieRepeatabilityMid")
+                                                    }
+                                                    // 登录的MID和绑定的MID不一致
+                                                    midCache[player.uniqueId]?.isNotBlank() == true && midCache[player.uniqueId] != mid -> {
+                                                        player.infoAsLang("PlayerIsBindMid")
+                                                    }
+                                                    // Cookie刷新
+                                                    else -> {
+                                                        cookieCache.put(player.uniqueId, cookieList)
+                                                        player.getDataContainer()["mid"] = mid
+                                                        player.getDataContainer()["refresh_token"] =
+                                                            result.data.refreshToken
+                                                        player.getDataContainer()["timestamp"] = result.data.timestamp
+                                                        player.infoAsLang("GenerateUseCookieSuccess")
+                                                    }
                                                 }
                                                 this.cancel()
                                             }
@@ -277,13 +290,6 @@ object NetworkEngine {
                 player.infoAsLang("GetTripleStatusRepeat")
                 return
             }
-        }
-        val csrf = cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct") }
-            ?.replace("bili_jct=", "")
-            ?.split(";")
-            ?.get(0) ?: let {
-            player.warningAsLang("CookieNotFound")
-            return
         }
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->

@@ -10,6 +10,7 @@ import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.*
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.submit
+import taboolib.expansion.getDataContainer
 
 @CommandHeader(
     name = "bilibili-video",
@@ -25,6 +26,20 @@ object MainCommand {
         }
     }
 
+    @CommandBody(permission = "BilibiliVideo.command.unbind", permissionDefault = PermissionDefault.OP)
+    val unbind = subCommand {
+        dynamic {
+            suggestPlayers()
+            execute<ProxyCommandSender> { sender, _, argument ->
+                getProxyPlayer(argument)?.getDataContainer()?.set("mid", "") ?: let {
+                    sender.infoAsLang("PlayerNotBindMid", argument)
+                    return@execute
+                }
+                sender.infoAsLang("PlayerUnbindSuccess", argument)
+            }
+        }
+    }
+
     @CommandBody(permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.TRUE)
     val login = subCommand {
         // 可指定玩家启动登陆流程
@@ -33,11 +48,19 @@ object MainCommand {
             suggestPlayers()
             execute<ProxyCommandSender> { _, _, argument ->
                 getProxyPlayer(argument)?.let { player ->
+                    if (baffleCache.hasNext(player.name).not()) {
+                        player.infoAsLang("CommandBaffle")
+                        return@execute
+                    }
                     NetworkEngine.generateBilibiliQRCodeUrl(player)
                 }
             }
         }
         execute<ProxyPlayer> { sender, _, _ ->
+            if (baffleCache.hasNext(sender.name).not()) {
+                sender.infoAsLang("CommandBaffle")
+                return@execute
+            }
             NetworkEngine.generateBilibiliQRCodeUrl(sender)
         }
     }

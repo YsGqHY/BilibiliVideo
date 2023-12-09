@@ -35,3 +35,6 @@ UpdateCheckFailure: "&4&l检查更新失败，别担心~这不会影响插件运
 UpdateNewVersion: "&a&l检测到新版本：&e&l{0}&a&l，请前往Github下载。Github地址: https://github.com/BingZi-233/BilibiliVideo"
 KetherLocalizedException: "&c&l发生了Kether本地化异常, 异常信息: {0}"
 KetherThrowable: "&c&l发生了Kether异常, 异常信息: {0}"
+PlayerIsBindMid: "&c&l你不能换绑账户，若需解绑请联系管理员。"
+PlayerUnbindSuccess: "&a&l你已经对 {0} 进行解绑操作。"
+PlayerNotBindMid: "&a&l玩家 {0} 并没有绑定任何MID。"
