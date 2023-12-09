@@ -11,10 +11,7 @@ import online.bingiz.bilibili.video.internal.entity.BilibiliResult
 import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
 import online.bingiz.bilibili.video.internal.entity.TripleData
 import online.bingiz.bilibili.video.internal.entity.UserInfoData
-import online.bingiz.bilibili.video.internal.helper.DatabaseHelper
-import online.bingiz.bilibili.video.internal.helper.infoAsLang
-import online.bingiz.bilibili.video.internal.helper.sendMapVersionCompatible
-import online.bingiz.bilibili.video.internal.helper.toBufferedImage
+import online.bingiz.bilibili.video.internal.helper.*
 import online.bingiz.bilibili.video.internal.interceptor.ReceivedCookiesInterceptor
 import online.bingiz.bilibili.video.internal.interceptor.UserAgentInterceptor
 import org.bukkit.entity.Player
@@ -153,6 +150,11 @@ object NetworkEngine {
                                 if (player is Player) {
                                     player.updateInventory()
                                 }
+                            } else {
+                                warningMessageAsLang(
+                                    "NetworkRequestFailureCode",
+                                    response.code()
+                                )
                             }
                         }
                     } else {
@@ -189,73 +191,77 @@ object NetworkEngine {
         val csrf = cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct") }
             ?.replace("bili_jct=", "")
             ?.split(";")
-            ?.get(0)
+            ?.get(0) ?: let {
+            player.warningAsLang("CookieNotFound")
+            return
+        }
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->
                 list.first { it.startsWith("SESSDATA") }.let {
                     it.substring(0, it.length) + ",buvid3;"
                 }
-            } ?: return
-        if (csrf != null) {
-            bilibiliAPI.actionLikeTriple(bvid, csrf, sessData)
-                .enqueue(object : Callback<BilibiliResult<TripleData>> {
-                    override fun onResponse(
-                        call: Call<BilibiliResult<TripleData>>,
-                        response: Response<BilibiliResult<TripleData>>
-                    ) {
-                        if (response.isSuccessful) {
-                            val body = response.body()
-                            if (body != null) {
-                                when (body.code) {
-                                    0 -> {
-                                        val tripleData = body.data
-                                        if (tripleData.coin && tripleData.fav && tripleData.like) {
-                                            player.getDataContainer()[bvid] = true
-                                            bvCache.put(player.uniqueId to bvid, true)
-                                            TripleSendRewardsEvent(player, bvid).call()
-                                        } else {
-                                            player.infoAsLang(
-                                                "GetTripleStatusFailure",
-                                                tripleData.like,
-                                                tripleData.coin,
-                                                tripleData.multiply,
-                                                tripleData.fav
-                                            )
-                                        }
-                                    }
-
-                                    -101 -> {
-                                        player.infoAsLang("GetTripleStatusCookieInvalid")
-                                    }
-
-                                    10003 -> {
-                                        player.infoAsLang("GetTripleStatusTargetFailed")
-                                    }
-
-                                    else -> {
+            } ?: let {
+                player.warningAsLang("CookieNotFound")
+                return
+            }
+        bilibiliAPI.actionLikeTriple(bvid, csrf, sessData)
+            .enqueue(object : Callback<BilibiliResult<TripleData>> {
+                override fun onResponse(
+                    call: Call<BilibiliResult<TripleData>>,
+                    response: Response<BilibiliResult<TripleData>>
+                ) {
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body != null) {
+                            when (body.code) {
+                                0 -> {
+                                    val tripleData = body.data
+                                    if (tripleData.coin && tripleData.fav && tripleData.like) {
+                                        player.getDataContainer()[bvid] = true
+                                        bvCache.put(player.uniqueId to bvid, true)
+                                        TripleSendRewardsEvent(player, bvid).call()
+                                    } else {
                                         player.infoAsLang(
-                                            "GetTripleStatusError",
-                                            response.body()?.message ?: "Bilibili未提供任何错误信息"
+                                            "GetTripleStatusFailure",
+                                            tripleData.like,
+                                            tripleData.coin,
+                                            tripleData.multiply,
+                                            tripleData.fav
                                         )
                                     }
                                 }
-                            } else {
-                                player.infoAsLang(
-                                    "GetTripleStatusRefuse",
-                                    response.body()?.message ?: "Bilibili未提供任何错误信息"
-                                )
+
+                                -101 -> {
+                                    player.infoAsLang("GetTripleStatusCookieInvalid")
+                                }
+
+                                10003 -> {
+                                    player.infoAsLang("GetTripleStatusTargetFailed")
+                                }
+
+                                else -> {
+                                    player.infoAsLang(
+                                        "GetTripleStatusError",
+                                        response.body()?.message ?: "Bilibili未提供任何错误信息"
+                                    )
+                                }
                             }
                         } else {
-                            warning("请求失败")
-                            warning("失败原因：${response.code()}")
+                            player.infoAsLang(
+                                "GetTripleStatusRefuse",
+                                response.body()?.message ?: "Bilibili未提供任何错误信息"
+                            )
                         }
+                    } else {
+                        warning("请求失败")
+                        warning("失败原因：${response.code()}")
                     }
+                }
 
-                    override fun onFailure(call: Call<BilibiliResult<TripleData>>, t: Throwable) {
-                        player.infoAsLang("NetworkRequestFailure", t.message ?: "Bilibili未提供任何错误信息。")
-                    }
-                })
-        }
+                override fun onFailure(call: Call<BilibiliResult<TripleData>>, t: Throwable) {
+                    player.infoAsLang("NetworkRequestFailure", t.message ?: "Bilibili未提供任何错误信息。")
+                }
+            })
     }
 
     /**
@@ -275,16 +281,19 @@ object NetworkEngine {
         val csrf = cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct") }
             ?.replace("bili_jct=", "")
             ?.split(";")
-            ?.get(0)
+            ?.get(0) ?: let {
+            player.warningAsLang("CookieNotFound")
+            return
+        }
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->
                 list.first { it.startsWith("SESSDATA") }.let {
                     it.substring(0, it.length) + ",buvid3;"
                 }
-            } ?: return
-        if (csrf == null) {
-            return
-        }
+            } ?: let {
+                player.warningAsLang("CookieNotFound")
+                return
+            }
         bilibiliAPI.hasLike(sessData, bvid).execute().let {
             if (it.isSuccessful) {
                 it.body()?.data?.let { count ->
