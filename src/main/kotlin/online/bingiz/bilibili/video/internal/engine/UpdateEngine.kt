@@ -20,7 +20,7 @@ object UpdateEngine {
 
     private val updateAPI by lazy {
         Retrofit.Builder()
-            .baseUrl("https://github.com/BingZi-233/BilibiliVideo/")
+            .baseUrl("https://raw.githubusercontent.com/BingZi-233/BilibiliVideo/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(UpdateDrive::class.java)
