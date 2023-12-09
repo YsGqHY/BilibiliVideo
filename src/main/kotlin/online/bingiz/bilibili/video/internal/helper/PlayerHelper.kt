@@ -1,6 +1,6 @@
 package online.bingiz.bilibili.video.internal.helper
 
-import org.bukkit.entity.Player
+import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyPlayer
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.NMSMap
@@ -15,14 +15,15 @@ fun ProxyPlayer.sendMapVersionCompatible(
     height: Int = 128,
     builder: ItemBuilder.() -> Unit = {}
 ) {
-    if (this is Player) {
+    this.uniqueId
+    Bukkit.getPlayer(this.uniqueId)?.let {
         when (MinecraftVersion.major) {
             MinecraftVersion.V1_20 -> {
-                taboolib.module.nms.buildMap(image, hand, width, height, builder).sendTo(this)
+                taboolib.module.nms.buildMap(image, hand, width, height, builder).sendTo(it)
             }
 
             else -> {
-                this.sendMap(image, hand, width, height, builder)
+                it.sendMap(image, hand, width, height, builder)
             }
         }
     }
