@@ -2,6 +2,7 @@ package online.bingiz.bilibili.video.internal.command
 
 import online.bingiz.bilibili.video.internal.cache.baffleCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
+import online.bingiz.bilibili.video.internal.cache.midCache
 import online.bingiz.bilibili.video.internal.config.MainConfig
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
@@ -31,7 +32,11 @@ object MainCommand {
         dynamic {
             suggestPlayers()
             execute<ProxyCommandSender> { sender, _, argument ->
-                getProxyPlayer(argument)?.getDataContainer()?.set("mid", "") ?: let {
+                getProxyPlayer(argument)?.let {
+                    it.getDataContainer()["mid"] = ""
+                    midCache.invalidate(it.uniqueId)
+                    cookieCache.invalidate(it.uniqueId)
+                } ?: let {
                     sender.infoAsLang("PlayerNotBindMid", argument)
                     return@execute
                 }
