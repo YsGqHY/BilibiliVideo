@@ -88,7 +88,7 @@ object NetworkEngine {
      */
     fun generateBilibiliQRCodeUrl(player: ProxyPlayer) {
         player.getDataContainer()["mid"]?.let {
-            player.warningAsLang("DoNotAllowRebinding")
+            player.warningAsLang("PlayerIsBindMid")
             return
         }
         bilibiliPassportAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
