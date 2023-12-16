@@ -88,8 +88,10 @@ object NetworkEngine {
      */
     fun generateBilibiliQRCodeUrl(player: ProxyPlayer) {
         player.getDataContainer()["mid"]?.let {
-            player.warningAsLang("PlayerIsBindMid")
-            return
+            if (it.isNotBlank()) {
+                player.warningAsLang("PlayerIsBindMid")
+                return
+            }
         }
         bilibiliPassportAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
             override fun onResponse(
