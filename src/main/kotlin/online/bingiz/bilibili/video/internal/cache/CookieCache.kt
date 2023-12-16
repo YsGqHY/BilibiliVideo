@@ -3,6 +3,7 @@ package online.bingiz.bilibili.video.internal.cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import online.bingiz.bilibili.video.internal.helper.decompress
 import taboolib.expansion.getPlayerDataContainer
 import java.util.*
 
@@ -19,7 +20,7 @@ private val listStringType = object : TypeToken<List<String>>() {}.type
 val cookieCache = Caffeine.newBuilder()
     .maximumSize(100)
     .build<UUID, List<String>> {
-        it.getPlayerDataContainer()["cookie"]?.let { json ->
+        it.getPlayerDataContainer()["cookie"]?.decompress()?.let { json ->
             gson.fromJson(json, listStringType)
         }
     }

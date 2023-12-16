@@ -3,6 +3,7 @@ package online.bingiz.bilibili.video.internal.listener
 import com.google.gson.Gson
 import online.bingiz.bilibili.video.internal.cache.baffleCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
+import online.bingiz.bilibili.video.internal.helper.compress
 import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
@@ -45,7 +46,7 @@ object PlayerListener {
         baffleCache.reset(player.name)
         // 保存玩家Cookie数据
         cookieCache.get(player.uniqueId)?.let {
-            player.getDataContainer()["cookie"] = gson.toJson(it)
+            player.getDataContainer()["cookie"] = gson.toJson(it).compress()
         }
         // 删除玩家缓存数据
         cookieCache.invalidate(player.uniqueId)
