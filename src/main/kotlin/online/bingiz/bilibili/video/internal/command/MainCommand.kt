@@ -3,7 +3,7 @@ package online.bingiz.bilibili.video.internal.command
 import online.bingiz.bilibili.video.internal.cache.baffleCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.cache.midCache
-import online.bingiz.bilibili.video.internal.config.MainConfig
+import online.bingiz.bilibili.video.internal.config.VideoConfig
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import taboolib.common.platform.ProxyCommandSender
@@ -99,7 +99,7 @@ object MainCommand {
     val receive = subCommand {
         dynamic(comment = "bv") {
             suggestion<ProxyPlayer> { _, _ ->
-                MainConfig.receiveMap.keys.toList()
+                VideoConfig.receiveMap.keys.toList()
             }
             execute<ProxyPlayer> { sender, _, argument ->
                 if (baffleCache.hasNext(sender.name).not()) {
