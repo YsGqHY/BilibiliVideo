@@ -34,6 +34,7 @@ object MainCommand {
             execute<ProxyCommandSender> { sender, _, argument ->
                 getProxyPlayer(argument)?.let {
                     it.getDataContainer()["mid"] = ""
+                    it.getDataContainer().save("mid")
                     midCache.invalidate(it.uniqueId)
                     cookieCache.invalidate(it.uniqueId)
                 } ?: let {
