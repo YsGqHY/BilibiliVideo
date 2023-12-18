@@ -125,13 +125,14 @@ object NetworkEngine {
                                                 val cookieData = gson.fromJson(replace, CookieData::class.java)
                                                 // 检查MID重复
                                                 val mid = checkRepeatabilityMid(player, cookieData)
+                                                val cacheMid = midCache[player.uniqueId]
                                                 when {
                                                     // 检查重复的MID
                                                     mid == null -> {
                                                         player.infoAsLang("GenerateUseCookieRepeatabilityMid")
                                                     }
                                                     // 登录的MID和绑定的MID不一致
-                                                    midCache[player.uniqueId]?.isNotBlank() == true && midCache[player.uniqueId] != mid -> {
+                                                    cacheMid.isNullOrBlank().not() && cacheMid != mid -> {
                                                         player.infoAsLang("PlayerIsBindMid")
                                                     }
                                                     // Cookie刷新
