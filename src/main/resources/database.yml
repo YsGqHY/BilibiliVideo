@@ -1,7 +1,8 @@
 # 连接配置
 sql:
-  # 类型
-  # 请在指导下填写对应的数据库类型
+  # 类型，不区分大小写
+  # sqlite - 本地
+  # mysql - 远程
   type: sqlite
   # 地址
   host: localhost
