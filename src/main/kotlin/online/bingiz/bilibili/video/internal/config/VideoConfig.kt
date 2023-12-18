@@ -20,7 +20,7 @@ object VideoConfig {
     lateinit var config: Configuration
         private set
 
-    var receiveMap: Map<String, List<String>> = mapOf()
+    lateinit var receiveMap: Map<String, List<String>>
 
     @Awake(LifeCycle.ENABLE)
     fun registerAutoReload() {
