@@ -26,7 +26,7 @@ enum class DatabaseUserIndex {
     NAME;
 
     companion object {
-        val INSTANCEOF: DatabaseUserIndex by lazy {
+        val INSTANCE: DatabaseUserIndex by lazy {
             try {
                 valueOf(DatabaseConfig.config.getString("userIndex")!!.uppercase())
             } catch (ignore: Exception) {

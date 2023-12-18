@@ -1,7 +1,7 @@
 package online.bingiz.bilibili.video.internal.cache
 
 import com.github.benmanes.caffeine.cache.Caffeine
-import taboolib.expansion.getPlayerDataContainer
+import online.bingiz.bilibili.video.internal.database.Database.Companion.getPlayerDataContainer
 import java.util.*
 
 /**
@@ -11,5 +11,5 @@ import java.util.*
 val midCache = Caffeine.newBuilder()
     .maximumSize(100)
     .build<UUID, String> {
-        it.getPlayerDataContainer()["mid"]
+        it.getPlayerDataContainer("mid")
     }

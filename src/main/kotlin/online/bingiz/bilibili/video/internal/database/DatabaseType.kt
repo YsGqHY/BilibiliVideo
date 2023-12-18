@@ -26,7 +26,7 @@ enum class DatabaseType {
     MYSQL;
 
     companion object {
-        val INSTANCEOF: DatabaseType by lazy {
+        val INSTANCE: DatabaseType by lazy {
             try {
                 valueOf(DatabaseConfig.config.getString("type")!!.uppercase())
             } catch (ignore: Exception) {

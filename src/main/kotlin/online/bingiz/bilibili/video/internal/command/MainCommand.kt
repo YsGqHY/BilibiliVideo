@@ -4,6 +4,7 @@ import online.bingiz.bilibili.video.internal.cache.baffleCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
 import online.bingiz.bilibili.video.internal.cache.midCache
 import online.bingiz.bilibili.video.internal.config.VideoConfig
+import online.bingiz.bilibili.video.internal.database.Database.Companion.setDataContainer
 import online.bingiz.bilibili.video.internal.engine.NetworkEngine
 import online.bingiz.bilibili.video.internal.helper.infoAsLang
 import taboolib.common.platform.ProxyCommandSender
@@ -11,7 +12,6 @@ import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.*
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.submit
-import taboolib.expansion.getDataContainer
 
 @CommandHeader(
     name = "bilibili-video",
@@ -33,8 +33,7 @@ object MainCommand {
             suggestPlayers()
             execute<ProxyCommandSender> { sender, _, argument ->
                 getProxyPlayer(argument)?.let {
-                    it.getDataContainer()["mid"] = ""
-                    it.getDataContainer().save("mid")
+                    it.setDataContainer("mid", "")
                     midCache.invalidate(it.uniqueId)
                     cookieCache.invalidate(it.uniqueId)
                 } ?: let {

@@ -2,16 +2,12 @@ package online.bingiz.bilibili.video.internal.engine
 
 import okhttp3.OkHttpClient
 import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
-import online.bingiz.bilibili.video.internal.cache.bvCache
-import online.bingiz.bilibili.video.internal.cache.cookieCache
-import online.bingiz.bilibili.video.internal.cache.midCache
-import online.bingiz.bilibili.video.internal.cache.qrCodeKeyCache
+import online.bingiz.bilibili.video.internal.cache.*
+import online.bingiz.bilibili.video.internal.database.Database
+import online.bingiz.bilibili.video.internal.database.Database.Companion.setDataContainer
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
-import online.bingiz.bilibili.video.internal.entity.BilibiliResult
-import online.bingiz.bilibili.video.internal.entity.QRCodeGenerateData
-import online.bingiz.bilibili.video.internal.entity.TripleData
-import online.bingiz.bilibili.video.internal.entity.UserInfoData
+import online.bingiz.bilibili.video.internal.entity.*
 import online.bingiz.bilibili.video.internal.helper.*
 import online.bingiz.bilibili.video.internal.interceptor.ReceivedCookiesInterceptor
 import online.bingiz.bilibili.video.internal.interceptor.UserAgentInterceptor
@@ -26,7 +22,6 @@ import taboolib.common.platform.function.pluginId
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.function.warning
-import taboolib.expansion.getDataContainer
 import taboolib.module.chat.colored
 import taboolib.module.nms.NMSMap
 
@@ -122,7 +117,14 @@ object NetworkEngine {
                                                 // 提取Cookie中有效部分
                                                 // 这里不知道为什么会传递一些容易产生干扰的信息进来
                                                 val cookieList = list.map { it.split(";")[0] }
-                                                val mid = checkRepeatabilityMid(player, cookieList)
+                                                // 将格式尽可能贴近JSON
+                                                val replace =
+                                                    cookieList.joinToString(",", prefix = "{", postfix = "}")
+                                                        .replace("=", ":")
+                                                // GSON反序列化成CookieData
+                                                val cookieData = gson.fromJson(replace, CookieData::class.java)
+                                                // 检查MID重复
+                                                val mid = checkRepeatabilityMid(player, cookieData)
                                                 when {
                                                     // 检查重复的MID
                                                     mid == null -> {
@@ -134,11 +136,16 @@ object NetworkEngine {
                                                     }
                                                     // Cookie刷新
                                                     else -> {
-                                                        cookieCache.put(player.uniqueId, cookieList)
-                                                        player.getDataContainer()["mid"] = mid
-                                                        player.getDataContainer()["refresh_token"] =
+                                                        cookieCache.put(player.uniqueId, cookieData)
+                                                        player.setDataContainer("mid", mid)
+                                                        player.setDataContainer(
+                                                            "refresh_token",
                                                             result.data.refreshToken
-                                                        player.getDataContainer()["timestamp"] = result.data.timestamp
+                                                        )
+                                                        player.setDataContainer(
+                                                            "timestamp",
+                                                            result.data.timestamp.toString()
+                                                        )
                                                         player.infoAsLang("GenerateUseCookieSuccess")
                                                     }
                                                 }
@@ -197,7 +204,7 @@ object NetworkEngine {
                 return
             }
         }
-        val csrf = cookieCache[player.uniqueId]?.first { it.startsWith("bili_jct") }
+        val csrf = cookieCache[player.uniqueId]?.bili_jct
             ?.replace("bili_jct=", "")
             ?.split(";")
             ?.get(0) ?: let {
@@ -206,7 +213,7 @@ object NetworkEngine {
         }
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->
-                list.first { it.startsWith("SESSDATA") }.let {
+                list.SESSDATA.let {
                     it.substring(0, it.length) + ",buvid3;"
                 }
             } ?: let {
@@ -226,7 +233,7 @@ object NetworkEngine {
                                 0 -> {
                                     val tripleData = body.data
                                     if (tripleData.coin && tripleData.fav && tripleData.like) {
-                                        player.getDataContainer()[bvid] = true
+                                        player.setDataContainer(bvid, true.toString())
                                         bvCache.put(player.uniqueId to bvid, true)
                                         TripleSendRewardsEvent(player, bvid).call()
                                     } else {
@@ -289,7 +296,7 @@ object NetworkEngine {
         }
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->
-                list.first { it.startsWith("SESSDATA") }.let {
+                list.SESSDATA.let {
                     it.substring(0, it.length) + ",buvid3;"
                 }
             } ?: let {
@@ -332,7 +339,7 @@ object NetworkEngine {
                 player.infoAsLang("NetworkRequestFailureCode", it.code())
             }
         }
-        player.getDataContainer()[bvid] = true
+        player.setDataContainer(bvid, true.toString())
         bvCache.put(player.uniqueId to bvid, true)
         TripleSendRewardsEvent(player, bvid).call()
     }
@@ -351,11 +358,11 @@ object NetworkEngine {
      *
      * @param cookie cookie
      */
-    private fun checkRepeatabilityMid(player: ProxyPlayer, cookie: List<String>): String? {
+    private fun checkRepeatabilityMid(player: ProxyPlayer, cookie: CookieData): String? {
         // 获取 MID
         val mid = getUserInfo(cookie)?.mid ?: return null
         // 如果数据库中存在该 MID 则返回 null，否则返回 MID
-        return if (DatabaseHelper.searchPlayerByMid(player, mid)) null else mid
+        return if (Database.searchPlayerByMid(player, mid)) null else mid
     }
 
     /**
@@ -365,9 +372,9 @@ object NetworkEngine {
      * @param cookie cookie
      * @return
      */
-    fun getUserInfo(cookie: List<String>): UserInfoData? {
+    fun getUserInfo(cookie: CookieData): UserInfoData? {
         // 获取 SASSDATA
-        val sessData = cookie.find { it.startsWith("SESSDATA") } ?: return null
+        val sessData = cookie.SESSDATA
         // 获取用户信息
         val response = bilibiliAPI.getUserInfo(sessData).execute()
         // 判断请求是否成功并且返回的数据 code 是否为 0

@@ -1,10 +1,17 @@
-# Setting
-type: SQLite
-userIndex: UUID
-# Database Link Configuration
-host: "localhost"
-port: "3306"
-user: "root"
-password: "root"
-database: "minecraft"
-table: "BilibiliVideo"
+# 连接配置
+sql:
+  # 类型
+  # 请在指导下填写对应的数据库类型
+  type: sqlite
+  # 地址
+  host: localhost
+  # 端口
+  port: 3306
+  # 用户名
+  user: root
+  # 密码
+  password: root
+  # 数据库
+  database: minecraft
+  # 表名
+  table: BilibiliVideo

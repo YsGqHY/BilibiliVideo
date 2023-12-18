@@ -1,15 +1,10 @@
 package online.bingiz.bilibili.video.internal.listener
 
-import com.google.gson.Gson
 import online.bingiz.bilibili.video.internal.cache.baffleCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
-import online.bingiz.bilibili.video.internal.helper.compress
-import org.bukkit.event.player.PlayerLoginEvent
+import online.bingiz.bilibili.video.internal.database.Database.Companion.setDataContainer
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.expansion.getDataContainer
-import taboolib.expansion.releaseDataContainer
-import taboolib.expansion.setupDataContainer
 
 /**
  * Player listener
@@ -18,21 +13,6 @@ import taboolib.expansion.setupDataContainer
  * @constructor Create empty Player listener
  */
 object PlayerListener {
-    private val gson: Gson = Gson()
-
-    /**
-     * On player login event
-     * 玩家登录事件
-     *
-     * @param event PlayerLoginEvent
-     */
-    @SubscribeEvent
-    fun onPlayerLoginEvent(event: PlayerLoginEvent) {
-        val player = event.player
-        // 载入玩家数据容器
-        player.setupDataContainer()
-    }
-
     /**
      * On player quit event
      * 玩家退出事件
@@ -46,11 +26,13 @@ object PlayerListener {
         baffleCache.reset(player.name)
         // 保存玩家Cookie数据
         cookieCache.get(player.uniqueId)?.let {
-            player.getDataContainer()["cookie"] = gson.toJson(it).compress()
+            player.setDataContainer("SESSDATA", it.SESSDATA)
+            player.setDataContainer("bili_jct", it.bili_jct)
+            player.setDataContainer("DedeUserID", it.DedeUserID)
+            player.setDataContainer("DedeUserID__ckMd5", it.DedeUserID__ckMd5)
+            player.setDataContainer("sid", it.sid)
         }
         // 删除玩家缓存数据
         cookieCache.invalidate(player.uniqueId)
-        // 卸载玩家数据容器
-        player.releaseDataContainer()
     }
 }

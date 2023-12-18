@@ -3,12 +3,12 @@ package online.bingiz.bilibili.video.internal.cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import online.bingiz.bilibili.video.internal.helper.decompress
-import taboolib.expansion.getPlayerDataContainer
+import online.bingiz.bilibili.video.internal.database.Database.Companion.getPlayerDataContainer
+import online.bingiz.bilibili.video.internal.entity.CookieData
 import java.util.*
 
 // GSON序列化组件
-private val gson: Gson = Gson()
+val gson: Gson = Gson()
 
 // 泛化抵抗
 private val listStringType = object : TypeToken<List<String>>() {}.type
@@ -19,8 +19,12 @@ private val listStringType = object : TypeToken<List<String>>() {}.type
  */
 val cookieCache = Caffeine.newBuilder()
     .maximumSize(100)
-    .build<UUID, List<String>> {
-        it.getPlayerDataContainer()["cookie"]?.decompress()?.let { json ->
-            gson.fromJson(json, listStringType)
-        }
+    .build<UUID, CookieData> {
+        val cookieData = CookieData()
+        it.getPlayerDataContainer("SESSDATA")?.let { cookieData.SESSDATA = it }
+        it.getPlayerDataContainer("bili_jct")?.let { cookieData.bili_jct = it }
+        it.getPlayerDataContainer("DedeUserID")?.let { cookieData.DedeUserID = it }
+        it.getPlayerDataContainer("DedeUserID__ckMd5")?.let { cookieData.DedeUserID__ckMd5 = it }
+        it.getPlayerDataContainer("sid")?.let { cookieData.sid = it }
+        cookieData
     }

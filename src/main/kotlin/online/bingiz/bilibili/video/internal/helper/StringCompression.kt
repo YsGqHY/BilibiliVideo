@@ -10,7 +10,7 @@ import java.util.zip.Inflater
  * @param type 数据库类型，默认为DatabaseType.INSTANCEOF
  * @return 压缩后的结果字符串，如果数据库类型为SQLITE，则返回原始字符串
  */
-fun String.compress(type: DatabaseType = DatabaseType.INSTANCEOF): String {
+fun String.compress(type: DatabaseType = DatabaseType.INSTANCE): String {
     if (type == DatabaseType.SQLITE) {
         return this
     }
@@ -30,7 +30,7 @@ fun String.compress(type: DatabaseType = DatabaseType.INSTANCEOF): String {
  * @param type 数据库类型，默认为DatabaseType.INSTANCEOF
  * @return 解压后的原始字符串，如果数据库类型为SQLITE，则返回原始压缩字符串
  */
-fun String.decompress(type: DatabaseType = DatabaseType.INSTANCEOF): String {
+fun String.decompress(type: DatabaseType = DatabaseType.INSTANCE): String {
     if (type == DatabaseType.SQLITE) {
         return this
     }

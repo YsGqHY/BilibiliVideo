@@ -33,7 +33,6 @@ taboolib {
     install("module-ui")
     install("platform-bukkit")
     install("expansion-command-helper")
-    install("expansion-player-database")
     classifier = null
     version = "6.0.12-35"
 }
