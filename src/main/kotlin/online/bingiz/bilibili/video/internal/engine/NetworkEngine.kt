@@ -123,7 +123,11 @@ object NetworkEngine {
                                                         ",",
                                                         prefix = "{",
                                                         postfix = "}"
-                                                    ) { "\"${it.replace("=", "\":\"")}\"" }
+                                                    ) {
+                                                        "\"${
+                                                            it.replace("=", "\":\"").replace("""\u003d""", "\":\"")
+                                                        }\""
+                                                    }
                                                 // GSON反序列化成CookieData
                                                 val cookieData = gson.fromJson(replace, CookieData::class.java)
                                                 // 检查MID重复
