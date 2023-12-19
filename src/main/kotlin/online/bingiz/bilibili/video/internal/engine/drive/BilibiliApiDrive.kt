@@ -70,4 +70,18 @@ interface BilibiliApiDrive {
         @Header("Cookie") sessData: String,
         @Query("bvid") bvid: String
     ): Call<BilibiliResult<FavouredData>>
+
+    /**
+     * Has following
+     * 是否关注
+     *
+     * @param sessData
+     * @param bvid
+     * @return
+     */
+    @GET("web-interface/view/detail")
+    fun hasFollowing(
+        @Header("Cookie") sessData: String,
+        @Query("bvid") bvid: String
+    ): Call<BilibiliResult<FollowingData>>
 }
