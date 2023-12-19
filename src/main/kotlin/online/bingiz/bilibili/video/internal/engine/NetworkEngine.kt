@@ -117,10 +117,13 @@ object NetworkEngine {
                                                 // 提取Cookie中有效部分
                                                 // 这里不知道为什么会传递一些容易产生干扰的信息进来
                                                 val cookieList = list.map { it.split(";")[0] }
-                                                // 将格式尽可能贴近JSON
+                                                // 将Cookie转化为JSON
                                                 val replace =
-                                                    cookieList.joinToString(",", prefix = "{", postfix = "}")
-                                                        .replace("=", ":")
+                                                    cookieList.joinToString(
+                                                        ",",
+                                                        prefix = "{",
+                                                        postfix = "}"
+                                                    ) { "\"${it.replace("=", "\":\"")}\"" }
                                                 // GSON反序列化成CookieData
                                                 val cookieData = gson.fromJson(replace, CookieData::class.java)
                                                 // 检查MID重复
