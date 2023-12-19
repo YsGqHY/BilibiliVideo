@@ -28,7 +28,7 @@ enum class DatabaseType {
     companion object {
         val INSTANCE: DatabaseType by lazy {
             try {
-                valueOf(DatabaseConfig.config.getString("type")!!.uppercase())
+                valueOf(DatabaseConfig.config.getString("sql.type")!!.uppercase())
             } catch (ignore: Exception) {
                 SQLITE
             }
