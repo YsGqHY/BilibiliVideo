@@ -145,6 +145,7 @@ object NetworkEngine {
                                                     // Cookie刷新
                                                     else -> {
                                                         cookieCache.put(player.uniqueId, cookieData)
+                                                        midCache.put(player.uniqueId, mid)
                                                         player.setDataContainer("mid", mid)
                                                         player.setDataContainer(
                                                             "refresh_token",
@@ -212,17 +213,14 @@ object NetworkEngine {
                 return
             }
         }
-        val csrf = cookieCache[player.uniqueId]?.bili_jct
-            ?.replace("bili_jct=", "")
-            ?.split(";")
-            ?.get(0) ?: let {
+        val csrf = cookieCache[player.uniqueId]?.bili_jct ?: let {
             player.warningAsLang("CookieNotFound")
             return
         }
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->
                 list.SESSDATA.let {
-                    it.substring(0, it.length) + ",buvid3;"
+                    "SESSDATA=" + it.substring(0, it.length) + ",buvid3;"
                 }
             } ?: let {
                 player.warningAsLang("CookieNotFound")
@@ -305,7 +303,7 @@ object NetworkEngine {
         val sessData =
             cookieCache[player.uniqueId]?.let { list ->
                 list.SESSDATA.let {
-                    it.substring(0, it.length) + ",buvid3;"
+                    "SESSDATA=" + it.substring(0, it.length) + ",buvid3;"
                 }
             } ?: let {
                 player.warningAsLang("CookieNotFound")
@@ -382,7 +380,7 @@ object NetworkEngine {
      */
     fun getUserInfo(cookie: CookieData): UserInfoData? {
         // 获取 SASSDATA
-        val sessData = cookie.SESSDATA
+        val sessData = "SESSDATA=${cookie.SESSDATA}"
         // 获取用户信息
         val response = bilibiliAPI.getUserInfo(sessData).execute()
         // 判断请求是否成功并且返回的数据 code 是否为 0
