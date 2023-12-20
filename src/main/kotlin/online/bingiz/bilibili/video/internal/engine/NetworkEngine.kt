@@ -11,7 +11,7 @@ import online.bingiz.bilibili.video.internal.entity.*
 import online.bingiz.bilibili.video.internal.helper.*
 import online.bingiz.bilibili.video.internal.interceptor.ReceivedCookiesInterceptor
 import online.bingiz.bilibili.video.internal.interceptor.UserAgentInterceptor
-import org.bukkit.entity.Player
+import org.bukkit.Bukkit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -172,9 +172,7 @@ object NetworkEngine {
                                         }
                                     }
                                 }
-                                if (player is Player) {
-                                    player.updateInventory()
-                                }
+                                Bukkit.getPlayer(player.uniqueId)?.updateInventory()
                             } else {
                                 warningMessageAsLang(
                                     "NetworkRequestFailureCode",
