@@ -14,6 +14,11 @@
     </a>
 </p>
 
+## WIKI
+
+> 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
+
+[地址](https://www.yuque.com/sakuraziyou/bilibili_video)
 
 ## 命令
 
