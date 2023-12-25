@@ -1,7 +1,9 @@
 package online.bingiz.bilibili.video.internal.listener
 
 import online.bingiz.bilibili.video.internal.cache.baffleCache
+import online.bingiz.bilibili.video.internal.cache.bvCache
 import online.bingiz.bilibili.video.internal.cache.cookieCache
+import online.bingiz.bilibili.video.internal.cache.midCache
 import online.bingiz.bilibili.video.internal.database.Database.Companion.setDataContainer
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
@@ -32,7 +34,11 @@ object PlayerListener {
             player.setDataContainer("DedeUserID__ckMd5", it.DedeUserID__ckMd5)
             player.setDataContainer("sid", it.sid)
         }
-        // 删除玩家缓存数据
+        // 驱逐Cookie缓存
         cookieCache.invalidate(player.uniqueId)
+        // 驱逐Mid缓存
+        midCache.invalidate(player.uniqueId)
+        // 驱逐BV缓存
+        bvCache.invalidateAll(bvCache.asMap().keys.filter { it.first == player.uniqueId })
     }
 }
