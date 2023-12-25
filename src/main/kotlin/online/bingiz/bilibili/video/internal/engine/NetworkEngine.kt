@@ -231,11 +231,10 @@ object NetworkEngine {
                     response: Response<BilibiliResult<TripleData>>
                 ) {
                     if (response.isSuccessful) {
-                        val body = response.body()
-                        if (body != null) {
-                            when (body.code) {
+                        response.body()?.let {
+                            when (it.code) {
                                 0 -> {
-                                    val tripleData = body.data
+                                    val tripleData = it.data
                                     if (tripleData.coin && tripleData.fav && tripleData.like) {
                                         player.setDataContainer(bvid, true.toString())
                                         bvCache.put(player.uniqueId to bvid, true)
@@ -266,12 +265,10 @@ object NetworkEngine {
                                     )
                                 }
                             }
-                        } else {
-                            player.infoAsLang(
-                                "GetTripleStatusRefuse",
-                                response.body()?.message ?: "Bilibili未提供任何错误信息"
-                            )
-                        }
+                        } ?: player.infoAsLang(
+                            "GetTripleStatusRefuse",
+                            response.body()?.message ?: "Bilibili未提供任何错误信息"
+                        )
                     } else {
                         warning("请求失败")
                         warning("失败原因：${response.code()}")
@@ -343,8 +340,6 @@ object NetworkEngine {
                 player.infoAsLang("NetworkRequestFailureCode", it.code())
             }
         }
-        player.setDataContainer(bvid, true.toString())
-        bvCache.put(player.uniqueId to bvid, true)
         TripleSendRewardsEvent(player, bvid).call()
     }
 
