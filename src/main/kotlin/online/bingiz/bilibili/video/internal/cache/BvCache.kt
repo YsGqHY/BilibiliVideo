@@ -11,5 +11,5 @@ import java.util.*
 val bvCache = Caffeine.newBuilder()
     .maximumSize(100)
     .build<Pair<UUID, String>, Boolean> {
-        it.first.getPlayerDataContainer("it.second")?.toBooleanStrictOrNull() ?: false
+        it.first.getPlayerDataContainer(it.second)?.toBooleanStrictOrNull() ?: false
     }
