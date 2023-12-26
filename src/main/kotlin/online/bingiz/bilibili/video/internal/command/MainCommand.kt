@@ -45,7 +45,7 @@ object MainCommand {
         }
     }
 
-    @CommandBody(permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(aliases = ["open"], permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.TRUE)
     val login = subCommand {
         // 可指定玩家启动登陆流程
         // 可选参数
@@ -95,7 +95,7 @@ object MainCommand {
         }
     }
 
-    @CommandBody(permission = "BilibiliVideo.command.receive", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(aliases = ["use"], permission = "BilibiliVideo.command.receive", permissionDefault = PermissionDefault.TRUE)
     val receive = subCommand {
         dynamic(comment = "bv") {
             suggestion<ProxyPlayer> { _, _ ->
