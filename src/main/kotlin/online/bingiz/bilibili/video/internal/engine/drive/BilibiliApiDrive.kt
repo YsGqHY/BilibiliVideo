@@ -13,7 +13,10 @@ import retrofit2.http.*
 interface BilibiliApiDrive {
 
     @GET("web-interface/nav")
-    fun getUserInfo(@Header("Cookie") sessData: String): Call<BilibiliResult<UserInfoData>>
+    fun getUserInfo(
+        @Header("Cookie") sessData: String,
+        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
+    ): Call<BilibiliResult<UserInfoData>>
 
     /**
      * Action like triple
@@ -29,7 +32,8 @@ interface BilibiliApiDrive {
     fun actionLikeTriple(
         @Field("bvid") bvid: String,
         @Field("csrf") csrf: String,
-        @Header("Cookie") sessData: String
+        @Header("Cookie") sessData: String,
+        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<TripleData>>
 
     /**
@@ -41,8 +45,9 @@ interface BilibiliApiDrive {
      */
     @GET("web-interface/archive/has/like")
     fun hasLike(
+        @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Query("bvid") bvid: String
+        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<Int>>
 
     /**
@@ -54,8 +59,9 @@ interface BilibiliApiDrive {
      */
     @GET("web-interface/archive/coins")
     fun hasCoins(
+        @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Query("bvid") bvid: String
+        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<CoinsData>>
 
     /**
@@ -67,8 +73,9 @@ interface BilibiliApiDrive {
      */
     @GET("v2/fav/video/favoured")
     fun hasFavoured(
+        @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Query("bvid") bvid: String
+        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<FavouredData>>
 
     /**
@@ -81,7 +88,8 @@ interface BilibiliApiDrive {
      */
     @GET("web-interface/view/detail")
     fun hasFollowing(
+        @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Query("bvid") bvid: String
+        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<FollowingData>>
 }

@@ -32,22 +32,16 @@ import taboolib.module.nms.NMSMap
  * @constructor Create empty Network engine
  */
 object NetworkEngine {
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(ReceivedCookiesInterceptor())
-        .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion(lhby233@outlook.com)"))
-        .build()
+    private val client = OkHttpClient.Builder().addInterceptor(ReceivedCookiesInterceptor())
+        .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion(lhby233@outlook.com)")).build()
 
     /**
      * Bilibili API
      * 哔哩哔哩API驱动
      */
     private val bilibiliAPI by lazy {
-        Retrofit.Builder()
-            .baseUrl("https://api.bilibili.com/x/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-            .create(BilibiliApiDrive::class.java)
+        Retrofit.Builder().baseUrl("https://api.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create())
+            .client(client).build().create(BilibiliApiDrive::class.java)
     }
 
     /**
@@ -55,11 +49,8 @@ object NetworkEngine {
      * 哔哩哔哩通行证驱动API
      */
     private val bilibiliPassportAPI by lazy {
-        Retrofit.Builder()
-            .baseUrl("https://passport.bilibili.com/x/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
+        Retrofit.Builder().baseUrl("https://passport.bilibili.com/x/")
+            .addConverterFactory(GsonConverterFactory.create()).client(client).build()
             .create(BilibiliPassportDrive::class.java)
     }
 
@@ -68,12 +59,8 @@ object NetworkEngine {
      * 哔哩哔哩网站驱动API
      */
     private val bilibiliWebsiteAPI by lazy {
-        Retrofit.Builder()
-            .baseUrl("https://www.bilibili.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-            .create(BilibiliPassportDrive::class.java)
+        Retrofit.Builder().baseUrl("https://www.bilibili.com/").addConverterFactory(GsonConverterFactory.create())
+            .client(client).build().create(BilibiliPassportDrive::class.java)
     }
 
     /**
@@ -84,8 +71,7 @@ object NetworkEngine {
     fun generateBilibiliQRCodeUrl(player: ProxyPlayer) {
         bilibiliPassportAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
             override fun onResponse(
-                call: Call<BilibiliResult<QRCodeGenerateData>>,
-                response: Response<BilibiliResult<QRCodeGenerateData>>
+                call: Call<BilibiliResult<QRCodeGenerateData>>, response: Response<BilibiliResult<QRCodeGenerateData>>
             ) {
                 if (response.isSuccessful) {
                     val body = response.body()
@@ -118,16 +104,13 @@ object NetworkEngine {
                                                 // 这里不知道为什么会传递一些容易产生干扰的信息进来
                                                 val cookieList = list.map { it.split(";")[0] }
                                                 // 将Cookie转化为JSON
-                                                val replace =
-                                                    cookieList.joinToString(
-                                                        ",",
-                                                        prefix = "{",
-                                                        postfix = "}"
-                                                    ) {
-                                                        "\"${
-                                                            it.replace("=", "\":\"").replace("""\u003d""", "\":\"")
-                                                        }\""
-                                                    }
+                                                val replace = cookieList.joinToString(
+                                                    ",", prefix = "{", postfix = "}"
+                                                ) {
+                                                    "\"${
+                                                        it.replace("=", "\":\"").replace("""\u003d""", "\":\"")
+                                                    }\""
+                                                }
                                                 // GSON反序列化成CookieData
                                                 val cookieData = gson.fromJson(replace, CookieData::class.java)
                                                 // 检查MID重复
@@ -148,12 +131,10 @@ object NetworkEngine {
                                                         midCache.put(player.uniqueId, mid)
                                                         player.setDataContainer("mid", mid)
                                                         player.setDataContainer(
-                                                            "refresh_token",
-                                                            result.data.refreshToken
+                                                            "refresh_token", result.data.refreshToken
                                                         )
                                                         player.setDataContainer(
-                                                            "timestamp",
-                                                            result.data.timestamp.toString()
+                                                            "timestamp", result.data.timestamp.toString()
                                                         )
                                                         player.infoAsLang("GenerateUseCookieSuccess")
                                                     }
@@ -175,15 +156,13 @@ object NetworkEngine {
                                 Bukkit.getPlayer(player.uniqueId)?.updateInventory()
                             } else {
                                 warningMessageAsLang(
-                                    "NetworkRequestFailureCode",
-                                    response.code()
+                                    "NetworkRequestFailureCode", response.code()
                                 )
                             }
                         }
                     } else {
                         player.infoAsLang(
-                            "GenerateUseCookieFailure",
-                            response.body()?.message ?: "Bilibili未提供任何错误信息"
+                            "GenerateUseCookieFailure", response.body()?.message ?: "Bilibili未提供任何错误信息"
                         )
                     }
                 } else {
@@ -215,20 +194,13 @@ object NetworkEngine {
             player.warningAsLang("CookieNotFound")
             return
         }
-        val sessData =
-            cookieCache[player.uniqueId]?.let { list ->
-                list.SESSDATA.let {
-                    "SESSDATA=" + it.substring(0, it.length) + ",buvid3;"
-                }
-            } ?: let {
-                player.warningAsLang("CookieNotFound")
-                return
-            }
-        bilibiliAPI.actionLikeTriple(bvid, csrf, sessData)
-            .enqueue(object : Callback<BilibiliResult<TripleData>> {
+        val sessData = cookieCache[player.uniqueId]?.let { list -> list.SESSDATA.let { "SESSDATA=$it" } } ?: let {
+            player.warningAsLang("CookieNotFound")
+            return
+        }
+        bilibiliAPI.actionLikeTriple(bvid, csrf, sessData).enqueue(object : Callback<BilibiliResult<TripleData>> {
                 override fun onResponse(
-                    call: Call<BilibiliResult<TripleData>>,
-                    response: Response<BilibiliResult<TripleData>>
+                    call: Call<BilibiliResult<TripleData>>, response: Response<BilibiliResult<TripleData>>
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let {
@@ -260,14 +232,12 @@ object NetworkEngine {
 
                                 else -> {
                                     player.infoAsLang(
-                                        "GetTripleStatusError",
-                                        response.body()?.message ?: "Bilibili未提供任何错误信息"
+                                        "GetTripleStatusError", response.body()?.message ?: "Bilibili未提供任何错误信息"
                                     )
                                 }
                             }
                         } ?: player.infoAsLang(
-                            "GetTripleStatusRefuse",
-                            response.body()?.message ?: "Bilibili未提供任何错误信息"
+                            "GetTripleStatusRefuse", response.body()?.message ?: "Bilibili未提供任何错误信息"
                         )
                     } else {
                         warning("请求失败")
@@ -295,15 +265,14 @@ object NetworkEngine {
                 return
             }
         }
-        val sessData =
-            cookieCache[player.uniqueId]?.let { list ->
-                list.SESSDATA.let {
-                    "SESSDATA=" + it.substring(0, it.length) + ",buvid3;"
-                }
-            } ?: let {
-                player.warningAsLang("CookieNotFound")
-                return
+        val sessData = cookieCache[player.uniqueId]?.let { list ->
+            list.SESSDATA.let {
+                "SESSDATA=$it"
             }
+        } ?: let {
+            player.warningAsLang("CookieNotFound")
+            return
+        }
         bilibiliAPI.hasLike(sessData, bvid).execute().let {
             if (it.isSuccessful) {
                 it.body()?.data?.let { count ->
@@ -331,7 +300,7 @@ object NetworkEngine {
         bilibiliAPI.hasFavoured(sessData, bvid).execute().let {
             if (it.isSuccessful) {
                 it.body()?.data?.let {
-                    if (it.favoured.not()) {
+                    if (it.favoured) {
                         player.infoAsLang("GetTripleStatusFailureNotFavoured")
                         return
                     }
