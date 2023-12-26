@@ -186,7 +186,7 @@ object NetworkEngine {
             player.warningAsLang("CookieNotFound")
             return
         }
-        val sessData = cookieCache[player.uniqueId]?.let { list -> list.SESSDATA.let { "SESSDATA=$it" } } ?: let {
+        val sessData = cookieCache[player.uniqueId]?.let { list -> list.SESSDATA?.let { "SESSDATA=$it" } } ?: let {
             player.warningAsLang("CookieNotFound")
             return
         }
@@ -258,7 +258,7 @@ object NetworkEngine {
             }
         }
         val sessData = cookieCache[player.uniqueId]?.let { list ->
-            list.SESSDATA.let { "SESSDATA=$it" }
+            list.SESSDATA?.let { "SESSDATA=$it" }
         } ?: let {
             player.warningAsLang("CookieNotFound")
             return
@@ -332,7 +332,9 @@ object NetworkEngine {
      */
     fun getUserInfo(cookie: CookieData): UserInfoData? {
         // 获取 SASSDATA
-        val sessData = "SESSDATA=${cookie.SESSDATA}"
+        val sessData = cookie.SESSDATA?.let { "SESSDATA=$it" } ?: let {
+            return null
+        }
         // 获取用户信息
         val response = bilibiliAPI.getUserInfo(sessData).execute()
         // 判断请求是否成功并且返回的数据 code 是否为 0

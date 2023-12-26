@@ -28,11 +28,11 @@ object PlayerListener {
         baffleCache.reset(player.name)
         // 保存玩家Cookie数据
         cookieCache.get(player.uniqueId)?.let {
-            player.setDataContainer("SESSDATA", it.SESSDATA)
-            player.setDataContainer("bili_jct", it.bili_jct)
-            player.setDataContainer("DedeUserID", it.DedeUserID)
-            player.setDataContainer("DedeUserID__ckMd5", it.DedeUserID__ckMd5)
-            player.setDataContainer("sid", it.sid)
+            it.SESSDATA?.let { it1 -> player.setDataContainer("SESSDATA", it1) }
+            it.bili_jct?.let { it1 -> player.setDataContainer("bili_jct", it1) }
+            it.DedeUserID?.let { it1 -> player.setDataContainer("DedeUserID", it1) }
+            it.DedeUserID__ckMd5?.let { it1 -> player.setDataContainer("DedeUserID__ckMd5", it1) }
+            it.sid?.let { it1 -> player.setDataContainer("sid", it1) }
         }
         // 驱逐Cookie缓存
         cookieCache.invalidate(player.uniqueId)

@@ -11,9 +11,9 @@ package online.bingiz.bilibili.video.internal.entity
  * @constructor Create empty Cookie data
  */
 data class CookieData(
-    var SESSDATA: String = "",
-    var bili_jct: String = "",
-    var DedeUserID: String = "",
-    var DedeUserID__ckMd5: String = "",
-    var sid: String = ""
+    var SESSDATA: String? = null,
+    var bili_jct: String? = null,
+    var DedeUserID: String? = null,
+    var DedeUserID__ckMd5: String? = null,
+    var sid: String? = null
 )
