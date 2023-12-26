@@ -1,6 +1,5 @@
 package online.bingiz.bilibili.video.internal.engine
 
-import okhttp3.OkHttpClient
 import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.*
 import online.bingiz.bilibili.video.internal.database.Database
@@ -9,8 +8,6 @@ import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
 import online.bingiz.bilibili.video.internal.entity.*
 import online.bingiz.bilibili.video.internal.helper.*
-import online.bingiz.bilibili.video.internal.interceptor.ReceivedCookiesInterceptor
-import online.bingiz.bilibili.video.internal.interceptor.UserAgentInterceptor
 import org.bukkit.Bukkit
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,8 +15,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import taboolib.common.platform.ProxyPlayer
-import taboolib.common.platform.function.pluginId
-import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.function.warning
 import taboolib.module.chat.colored
@@ -32,9 +27,6 @@ import taboolib.module.nms.NMSMap
  * @constructor Create empty Network engine
  */
 object NetworkEngine {
-    private val client = OkHttpClient.Builder().addInterceptor(ReceivedCookiesInterceptor())
-        .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion(lhby233@outlook.com)")).build()
-
     /**
      * Bilibili API
      * 哔哩哔哩API驱动
