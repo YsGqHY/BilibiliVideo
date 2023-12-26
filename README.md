@@ -82,6 +82,11 @@ BV1Qs411d7pD:
 
 <img src="https://bstats.org/signatures/bukkit/BilibiliVideo.svg" alt="Bstats" title="Bstats" width="800" height="400">
 
+## 开源许可证补充
+
+- **你不能直接将本插件作为付费插件出售，包括但不限于修改、修改后再次发布、二次分发、销售等。**
+- **你不能仅修改插件名称、图标、插件描述等信息后声明自己是插件作者。**
+
 ## 免责声明
 
 1. **适用性：** 本免责声明适用于所有使用本软件的个人和实体。
