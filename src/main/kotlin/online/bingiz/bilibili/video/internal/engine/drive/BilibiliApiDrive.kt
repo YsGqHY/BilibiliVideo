@@ -73,7 +73,7 @@ interface BilibiliApiDrive {
      */
     @GET("v2/fav/video/favoured")
     fun hasFavoured(
-        @Query("bvid") bvid: String,
+        @Query("aid") bvid: String,
         @Header("Cookie") sessData: String,
         @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<FavouredData>>

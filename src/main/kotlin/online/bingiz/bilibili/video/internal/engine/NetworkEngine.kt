@@ -255,7 +255,7 @@ object NetworkEngine {
             player.warningAsLang("CookieNotFound")
             return
         }
-        bilibiliAPI.hasLike(sessData, bvid).execute().let {
+        bilibiliAPI.hasLike(bvid, sessData).execute().let {
             if (it.isSuccessful) {
                 it.body()?.data?.let { count ->
                     if (count < 1) {
@@ -267,7 +267,7 @@ object NetworkEngine {
                 player.infoAsLang("NetworkRequestFailureCode", it.code())
             }
         }
-        bilibiliAPI.hasCoins(sessData, bvid).execute().let {
+        bilibiliAPI.hasCoins(bvid, sessData).execute().let {
             if (it.isSuccessful) {
                 it.body()?.data?.multiply?.let { count ->
                     if (count < 1) {
@@ -279,16 +279,16 @@ object NetworkEngine {
                 player.infoAsLang("NetworkRequestFailureCode", it.code())
             }
         }
-        bilibiliAPI.hasFavoured(sessData, bvid).execute().let {
-            if (it.isSuccessful) {
-                it.body()?.data?.let {
-                    if (it.favoured) {
+        bilibiliAPI.hasFavoured(bvid, sessData).execute().let { resultResponse ->
+            if (resultResponse.isSuccessful) {
+                resultResponse.body()?.data?.let {
+                    if (it.favoured.not()) {
                         player.infoAsLang("GetTripleStatusFailureNotFavoured")
                         return
                     }
                 }
             } else {
-                player.infoAsLang("NetworkRequestFailureCode", it.code())
+                player.infoAsLang("NetworkRequestFailureCode", resultResponse.code())
             }
         }
         TripleSendRewardsEvent(player, bvid).call()
