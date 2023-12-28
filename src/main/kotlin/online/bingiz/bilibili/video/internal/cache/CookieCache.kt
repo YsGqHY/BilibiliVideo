@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import online.bingiz.bilibili.video.internal.database.Database.Companion.getPlayerDataContainer
 import online.bingiz.bilibili.video.internal.entity.CookieData
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 // GSON序列化组件
 val gson: Gson = Gson()
@@ -19,6 +20,7 @@ private val listStringType = object : TypeToken<List<String>>() {}.type
  */
 val cookieCache = Caffeine.newBuilder()
     .maximumSize(100)
+    .refreshAfterWrite(5, TimeUnit.MINUTES)
     .build<UUID, CookieData> {
         val cookieData = CookieData()
         it.getPlayerDataContainer("SESSDATA")?.let { cookieData.SESSDATA = it }

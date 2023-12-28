@@ -106,28 +106,26 @@ object NetworkEngine {
                                                 // GSON反序列化成CookieData
                                                 val cookieData = gson.fromJson(replace, CookieData::class.java)
                                                 // 检查MID重复
-                                                val mid = checkRepeatabilityMid(player, cookieData)
+                                                val userInfoData = checkRepeatabilityMid(player, cookieData)
                                                 val cacheMid = midCache[player.uniqueId]
                                                 when {
                                                     // 检查重复的MID
-                                                    mid == null -> {
+                                                    userInfoData == null -> {
                                                         player.infoAsLang("GenerateUseCookieRepeatabilityMid")
                                                     }
                                                     // 登录的MID和绑定的MID不一致
-                                                    cacheMid.isNullOrBlank().not() && cacheMid != mid -> {
+                                                    cacheMid.isNullOrBlank().not() && cacheMid != userInfoData.mid -> {
                                                         player.infoAsLang("PlayerIsBindMid")
                                                     }
                                                     // Cookie刷新
                                                     else -> {
                                                         cookieCache.put(player.uniqueId, cookieData)
-                                                        midCache.put(player.uniqueId, mid)
-                                                        player.setDataContainer("mid", mid)
-                                                        player.setDataContainer(
-                                                            "refresh_token", result.data.refreshToken
-                                                        )
-                                                        player.setDataContainer(
-                                                            "timestamp", result.data.timestamp.toString()
-                                                        )
+                                                        midCache.put(player.uniqueId, userInfoData.mid)
+                                                        unameCache.put(player.uniqueId, userInfoData.uname)
+                                                        player.setDataContainer("mid", userInfoData.mid)
+                                                        player.setDataContainer("uname", userInfoData.uname)
+                                                        player.setDataContainer("refresh_token", result.data.refreshToken)
+                                                        player.setDataContainer("timestamp", result.data.timestamp.toString())
                                                         player.infoAsLang("GenerateUseCookieSuccess")
                                                     }
                                                 }
@@ -140,22 +138,16 @@ object NetworkEngine {
                                             this.cancel()
                                         }
 
-                                        else -> {
-                                            return@submit
-                                        }
+                                        else -> return@submit
                                     }
                                 }
                                 Bukkit.getPlayer(player.uniqueId)?.updateInventory()
                             } else {
-                                warningMessageAsLang(
-                                    "NetworkRequestFailureCode", response.code()
-                                )
+                                warningMessageAsLang("NetworkRequestFailureCode", response.code())
                             }
                         }
                     } else {
-                        player.infoAsLang(
-                            "GenerateUseCookieFailure", response.body()?.message ?: "Bilibili未提供任何错误信息"
-                        )
+                        player.infoAsLang("GenerateUseCookieFailure", response.body()?.message ?: "Bilibili未提供任何错误信息")
                     }
                 } else {
                     player.infoAsLang("NetworkRequestRefuse", "HTTP受限，错误码：${response.code()}")
@@ -316,11 +308,10 @@ object NetworkEngine {
      *
      * @param cookie cookie
      */
-    private fun checkRepeatabilityMid(player: ProxyPlayer, cookie: CookieData): String? {
-        // 获取 MID
-        val mid = getUserInfo(cookie)?.mid ?: return null
+    private fun checkRepeatabilityMid(player: ProxyPlayer, cookie: CookieData): UserInfoData? {
+        val userInfo = getUserInfo(cookie) ?: return null
         // 如果数据库中存在该 MID 则返回 null，否则返回 MID
-        return if (Database.searchPlayerByMid(player, mid)) null else mid
+        return if (Database.searchPlayerByMid(player, userInfo.mid)) null else userInfo
     }
 
     /**

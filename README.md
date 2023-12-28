@@ -29,6 +29,7 @@
 - bilibilivideo logout - 清理Cookie
 - bilibilivideo receive [bv] - 领取奖励命令
 - bilibilivideo receive [bv] show - 领取奖励命令(查看模式，并不会使用玩家账户三连视频)
+- bilibilivideo version - 查看插件版本
 
 ## 权限
 
@@ -39,6 +40,7 @@
 - BilibiliVideo.command.show - 查看命令的权限，默认全员可用
 - BilibiliVideo.command.logout - 清理Cookie命令的权限，默认全员可用
 - BilibiliVideo.command.receive - 领取奖励命令的权限，默认全员可用
+- BilibiliVideo.command.version - 查看插件版本命令的权限，默认仅OP可用
 
 ## 配置文件
 

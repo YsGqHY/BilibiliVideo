@@ -12,6 +12,8 @@ import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.*
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.submit
+import taboolib.module.lang.sendInfoMessage
+import taboolib.platform.util.bukkitPlugin
 
 @CommandHeader(
     name = "bilibili-video",
@@ -119,6 +121,14 @@ object MainCommand {
                     }
                 }
             }
+        }
+    }
+
+    @CommandBody(permission = "BilibiliVideo.command.version", permissionDefault = PermissionDefault.OP)
+    val version = subCommand {
+        execute<ProxyCommandSender> { sender, _, _ ->
+            sender.sendInfoMessage("插件版本: ${bukkitPlugin.description.version}")
+            sender.sendInfoMessage("插件作者: ${bukkitPlugin.description.authors.joinToString(", ")}")
         }
     }
 }
