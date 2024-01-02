@@ -108,7 +108,7 @@ object MainCommand {
                     sender.infoAsLang("CommandBaffle")
                     return@execute
                 }
-                NetworkEngine.getTripleStatus(sender, argument)
+                NetworkEngine.getTripleStatusShow(sender, argument)
             }
             literal("show", optional = true) {
                 execute<ProxyPlayer> { sender, context, _ ->
