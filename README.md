@@ -84,6 +84,14 @@ BV1Qs411d7pD:
 
 <img src="https://bstats.org/signatures/bukkit/BilibiliVideo.svg" alt="Bstats" title="Bstats" width="800" height="400">
 
+## 赞助名单
+
+- [Dummerべ落尘] - 20RMB
+
+## 感谢名单
+
+- [⁶] - 首席体验官
+
 ## 开源许可证补充
 
 - **你不能直接将本插件作为付费插件出售，包括但不限于修改、修改后再次发布、二次分发、销售等。**
