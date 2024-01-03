@@ -21,6 +21,7 @@ GetTripleStatusFailure: "&4&l稿件条件不满足，无法发放奖励。点赞
 GetTripleStatusFailureNotLike: "&4&l稿件条件不满足，无法发放奖励。原因：未点赞"
 GetTripleStatusFailureNotCoins: "&4&l稿件条件不满足，无法发放奖励。原因：未投币"
 GetTripleStatusFailureNotFavoured: "&4&l稿件条件不满足，无法发放奖励。原因：未收藏"
+GetTripleStatusFailureNotFollowing: "&4&l稿件条件不满足，无法发放奖励。原因：未关注"
 GetTripleStatusError: "&4&l账户状态异常，请过一段时间再次尝试。哔哩哔哩信息:{0}"
 GetTripleStatusRepeat: "&4&l你已经领取过奖励了，无法再次领取!"
 GetTripleStatusRefuse: "&4&l与Bilibili服务器通信被拒，错误信息：&c&l{0}"

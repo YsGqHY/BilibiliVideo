@@ -20,6 +20,8 @@ object SettingConfig {
 
     var cooldown: Long = 60
 
+    var needFollow: Boolean = false
+
     @Awake(LifeCycle.ENABLE)
     fun registerAutoReload() {
         config.onReload { reloadAction() }
@@ -32,5 +34,7 @@ object SettingConfig {
         baffleCache.resetAll()
         // 变更缓存时间
         baffleCache = Baffle.of(cooldown, TimeUnit.SECONDS)
+        // 变更是否需要关注
+        needFollow = config.getBoolean("needFollow")
     }
 }

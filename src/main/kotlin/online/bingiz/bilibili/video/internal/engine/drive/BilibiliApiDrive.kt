@@ -90,6 +90,6 @@ interface BilibiliApiDrive {
     fun hasFollowing(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
+//        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<FollowingData>>
 }

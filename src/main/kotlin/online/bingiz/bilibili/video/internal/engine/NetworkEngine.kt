@@ -255,6 +255,18 @@ object NetworkEngine {
             player.warningAsLang("CookieNotFound")
             return
         }
+        bilibiliAPI.hasFollowing(bvid, sessData).execute().let {
+            if (it.isSuccessful) {
+                it.body()?.data?.let {
+                    if (it.card.following.not()) {
+                        player.infoAsLang("GetTripleStatusFailureNotFollowing")
+                        return
+                    }
+                }
+            } else {
+                player.infoAsLang("NetworkRequestFailureCode", it.code())
+            }
+        }
         bilibiliAPI.hasLike(bvid, sessData).execute().let {
             if (it.isSuccessful) {
                 it.body()?.data?.let { count ->
