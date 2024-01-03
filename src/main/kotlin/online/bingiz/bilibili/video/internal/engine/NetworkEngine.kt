@@ -7,6 +7,10 @@ import online.bingiz.bilibili.video.internal.database.Database.Companion.setData
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
 import online.bingiz.bilibili.video.internal.entity.*
+import online.bingiz.bilibili.video.internal.handler.CoinsHandler
+import online.bingiz.bilibili.video.internal.handler.FavouredHandler
+import online.bingiz.bilibili.video.internal.handler.FollowingHandler
+import online.bingiz.bilibili.video.internal.handler.LikeHandler
 import online.bingiz.bilibili.video.internal.helper.*
 import org.bukkit.Bukkit
 import retrofit2.Call
@@ -31,18 +35,16 @@ object NetworkEngine {
      * Bilibili API
      * 哔哩哔哩API驱动
      */
-    private val bilibiliAPI by lazy {
-        Retrofit.Builder().baseUrl("https://api.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create())
-            .client(client).build().create(BilibiliApiDrive::class.java)
+    val bilibiliAPI by lazy {
+        Retrofit.Builder().baseUrl("https://api.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create()).client(client).build().create(BilibiliApiDrive::class.java)
     }
 
     /**
      * Bilibili passport API
      * 哔哩哔哩通行证驱动API
      */
-    private val bilibiliPassportAPI by lazy {
-        Retrofit.Builder().baseUrl("https://passport.bilibili.com/x/")
-            .addConverterFactory(GsonConverterFactory.create()).client(client).build()
+    val bilibiliPassportAPI by lazy {
+        Retrofit.Builder().baseUrl("https://passport.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create()).client(client).build()
             .create(BilibiliPassportDrive::class.java)
     }
 
@@ -50,10 +52,15 @@ object NetworkEngine {
      * Bilibili website API
      * 哔哩哔哩网站驱动API
      */
-    private val bilibiliWebsiteAPI by lazy {
-        Retrofit.Builder().baseUrl("https://www.bilibili.com/").addConverterFactory(GsonConverterFactory.create())
-            .client(client).build().create(BilibiliPassportDrive::class.java)
+    val bilibiliWebsiteAPI by lazy {
+        Retrofit.Builder().baseUrl("https://www.bilibili.com/").addConverterFactory(GsonConverterFactory.create()).client(client).build().create(BilibiliPassportDrive::class.java)
     }
+
+    /**
+     * Show action
+     * Show模式动作
+     */
+    private val showAction = FollowingHandler().setNextHandler(LikeHandler()).setNextHandler(CoinsHandler()).setNextHandler(FavouredHandler())
 
     /**
      * Generate bilibili QRCode url
@@ -197,11 +204,7 @@ object NetworkEngine {
                                     TripleSendRewardsEvent(player, bvid).call()
                                 } else {
                                     player.infoAsLang(
-                                        "GetTripleStatusFailure",
-                                        tripleData.like,
-                                        tripleData.coin,
-                                        tripleData.multiply,
-                                        tripleData.fav
+                                        "GetTripleStatusFailure", tripleData.like, tripleData.coin, tripleData.multiply, tripleData.fav
                                     )
                                 }
                             }
@@ -235,6 +238,7 @@ object NetworkEngine {
         })
     }
 
+
     /**
      * Get triple status show
      * 获取三连状态(查看模式)
@@ -255,55 +259,9 @@ object NetworkEngine {
             player.warningAsLang("CookieNotFound")
             return
         }
-        bilibiliAPI.hasFollowing(bvid, sessData).execute().let {
-            if (it.isSuccessful) {
-                it.body()?.data?.let {
-                    if (it.card.following.not()) {
-                        player.infoAsLang("GetTripleStatusFailureNotFollowing")
-                        return
-                    }
-                }
-            } else {
-                player.infoAsLang("NetworkRequestFailureCode", it.code())
-            }
+        if (showAction.handle(player, bvid, sessData)) {
+            TripleSendRewardsEvent(player, bvid).call()
         }
-        bilibiliAPI.hasLike(bvid, sessData).execute().let {
-            if (it.isSuccessful) {
-                it.body()?.data?.let { count ->
-                    if (count < 1) {
-                        player.infoAsLang("GetTripleStatusFailureNotLike")
-                        return
-                    }
-                }
-            } else {
-                player.infoAsLang("NetworkRequestFailureCode", it.code())
-            }
-        }
-        bilibiliAPI.hasCoins(bvid, sessData).execute().let {
-            if (it.isSuccessful) {
-                it.body()?.data?.multiply?.let { count ->
-                    if (count < 1) {
-                        player.infoAsLang("GetTripleStatusFailureNotCoins")
-                        return
-                    }
-                }
-            } else {
-                player.infoAsLang("NetworkRequestFailureCode", it.code())
-            }
-        }
-        bilibiliAPI.hasFavoured(bvid, sessData).execute().let { resultResponse ->
-            if (resultResponse.isSuccessful) {
-                resultResponse.body()?.data?.let {
-                    if (it.favoured.not()) {
-                        player.infoAsLang("GetTripleStatusFailureNotFavoured")
-                        return
-                    }
-                }
-            } else {
-                player.infoAsLang("NetworkRequestFailureCode", resultResponse.code())
-            }
-        }
-        TripleSendRewardsEvent(player, bvid).call()
     }
 
 
