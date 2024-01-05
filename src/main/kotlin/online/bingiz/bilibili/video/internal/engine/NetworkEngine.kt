@@ -60,7 +60,7 @@ object NetworkEngine {
      * Show action
      * Show模式动作
      */
-    private val showAction = FollowingHandler().setNextHandler(LikeHandler()).setNextHandler(CoinsHandler()).setNextHandler(FavouredHandler())
+    private val showAction = FollowingHandler().setNextHandler(LikeHandler().setNextHandler(CoinsHandler().setNextHandler(FavouredHandler())))
 
     /**
      * Generate bilibili QRCode url

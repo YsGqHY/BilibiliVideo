@@ -14,16 +14,16 @@ import taboolib.common.platform.ProxyPlayer
 class FollowingHandler : ApiHandler() {
     override fun handle(player: ProxyPlayer, bvid: String, sessData: String): Boolean {
         if (SettingConfig.needFollow) {
-            NetworkEngine.bilibiliAPI.hasFollowing(bvid, sessData).execute().let {
-                if (it.isSuccessful) {
-                    it.body()?.data?.let {
+            NetworkEngine.bilibiliAPI.hasFollowing(bvid, sessData).execute().let { resultResponse ->
+                if (resultResponse.isSuccessful) {
+                    resultResponse.body()?.data?.let {
                         if (it.card.following.not()) {
                             player.infoAsLang("GetTripleStatusFailureNotFollowing")
                             return false
                         }
                     }
                 } else {
-                    player.infoAsLang("NetworkRequestFailureCode", it.code())
+                    player.infoAsLang("NetworkRequestFailureCode", resultResponse.code())
                 }
             }
         }
