@@ -12,6 +12,18 @@
     <a href='https://ci-dev.bingzi.online/job/BilibiliVideo/'>
         <img src='https://ci-dev.bingzi.online/job/BilibiliVideo/badge/icon' alt="Build Status">
     </a>
+    <a href='https://sq.bingzi.online/project/information?id=BilibiliVideo'>
+        <img src='https://sq.bingzi.online/api/project_badges/measure?project=BilibiliVideo&metric=bugs&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550' alt="Bug">
+    </a>
+    <a href='https://sq.bingzi.online/project/information?id=BilibiliVideo'>
+        <img src='https://sq.bingzi.online/api/project_badges/measure?project=BilibiliVideo&metric=sqale_rating&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550' alt="Bug">
+    </a>
+    <a href='https://sq.bingzi.online/project/information?id=BilibiliVideo'>
+        <img src='https://sq.bingzi.online/api/project_badges/measure?project=BilibiliVideo&metric=alert_status&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550' alt="Bug">
+    </a>
+    <a href='https://sq.bingzi.online/project/information?id=BilibiliVideo'>
+        <img src='https://sq.bingzi.online/api/project_badges/measure?project=BilibiliVideo&metric=vulnerabilities&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550' alt="Bug">
+    </a>
 </p>
 
 ## WIKI
@@ -114,3 +126,7 @@ BV1Qs411d7pD:
 7. **接受条款：** 使用本软件即代表您同意并接受本免责声明的所有条款和条件。
 
 如有任何疑问或异议，请立即停止使用本软件并与作者联系。
+
+## 相关平台
+
+![](https://sq.bingzi.online/api/project_badges/quality_gate?project=BilibiliVideo&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550)

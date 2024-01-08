@@ -7,3 +7,6 @@ cooldown: 60
 # 是否需要关注
 # * 本项为实验项目，可能存在不稳定的情况
 needFollow: false
+
+# 调试模式，用于诊断一些问题
+debug: false

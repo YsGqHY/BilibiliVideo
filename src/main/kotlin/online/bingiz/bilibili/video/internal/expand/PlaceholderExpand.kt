@@ -1,5 +1,7 @@
 package online.bingiz.bilibili.video.internal.expand
 
+import online.bingiz.bilibili.video.internal.cache.midCache
+import online.bingiz.bilibili.video.internal.cache.unameCache
 import org.bukkit.entity.Player
 import taboolib.platform.compat.PlaceholderExpansion
 
@@ -14,6 +16,13 @@ object PlaceholderExpand : PlaceholderExpansion {
         get() = "BilibiliVideo"
 
     override fun onPlaceholderRequest(player: Player?, args: String): String {
-        return "N/A"
+        if (player == null) {
+            return "N/A"
+        }
+        return when (args) {
+            "uid" -> midCache[player.uniqueId] ?: "N/A-缓存"
+            "uname" -> unameCache[player.uniqueId] ?: "N/A-缓存"
+            else -> "N/A-未知参数"
+        }
     }
 }

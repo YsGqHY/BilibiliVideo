@@ -7,10 +7,7 @@ import online.bingiz.bilibili.video.internal.database.Database.Companion.setData
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliPassportDrive
 import online.bingiz.bilibili.video.internal.entity.*
-import online.bingiz.bilibili.video.internal.handler.CoinsHandler
-import online.bingiz.bilibili.video.internal.handler.FavouredHandler
-import online.bingiz.bilibili.video.internal.handler.FollowingHandler
-import online.bingiz.bilibili.video.internal.handler.LikeHandler
+import online.bingiz.bilibili.video.internal.handler.ApiType
 import online.bingiz.bilibili.video.internal.helper.*
 import org.bukkit.Bukkit
 import retrofit2.Call
@@ -58,9 +55,9 @@ object NetworkEngine {
 
     /**
      * Show action
-     * Show模式动作
+     * Show模式动作处理链
      */
-    private val showAction = FollowingHandler().setNextHandler(LikeHandler().setNextHandler(CoinsHandler().setNextHandler(FavouredHandler())))
+    private val showAction = ApiType.buildHandler(ApiType.COINS, ApiType.LIKE, ApiType.FAVOURED, ApiType.FOLLOWING)
 
     /**
      * Generate bilibili QRCode url

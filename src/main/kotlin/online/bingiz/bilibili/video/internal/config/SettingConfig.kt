@@ -1,6 +1,7 @@
 package online.bingiz.bilibili.video.internal.config
 
 import online.bingiz.bilibili.video.internal.cache.baffleCache
+import online.bingiz.bilibili.video.internal.helper.debugStatus
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common5.Baffle
@@ -36,5 +37,7 @@ object SettingConfig {
         baffleCache = Baffle.of(cooldown, TimeUnit.SECONDS)
         // 变更是否需要关注
         needFollow = config.getBoolean("needFollow")
+        // 调试模式是否开启
+        debugStatus = config.getBoolean("debug")
     }
 }
