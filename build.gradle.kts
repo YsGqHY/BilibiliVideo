@@ -3,7 +3,6 @@ plugins {
     `maven-publish`
     id("io.izzel.taboolib") version "1.56"
     id("org.jetbrains.kotlin.jvm") version "1.5.10"
-    id("org.sonarqube") version "4.4.1.3373"
 }
 
 taboolib {
@@ -89,12 +88,5 @@ publishing {
             from(components["java"])
             groupId = project.group.toString()
         }
-    }
-}
-
-sonar {
-    properties {
-        property("sonar.projectKey", "BilibiliVideo")
-        property("sonar.projectName", "BilibiliVideo")
     }
 }
