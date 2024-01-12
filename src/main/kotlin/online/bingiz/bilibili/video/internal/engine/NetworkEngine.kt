@@ -2,6 +2,7 @@ package online.bingiz.bilibili.video.internal.engine
 
 import online.bingiz.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingiz.bilibili.video.internal.cache.*
+import online.bingiz.bilibili.video.internal.config.SettingConfig.chainOperations
 import online.bingiz.bilibili.video.internal.database.Database
 import online.bingiz.bilibili.video.internal.database.Database.Companion.setDataContainer
 import online.bingiz.bilibili.video.internal.engine.drive.BilibiliApiDrive
@@ -57,7 +58,9 @@ object NetworkEngine {
      * Show action
      * Show模式动作处理链
      */
-    private val showAction = ApiType.buildHandler(ApiType.COINS, ApiType.LIKE, ApiType.FAVOURED, ApiType.FOLLOWING)
+    private val showAction = ApiType.buildHandler(*chainOperations.toTypedArray())
+
+    private val errorMessageNotProvided: String = "Bilibili未提供任何错误信息"
 
     /**
      * Generate bilibili QRCode url
