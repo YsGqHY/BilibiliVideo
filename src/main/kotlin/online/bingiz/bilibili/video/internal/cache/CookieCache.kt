@@ -23,10 +23,10 @@ val cookieCache = Caffeine.newBuilder()
     .refreshAfterWrite(5, TimeUnit.MINUTES)
     .build<UUID, CookieData> {
         val cookieData = CookieData()
-        it.getPlayerDataContainer("SESSDATA")?.let { cookieData.SESSDATA = it }
-        it.getPlayerDataContainer("bili_jct")?.let { cookieData.bili_jct = it }
-        it.getPlayerDataContainer("DedeUserID")?.let { cookieData.DedeUserID = it }
-        it.getPlayerDataContainer("DedeUserID__ckMd5")?.let { cookieData.DedeUserID__ckMd5 = it }
+        it.getPlayerDataContainer("SESSDATA")?.let { cookieData.sessData = it }
+        it.getPlayerDataContainer("bili_jct")?.let { cookieData.biliJct = it }
+        it.getPlayerDataContainer("DedeUserID")?.let { cookieData.dedeUserID = it }
+        it.getPlayerDataContainer("DedeUserID__ckMd5")?.let { cookieData.dedeUserIDCkMd5 = it }
         it.getPlayerDataContainer("sid")?.let { cookieData.sid = it }
         cookieData
     }

@@ -1,19 +1,26 @@
 package online.bingiz.bilibili.video.internal.entity
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Cookie data
  *
- * @property SESSDATA
- * @property bili_jct
- * @property DedeUserID
- * @property DedeUserID__ckMd5
+ * @property sessData
+ * @property biliJct
+ * @property dedeUserID
+ * @property dedeUserIDCkMd5
  * @property sid
  * @constructor Create empty Cookie data
  */
 data class CookieData(
-    var SESSDATA: String? = null,
-    var bili_jct: String? = null,
-    var DedeUserID: String? = null,
-    var DedeUserID__ckMd5: String? = null,
+    @SerializedName("SESSDATA")
+    var sessData: String? = null,
+    @SerializedName("bili_jct")
+    var biliJct: String? = null,
+    @SerializedName("DedeUserID")
+    var dedeUserID: String? = null,
+    @SerializedName("DedeUserID__ckMd5")
+    var dedeUserIDCkMd5: String? = null,
+    @SerializedName("sid")
     var sid: String? = null
 )
