@@ -12,6 +12,7 @@
     <a href='https://ci-dev.bingzi.online/job/BilibiliVideo/'>
         <img src='https://ci-dev.bingzi.online/job/BilibiliVideo/badge/icon' alt="Build Status">
     </a>
+    <br>
     <a href='https://sq.bingzi.online/project/information?id=BilibiliVideo'>
         <img src='https://sq.bingzi.online/api/project_badges/measure?project=BilibiliVideo&metric=bugs&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550' alt="Bug">
     </a>
@@ -26,11 +27,12 @@
     </a>
 </p>
 
-## WIKI
+## Link
 
 > 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
 
-[地址](https://www.yuque.com/sakuraziyou/bilibili_video)
+- [WIki](https://www.yuque.com/sakuraziyou/bilibili_video)
+- [MCBBS](https://www.mcbbs.net/thread-1481630-1-1.html)
 
 ## 命令
 
