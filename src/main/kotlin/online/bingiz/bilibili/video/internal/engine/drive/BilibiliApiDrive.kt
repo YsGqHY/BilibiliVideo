@@ -11,11 +11,18 @@ import retrofit2.http.*
  * @constructor Create empty Bilibili api drive
  */
 interface BilibiliApiDrive {
+    companion object {
+        /**
+         * Buvid3
+         * 预制的Buvid3默认值
+         */
+        private const val buvid3 = "buvid3=BUVID3"
+    }
 
     @GET("web-interface/nav")
     fun getUserInfo(
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
     ): Call<BilibiliResult<UserInfoData>>
 
     /**
@@ -33,7 +40,7 @@ interface BilibiliApiDrive {
         @Field("bvid") bvid: String,
         @Field("csrf") csrf: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
     ): Call<BilibiliResult<TripleData>>
 
     /**
@@ -47,7 +54,7 @@ interface BilibiliApiDrive {
     fun hasLike(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
     ): Call<BilibiliResult<Int>>
 
     /**
@@ -61,7 +68,7 @@ interface BilibiliApiDrive {
     fun hasCoins(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
     ): Call<BilibiliResult<CoinsData>>
 
     /**
@@ -75,7 +82,7 @@ interface BilibiliApiDrive {
     fun hasFavoured(
         @Query("aid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
     ): Call<BilibiliResult<FavouredData>>
 
     /**
@@ -90,6 +97,5 @@ interface BilibiliApiDrive {
     fun hasFollowing(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-//        @Header("Cookie") buvid3: String = "buvid3=BUVID3"
     ): Call<BilibiliResult<FollowingData>>
 }
