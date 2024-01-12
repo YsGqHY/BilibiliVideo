@@ -60,7 +60,7 @@ object NetworkEngine {
      */
     private val showAction = ApiType.buildHandler(*chainOperations.toTypedArray())
 
-    private val errorMessageNotProvided: String = "Bilibili未提供任何错误信息"
+    private const val ERROR_MESSAGE_NOT_PROVIDED: String = "Bilibili未提供任何错误信息"
 
     /**
      * Generate bilibili QRCode url
@@ -154,7 +154,7 @@ object NetworkEngine {
                             }
                         }
                     } else {
-                        player.infoAsLang("GenerateUseCookieFailure", response.body()?.message ?: "Bilibili未提供任何错误信息")
+                        player.infoAsLang("GenerateUseCookieFailure", response.body()?.message ?: ERROR_MESSAGE_NOT_PROVIDED)
                     }
                 } else {
                     player.infoAsLang("NetworkRequestRefuse", "HTTP受限，错误码：${response.code()}")
@@ -219,12 +219,12 @@ object NetworkEngine {
 
                             else -> {
                                 player.infoAsLang(
-                                    "GetTripleStatusError", response.body()?.message ?: "Bilibili未提供任何错误信息"
+                                    "GetTripleStatusError", response.body()?.message ?: ERROR_MESSAGE_NOT_PROVIDED
                                 )
                             }
                         }
                     } ?: player.infoAsLang(
-                        "GetTripleStatusRefuse", response.body()?.message ?: "Bilibili未提供任何错误信息"
+                        "GetTripleStatusRefuse", response.body()?.message ?: ERROR_MESSAGE_NOT_PROVIDED
                     )
                 } else {
                     warning("请求失败")
