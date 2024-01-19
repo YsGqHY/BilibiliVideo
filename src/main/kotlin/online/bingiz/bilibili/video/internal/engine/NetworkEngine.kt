@@ -33,7 +33,7 @@ object NetworkEngine {
      * Bilibili API
      * 哔哩哔哩API驱动
      */
-    val bilibiliAPI by lazy {
+    val bilibiliAPI: BilibiliApiDrive by lazy {
         Retrofit.Builder().baseUrl("https://api.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create()).client(client).build().create(BilibiliApiDrive::class.java)
     }
 
@@ -41,7 +41,7 @@ object NetworkEngine {
      * Bilibili passport API
      * 哔哩哔哩通行证驱动API
      */
-    val bilibiliPassportAPI by lazy {
+    val bilibiliPassportAPI: BilibiliPassportDrive by lazy {
         Retrofit.Builder().baseUrl("https://passport.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create()).client(client).build()
             .create(BilibiliPassportDrive::class.java)
     }
@@ -50,7 +50,7 @@ object NetworkEngine {
      * Bilibili website API
      * 哔哩哔哩网站驱动API
      */
-    val bilibiliWebsiteAPI by lazy {
+    val bilibiliWebsiteAPI: BilibiliPassportDrive by lazy {
         Retrofit.Builder().baseUrl("https://www.bilibili.com/").addConverterFactory(GsonConverterFactory.create()).client(client).build().create(BilibiliPassportDrive::class.java)
     }
 

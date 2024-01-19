@@ -16,19 +16,18 @@ interface BilibiliApiDrive {
          * Buvid3
          * 预制的Buvid3默认值
          */
-        private const val buvid3 = "buvid3=BUVID3"
+        private const val BUVID3 = "buvid3=BUVID3"
     }
 
     @GET("web-interface/nav")
     fun getUserInfo(
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
     ): Call<BilibiliResult<UserInfoData>>
 
     /**
      * Action like triple
      *
-     * @param aid
      * @param bvid
      * @param csrf
      * @return
@@ -40,7 +39,7 @@ interface BilibiliApiDrive {
         @Field("bvid") bvid: String,
         @Field("csrf") csrf: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
     ): Call<BilibiliResult<TripleData>>
 
     /**
@@ -54,7 +53,7 @@ interface BilibiliApiDrive {
     fun hasLike(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
     ): Call<BilibiliResult<Int>>
 
     /**
@@ -68,7 +67,7 @@ interface BilibiliApiDrive {
     fun hasCoins(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
     ): Call<BilibiliResult<CoinsData>>
 
     /**
@@ -82,7 +81,7 @@ interface BilibiliApiDrive {
     fun hasFavoured(
         @Query("aid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.buvid3
+        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
     ): Call<BilibiliResult<FavouredData>>
 
     /**

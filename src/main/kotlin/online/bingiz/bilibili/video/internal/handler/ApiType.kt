@@ -21,9 +21,6 @@ enum class ApiType(val apiHandler: ApiHandler) {
          * @return
          */
         fun buildHandler(vararg apiType: ApiType): ApiHandler {
-            requireNotNull(apiType) {
-                error("至少需要一个 ApiType 来生成处理程序")
-            }
             for (i in 0 until apiType.size - 1) {
                 apiType[i].apiHandler.setNextHandler(apiType[i + 1].apiHandler)
             }
