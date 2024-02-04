@@ -23,5 +23,3 @@ jobs:
         uses: JetBrains/qodana-action@v2023.3.1
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }} # read the steps about it below
-        with:
-          upload-result: true # optional, default is false
