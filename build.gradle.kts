@@ -1,8 +1,8 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "1.56"
-    id("org.jetbrains.kotlin.jvm") version "1.5.10"
+    id("io.izzel.taboolib") version "2.0.2"
+    id("org.jetbrains.kotlin.jvm") version "1.9.22"
 }
 
 taboolib {
@@ -20,21 +20,15 @@ taboolib {
             name("homepage").url("https://github.com/BingZi-233/BilibiliVideo")
         }
     }
-    install("common")
-    install("common-5")
-    install("module-chat")
-    install("module-configuration")
-    install("module-nms")
-    install("module-nms-util")
-    install("module-lang")
-    install("module-kether")
-    install("module-database")
-    install("module-metrics")
-    install("module-ui")
-    install("platform-bukkit")
-    install("expansion-command-helper")
-    classifier = null
-    version = "6.0.12-69"
+    env {
+        install("KETHER", "DATABASE", "METRICS", "UI")
+        install("NMS", "NMS_UTIL")
+        install("UNIVERSAL")
+        install("BUKKIT_ALL")
+    }
+    version {
+        taboolib = "6.1.0"
+    }
 }
 
 repositories {
@@ -87,6 +81,14 @@ publishing {
         create<MavenPublication>("library") {
             from(components["java"])
             groupId = project.group.toString()
+        }
+    }
+}
+
+kotlin {
+    sourceSets.all {
+        languageSettings {
+            languageVersion = "2.0"
         }
     }
 }
