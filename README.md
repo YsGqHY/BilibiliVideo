@@ -13,6 +13,10 @@
         <img src='https://ci-dev.bingzi.online/job/BilibiliVideo/badge/icon' alt="Build Status">
     </a>
     <br>
+    <a href="#">
+        <img src="https://github.com/BingZi-233/BilibiliVideo/actions/workflows/qodana_code_quality.yml/badge.svg" alt="Qodana">
+    </a>
+    <br>
     <a href='https://sq.bingzi.online/project/information?id=BilibiliVideo'>
         <img src='https://sq.bingzi.online/api/project_badges/measure?project=BilibiliVideo&metric=bugs&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550' alt="Bug">
     </a>
@@ -133,3 +137,8 @@ BV1Qs411d7pD:
 
 ![](https://sq.bingzi.online/api/project_badges/quality_gate?project=BilibiliVideo&token=sqb_dbb7c6fff0406277e807aea516f1f87bea5c3550)
 
+## Special Thanks
+
+## Qodana
+
+Sorry, I couldn't find the correct way to represent Qodana's badge. If you have a good way, welcome PR.
