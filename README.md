@@ -90,6 +90,8 @@ BV1Qs411d7pD:
 - [GitHub Action](https://github.com/BingZi-233/BilibiliVideo/actions)(推荐国外访问)
 - [Jenkins](https://ci-dev.bingzi.online/job/BilibiliVideo/)(推荐大陆访问)
 
+<img src="https://ci-dev.bingzi.online/plugin/global-build-stats/showChart?buildStatId=S2SqozN*y32$8Oq$v$l$QxCKc2oDeVLM&time=1707204401291">
+
 > Jenkins由 **[物语云计算](https://www.wuyuidc.com/)** 提供算力支持
 
 ## 社区
