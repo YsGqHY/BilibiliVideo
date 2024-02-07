@@ -32,6 +32,9 @@ taboolib {
     version {
         taboolib = "6.1.0"
     }
+    relocate("com.google.zxing", "online.bingzi.libs.zxing")
+    relocate("com.google.gson", "online.bingzi.libs.gson")
+    relocate("com.github.benmanes.caffeine", "online.bingzi.libs.caffeine")
 }
 
 repositories {
