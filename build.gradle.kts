@@ -42,11 +42,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.ben-manes.caffeine:caffeine:2.9.3")
+    taboo("com.github.ben-manes.caffeine:caffeine:2.9.3")
     taboo("com.squareup.retrofit2:retrofit:2.9.0")
     taboo("com.squareup.retrofit2:converter-gson:2.9.0")
-    compileOnly("com.google.zxing:core:3.5.2")
-    compileOnly("com.google.code.gson:gson:2.10.1")
+    taboo("com.google.zxing:core:3.5.2")
+    taboo("com.google.code.gson:gson:2.10.1")
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:v12004:universal")
