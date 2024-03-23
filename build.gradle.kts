@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.2"
+    id("io.izzel.taboolib") version "2.0.11"
     id("org.jetbrains.kotlin.jvm") version "1.9.22"
 }
 
@@ -30,7 +30,7 @@ taboolib {
         install(BUKKIT_ALL)
     }
     version {
-        taboolib = "6.1.0"
+        taboolib = "6.1.1-beta17"
     }
     relocate("com.google.zxing", "online.bingzi.libs.zxing")
     relocate("com.google.gson", "online.bingzi.libs.gson")
