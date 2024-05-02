@@ -47,19 +47,19 @@ object MainCommand {
         }
     }
 
-    @CommandBody(aliases = ["open"], permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(aliases = ["open"], permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.OP)
     val login = subCommand {
         // 可指定玩家启动登陆流程
         // 可选参数
         dynamic(optional = true, permission = "BilibiliVideo.command.login.sender") {
             suggestPlayers()
-            execute<ProxyCommandSender> { _, _, argument ->
+            execute<ProxyPlayer> { sender, _, argument ->
                 getProxyPlayer(argument)?.let { player ->
-                    if (online.bingzi.bilibili.video.internal.cache.baffleCache.hasNext(player.name).not()) {
-                        player.infoAsLang("CommandBaffle")
+                    if (online.bingzi.bilibili.video.internal.cache.baffleCache.hasNext(sender.name).not()) {
+                        sender.infoAsLang("CommandBaffle")
                         return@execute
                     }
-                    NetworkEngine.generateBilibiliQRCodeUrl(player)
+                    NetworkEngine.generateBilibiliQRCodeUrl(sender, player)
                 }
             }
         }
