@@ -15,7 +15,6 @@ fun ProxyPlayer.sendMapVersionCompatible(
     height: Int = 128,
     builder: ItemBuilder.() -> Unit = {}
 ) {
-    this.uniqueId
     Bukkit.getPlayer(this.uniqueId)?.let {
         when (MinecraftVersion.major) {
             MinecraftVersion.V1_20 -> {

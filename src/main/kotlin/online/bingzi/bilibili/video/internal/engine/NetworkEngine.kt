@@ -66,11 +66,12 @@ object NetworkEngine {
      *
      * @param player
      */
-    fun generateBilibiliQRCodeUrl(player: ProxyPlayer) {
+    fun generateBilibiliQRCodeUrl(player: ProxyPlayer, target: ProxyPlayer? = null) {
         bilibiliPassportAPI.applyQRCodeGenerate().enqueue(object : Callback<BilibiliResult<QRCodeGenerateData>> {
             override fun onResponse(
                 call: Call<BilibiliResult<QRCodeGenerateData>>, response: Response<BilibiliResult<QRCodeGenerateData>>
             ) {
+                val p = target ?: player
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null && body.code == 0) {
@@ -112,8 +113,8 @@ object NetworkEngine {
                                                 // GSON反序列化成CookieData
                                                 val cookieData = gson.fromJson(replace, CookieData::class.java)
                                                 // 检查MID重复
-                                                val userInfoData = checkRepeatabilityMid(player, cookieData)
-                                                val cacheMid = midCache[player.uniqueId]
+                                                val userInfoData = checkRepeatabilityMid(p, cookieData)
+                                                val cacheMid = midCache[p.uniqueId]
                                                 when {
                                                     // 检查重复的MID
                                                     userInfoData == null -> {
@@ -125,14 +126,14 @@ object NetworkEngine {
                                                     }
                                                     // Cookie刷新
                                                     else -> {
-                                                        cookieCache.put(player.uniqueId, cookieData)
-                                                        midCache.put(player.uniqueId, userInfoData.mid)
-                                                        unameCache.put(player.uniqueId, userInfoData.uname)
-                                                        player.setDataContainer("mid", userInfoData.mid)
-                                                        player.setDataContainer("uname", userInfoData.uname)
-                                                        player.setDataContainer("refresh_token", result.data.refreshToken)
-                                                        player.setDataContainer("timestamp", result.data.timestamp.toString())
-                                                        player.infoAsLang("GenerateUseCookieSuccess")
+                                                        cookieCache.put(p.uniqueId, cookieData)
+                                                        midCache.put(p.uniqueId, userInfoData.mid)
+                                                        unameCache.put(p.uniqueId, userInfoData.uname)
+                                                        p.setDataContainer("mid", userInfoData.mid)
+                                                        p.setDataContainer("uname", userInfoData.uname)
+                                                        p.setDataContainer("refresh_token", result.data.refreshToken)
+                                                        p.setDataContainer("timestamp", result.data.timestamp.toString())
+                                                        p.infoAsLang("GenerateUseCookieSuccess")
                                                     }
                                                 }
                                                 this.cancel()
