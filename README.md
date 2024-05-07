@@ -19,12 +19,11 @@
 > 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
 
 - [WIki](https://www.yuque.com/sakuraziyou/bilibili_video)
-- [MCBBS](https://www.mcbbs.net/thread-1481630-1-1.html)
 
 ## 命令
 
 - bilibilivideo reload - 重载配置文件（无效命令，仅图个心里安慰）
-- bilibilivideo login - 绑定命令
+- bilibilivideo login [<player_name>]- 绑定命令
 - bilibilivideo unbind [player_name] - 解绑命令
 - bilibilivideo show - 查看绑定账户
 - bilibilivideo logout - 清理Cookie

@@ -2,10 +2,9 @@ import io.izzel.taboolib.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `java-library`
-    `maven-publish`
-    id("io.izzel.taboolib") version "2.0.11"
-    id("org.jetbrains.kotlin.jvm") version "1.9.22"
+    java
+    id("io.izzel.taboolib") version "2.0.12"
+    id("org.jetbrains.kotlin.jvm") version "1.9.23"
 }
 
 taboolib {
@@ -29,9 +28,7 @@ taboolib {
         install(UNIVERSAL)
         install(BUKKIT_ALL)
     }
-    version {
-        taboolib = "6.1.1-beta17"
-    }
+    version { taboolib = "6.1.2-beta3" }
     relocate("com.google.zxing", "online.bingzi.libs.zxing")
     relocate("com.google.gson", "online.bingzi.libs.gson")
     relocate("com.github.benmanes.caffeine", "online.bingzi.libs.caffeine")
