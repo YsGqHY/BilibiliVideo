@@ -37,6 +37,7 @@
 - BilibiliVideo.command.use - 使用命令的权限
 - BilibiliVideo.command.reload - 重载配置文件的权限，默认仅OP可用
 - BilibiliVideo.command.login - 绑定命令的权限，默认全员可用
+- BilibiliVideo.command.login.other - 绑定命令的权限，需要额外分配（不建议进行分配，该权限可为别人绑定账户）
 - BilibiliVideo.command.unbind - 绑定命令的权限，默认仅OP可用
 - BilibiliVideo.command.show - 查看命令的权限，默认全员可用
 - BilibiliVideo.command.logout - 清理Cookie命令的权限，默认全员可用

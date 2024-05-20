@@ -28,7 +28,9 @@ taboolib {
         install(UNIVERSAL)
         install(BUKKIT_ALL)
     }
-    version { taboolib = "6.1.2-beta3" }
+    version {
+        taboolib = "6.1.2-beta4"
+    }
     relocate("com.google.zxing", "online.bingzi.libs.zxing")
     relocate("com.google.gson", "online.bingzi.libs.gson")
     relocate("com.github.benmanes.caffeine", "online.bingzi.libs.caffeine")
