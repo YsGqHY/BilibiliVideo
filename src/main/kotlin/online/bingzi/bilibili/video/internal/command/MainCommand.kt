@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.command
 
+import online.bingzi.bilibili.video.internal.cache.baffleCache
 import online.bingzi.bilibili.video.internal.cache.cookieCache
 import online.bingzi.bilibili.video.internal.cache.midCache
 import online.bingzi.bilibili.video.internal.config.VideoConfig
@@ -11,6 +12,7 @@ import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.*
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.submit
+import taboolib.expansion.createHelper
 import taboolib.module.chat.colored
 import taboolib.module.lang.sendInfoMessage
 import taboolib.platform.util.bukkitPlugin
@@ -22,6 +24,11 @@ import taboolib.platform.util.bukkitPlugin
     permissionDefault = PermissionDefault.TRUE
 )
 object MainCommand {
+    @CommandBody
+    val main = mainCommand {
+        createHelper()
+    }
+
     @CommandBody(permission = "BilibiliVideo.command.reload", permissionDefault = PermissionDefault.OP)
     val reload = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
@@ -47,15 +54,16 @@ object MainCommand {
         }
     }
 
-    @CommandBody(aliases = ["open"], permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.OP)
+    @CommandBody(aliases = ["open"], permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.TRUE)
     val login = subCommand {
         // 可指定玩家启动登陆流程
         // 可选参数
-        dynamic(optional = true, permission = "BilibiliVideo.command.login.sender") {
+        // 需要有BilibiliVideo.command.login.other权限才可使用
+        dynamic(optional = true, permission = "BilibiliVideo.command.login.other") {
             suggestPlayers()
             execute<ProxyPlayer> { sender, _, argument ->
                 getProxyPlayer(argument)?.let { player ->
-                    if (online.bingzi.bilibili.video.internal.cache.baffleCache.hasNext(sender.name).not()) {
+                    if (baffleCache.hasNext(sender.name).not()) {
                         sender.infoAsLang("CommandBaffle")
                         return@execute
                     }
@@ -64,7 +72,7 @@ object MainCommand {
             }
         }
         execute<ProxyPlayer> { sender, _, _ ->
-            if (online.bingzi.bilibili.video.internal.cache.baffleCache.hasNext(sender.name).not()) {
+            if (baffleCache.hasNext(sender.name).not()) {
                 sender.infoAsLang("CommandBaffle")
                 return@execute
             }
@@ -75,7 +83,7 @@ object MainCommand {
     @CommandBody(permission = "BilibiliVideo.command.show", permissionDefault = PermissionDefault.TRUE)
     val show = subCommand {
         execute<ProxyPlayer> { sender, _, _ ->
-            if (online.bingzi.bilibili.video.internal.cache.baffleCache.hasNext(sender.name).not()) {
+            if (baffleCache.hasNext(sender.name).not()) {
                 sender.infoAsLang("CommandBaffle")
                 return@execute
             }
@@ -104,7 +112,7 @@ object MainCommand {
                 VideoConfig.receiveMap.keys.toList()
             }
             execute<ProxyPlayer> { sender, _, argument ->
-                if (online.bingzi.bilibili.video.internal.cache.baffleCache.hasNext(sender.name).not()) {
+                if (baffleCache.hasNext(sender.name).not()) {
                     sender.infoAsLang("CommandBaffle")
                     return@execute
                 }
@@ -112,12 +120,23 @@ object MainCommand {
             }
             literal("show", optional = true) {
                 execute<ProxyPlayer> { sender, context, _ ->
-                    if (online.bingzi.bilibili.video.internal.cache.baffleCache.hasNext(sender.name).not()) {
+                    if (baffleCache.hasNext(sender.name).not()) {
                         sender.infoAsLang("CommandBaffle")
                         return@execute
                     }
                     submit(async = true) {
                         NetworkEngine.getTripleStatusShow(sender, context["bv"])
+                    }
+                }
+            }
+            literal("auto", optional = true) {
+                execute<ProxyPlayer> { sender, context, _ ->
+                    if (baffleCache.hasNext(sender.name).not()) {
+                        sender.infoAsLang("CommandBaffle")
+                        return@execute
+                    }
+                    submit(async = true) {
+                        NetworkEngine.getTripleStatus(sender, context["bv"])
                     }
                 }
             }

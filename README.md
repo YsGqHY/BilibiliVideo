@@ -27,8 +27,9 @@
 - bilibilivideo unbind [player_name] - 解绑命令
 - bilibilivideo show - 查看绑定账户
 - bilibilivideo logout - 清理Cookie
-- bilibilivideo receive [bv] - 领取奖励命令 - 目前已被降级为show模式
+- bilibilivideo receive [bv] - 领取奖励命令 - 默认为Show模式
 - bilibilivideo receive [bv] show - 领取奖励命令(查看模式，并不会使用玩家账户三连视频)
+- bilibilivideo receive [bv] auto - 领取奖励命令(自动模式，会使用玩家账户三连视频后根据结果决定是否发放奖励)
 - bilibilivideo version - 查看插件版本
 
 ## 权限

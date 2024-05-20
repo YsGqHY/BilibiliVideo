@@ -22,7 +22,6 @@ interface BilibiliApiDrive {
     @GET("web-interface/nav")
     fun getUserInfo(
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
     ): Call<BilibiliResult<UserInfoData>>
 
     /**
@@ -39,7 +38,6 @@ interface BilibiliApiDrive {
         @Field("bvid") bvid: String,
         @Field("csrf") csrf: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
     ): Call<BilibiliResult<TripleData>>
 
     /**
@@ -52,8 +50,7 @@ interface BilibiliApiDrive {
     @GET("web-interface/archive/has/like")
     fun hasLike(
         @Query("bvid") bvid: String,
-        @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
+        @Header("Cookie") sessData: String
     ): Call<BilibiliResult<Int>>
 
     /**
@@ -66,8 +63,7 @@ interface BilibiliApiDrive {
     @GET("web-interface/archive/coins")
     fun hasCoins(
         @Query("bvid") bvid: String,
-        @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
+        @Header("Cookie") sessData: String
     ): Call<BilibiliResult<CoinsData>>
 
     /**
@@ -80,8 +76,7 @@ interface BilibiliApiDrive {
     @GET("v2/fav/video/favoured")
     fun hasFavoured(
         @Query("aid") bvid: String,
-        @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String = BilibiliApiDrive.BUVID3
+        @Header("Cookie") sessData: String
     ): Call<BilibiliResult<FavouredData>>
 
     /**

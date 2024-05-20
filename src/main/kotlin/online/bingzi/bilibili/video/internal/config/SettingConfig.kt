@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.config
 
+import online.bingzi.bilibili.video.internal.cache.baffleCache
 import online.bingzi.bilibili.video.internal.handler.ApiType
 import online.bingzi.bilibili.video.internal.helper.debugStatus
 import taboolib.common.LifeCycle
@@ -36,9 +37,9 @@ object SettingConfig {
     fun reloadAction() {
         cooldown = config.getLong("cooldown")
         // 驱逐所有缓存
-        online.bingzi.bilibili.video.internal.cache.baffleCache.resetAll()
+        baffleCache.resetAll()
         // 变更缓存时间
-        online.bingzi.bilibili.video.internal.cache.baffleCache = Baffle.of(cooldown, TimeUnit.SECONDS)
+        baffleCache = Baffle.of(cooldown, TimeUnit.SECONDS)
         // 构建动作处理链
         chainOperations = config.getEnumList("chainOperations", ApiType::class.java)
         // 调试模式是否开启

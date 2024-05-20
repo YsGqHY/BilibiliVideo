@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.engine
 
+import online.bingzi.bilibili.video.api.event.TripleSendRewardsEvent
 import online.bingzi.bilibili.video.internal.cache.*
 import online.bingzi.bilibili.video.internal.config.SettingConfig.chainOperations
 import online.bingzi.bilibili.video.internal.database.Database
@@ -175,7 +176,7 @@ object NetworkEngine {
      * @param bvid  视频BV号
      */
     fun getTripleStatus(player: ProxyPlayer, bvid: String) {
-        online.bingzi.bilibili.video.internal.cache.bvCache[player.uniqueId to bvid]?.let {
+        bvCache[player.uniqueId to bvid]?.let {
             if (it) {
                 player.infoAsLang("GetTripleStatusRepeat")
                 return
@@ -200,8 +201,8 @@ object NetworkEngine {
                                 val tripleData = it.data
                                 if (tripleData.coin && tripleData.fav && tripleData.like) {
                                     player.setDataContainer(bvid, true.toString())
-                                    online.bingzi.bilibili.video.internal.cache.bvCache.put(player.uniqueId to bvid, true)
-                                    online.bingzi.bilibili.video.api.event.TripleSendRewardsEvent(player, bvid).call()
+                                    bvCache.put(player.uniqueId to bvid, true)
+                                    TripleSendRewardsEvent(player, bvid).call()
                                 } else {
                                     player.infoAsLang(
                                         "GetTripleStatusFailure", tripleData.like, tripleData.coin, tripleData.multiply, tripleData.fav
@@ -247,7 +248,7 @@ object NetworkEngine {
      * @param bvid  视频BV号
      */
     fun getTripleStatusShow(player: ProxyPlayer, bvid: String) {
-        online.bingzi.bilibili.video.internal.cache.bvCache[player.uniqueId to bvid]?.let {
+        bvCache[player.uniqueId to bvid]?.let {
             if (it) {
                 player.infoAsLang("GetTripleStatusRepeat")
                 return
@@ -260,7 +261,7 @@ object NetworkEngine {
             return
         }
         if (showAction.handle(player, bvid, sessData)) {
-            online.bingzi.bilibili.video.api.event.TripleSendRewardsEvent(player, bvid).call()
+            TripleSendRewardsEvent(player, bvid).call()
         }
     }
 

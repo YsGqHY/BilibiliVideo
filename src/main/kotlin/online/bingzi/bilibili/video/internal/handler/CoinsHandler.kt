@@ -19,7 +19,7 @@ class CoinsHandler : ApiHandler() {
                 it.body()?.data?.multiply?.let { count ->
                     if (count < 1) {
                         player.infoAsLang("GetTripleStatusFailureNotCoins")
-                        debug("硬币处理器 > 玩家: ${player.name} | 视频: $bvid | 硬币不足")
+                        debug("硬币处理器 > 玩家: ${player.name} | 视频: $bvid | 硬币不足(已投币: $count, 需要投币: 2)")
                         return false
                     }
                 }
