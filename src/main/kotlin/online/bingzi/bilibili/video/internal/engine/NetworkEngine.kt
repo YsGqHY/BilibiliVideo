@@ -20,7 +20,6 @@ import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.function.warning
 import taboolib.module.chat.colored
-import taboolib.module.nms.NMSMap
 
 /**
  * Network engine
@@ -34,7 +33,8 @@ object NetworkEngine {
      * 哔哩哔哩API驱动
      */
     val bilibiliAPI: BilibiliApiDrive by lazy {
-        Retrofit.Builder().baseUrl("https://api.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create()).client(client).build().create(BilibiliApiDrive::class.java)
+        Retrofit.Builder().baseUrl("https://api.bilibili.com/x/").addConverterFactory(GsonConverterFactory.create()).client(client).build()
+            .create(BilibiliApiDrive::class.java)
     }
 
     /**
@@ -51,7 +51,8 @@ object NetworkEngine {
      * 哔哩哔哩网站驱动API
      */
     val bilibiliWebsiteAPI: BilibiliPassportDrive by lazy {
-        Retrofit.Builder().baseUrl("https://www.bilibili.com/").addConverterFactory(GsonConverterFactory.create()).client(client).build().create(BilibiliPassportDrive::class.java)
+        Retrofit.Builder().baseUrl("https://www.bilibili.com/").addConverterFactory(GsonConverterFactory.create()).client(client).build()
+            .create(BilibiliPassportDrive::class.java)
     }
 
     /**
@@ -77,7 +78,7 @@ object NetworkEngine {
                     val body = response.body()
                     if (body != null && body.code == 0) {
                         // 向玩家副手发送二维码地图
-                        player.sendMapVersionCompatible(body.data.url.toBufferedImage(128), NMSMap.Hand.MAIN) {
+                        player.sendMap(body.data.url.toBufferedImage(128)) {
                             name = "&a&lBilibili扫码登陆".colored()
                             shiny()
                             lore.clear()

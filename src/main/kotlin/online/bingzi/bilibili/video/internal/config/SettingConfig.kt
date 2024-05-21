@@ -28,6 +28,12 @@ object SettingConfig {
      */
     var chainOperations: List<ApiType> = listOf()
 
+    /**
+     * Virtualization
+     * 是否虚拟化地图
+     */
+    var virtualization: Boolean = true
+
     @Awake(LifeCycle.ENABLE)
     fun registerAutoReload() {
         config.onReload { reloadAction() }
@@ -44,5 +50,7 @@ object SettingConfig {
         chainOperations = config.getEnumList("chainOperations", ApiType::class.java)
         // 调试模式是否开启
         debugStatus = config.getBoolean("debug")
+        // 虚拟化地图
+        virtualization = config.getBoolean("virtualization")
     }
 }
