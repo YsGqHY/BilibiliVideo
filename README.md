@@ -114,6 +114,7 @@ BV1Qs411d7pD:
 ## 赞助名单
 
 - [Dummerべ落尘] - 20RMB
+- [zhonzia] - 50RMB
 
 ## 感谢名单
 
