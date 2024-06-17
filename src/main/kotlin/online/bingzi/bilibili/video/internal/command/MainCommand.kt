@@ -7,6 +7,9 @@ import online.bingzi.bilibili.video.internal.config.VideoConfig
 import online.bingzi.bilibili.video.internal.database.Database.Companion.setDataContainer
 import online.bingzi.bilibili.video.internal.engine.NetworkEngine
 import online.bingzi.bilibili.video.internal.helper.infoAsLang
+import online.bingzi.bilibili.video.internal.helper.sendMap
+import online.bingzi.bilibili.video.internal.helper.toBufferedImage
+import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.*
@@ -138,6 +141,30 @@ object MainCommand {
                     submit(async = true) {
                         NetworkEngine.getTripleStatus(sender, context["bv"])
                     }
+                }
+            }
+        }
+    }
+
+    @CommandBody(permission = "BilibiliVideo.command.video", permissionDefault = PermissionDefault.TRUE)
+    val video = subCommand {
+        dynamic(comment = "bv") {
+            suggestion<ProxyPlayer> { _, _ ->
+                VideoConfig.receiveMap.keys.toList()
+            }
+            execute<ProxyPlayer> { sender, _, argument ->
+                sender.sendMap("https://www.bilibili.com/video/${argument}/".toBufferedImage(128)) {
+                    name = "&a&lBilibili传送门".colored()
+                    shiny()
+                    lore.clear()
+                    lore.addAll(
+                        listOf(
+                            "&7请使用Bilibili客户端扫描二维码"
+                        ).colored()
+                    )
+                }
+                submit(async = true, delay = 20 * 60 * 3) {
+                    Bukkit.getPlayer(sender.uniqueId)?.updateInventory()
                 }
             }
         }
