@@ -17,12 +17,21 @@
 ## 注意
 
 1. 由于各种原因，我们目前无法完成对1.20.x版本的兼容计划。
+2. 代码质量检测因为我把检测服务器~~玩~~坏了一直没修......所以现在只有在GitHub上面才能看到检测报告。
 
 ## Link
 
 > 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
 
 - [WIki](https://www.yuque.com/sakuraziyou/bilibili_video)
+- [Github](https://github.com/BingZi-233/BilibiliVideo)
+- [CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo)
+
+> 注：
+> 1. 若插件启动时提示有新版本，在[Github](https://github.com/BingZi-233/BilibiliVideo)
+     上并没有看到。请移步到[CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo)上下载，更新检测是准确的。
+> 2. 插件的信息前缀在lang/zh_CN.yml里面修改
+> 3. 【注意】请在CI/CD或者Github上下载，其他地方（包括群文件）的文件均不受支持。
 
 ## 命令
 
@@ -34,6 +43,7 @@
 - bilibilivideo receive [bv] - 领取奖励命令 - 默认为Show模式
 - bilibilivideo receive [bv] show - 领取奖励命令(查看模式，并不会使用玩家账户三连视频)
 - bilibilivideo receive [bv] auto - 领取奖励命令(自动模式，会使用玩家账户三连视频后根据结果决定是否发放奖励)
+- bilibilivideo video [bv] - 生成视频传送门二维码，扫描自动跳转视频页面
 - bilibilivideo version - 查看插件版本
 
 ## 权限
@@ -47,6 +57,15 @@
 - BilibiliVideo.command.logout - 清理Cookie命令的权限，默认全员可用
 - BilibiliVideo.command.receive - 领取奖励命令的权限，默认全员可用
 - BilibiliVideo.command.version - 查看插件版本命令的权限，默认仅OP可用
+
+## 变量
+
+- %BilibiliVideo_uid% - 绑定账户UID，若为绑定显示为 N/A
+    - 1.4.4之后可用
+- %BilibiliVideo_uname% - 绑定账户名称，若为绑定显示为 N/A
+    - 1.4.4之后可用
+- %BilibiliVideo_check_[bv]% - 是否领取对应BV视频奖励，若为未领取显示为 false，领取显示为 true
+    - 1.6.2之后可用
 
 ## 配置文件
 

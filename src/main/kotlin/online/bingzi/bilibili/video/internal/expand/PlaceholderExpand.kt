@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.expand
 
+import online.bingzi.bilibili.video.internal.cache.bvCache
 import online.bingzi.bilibili.video.internal.cache.midCache
 import online.bingzi.bilibili.video.internal.cache.unameCache
 import org.bukkit.entity.Player
@@ -19,10 +20,22 @@ object PlaceholderExpand : PlaceholderExpansion {
         if (player == null) {
             return "N/A"
         }
-        return when (args) {
-            "uid" -> midCache[player.uniqueId] ?: "N/A-缓存"
-            "uname" -> unameCache[player.uniqueId] ?: "N/A-缓存"
-            else -> "N/A-未知参数"
+        val argsList: List<String> = args.split("_")
+        return when (argsList.size) {
+            1 -> when (args) {
+                "uid" -> midCache[player.uniqueId] ?: "N/A-缓存"
+                "uname" -> unameCache[player.uniqueId] ?: "N/A-缓存"
+
+                else -> "N/A-未知参数"
+            }
+
+            2 -> when (argsList[0]) {
+                "check" -> (bvCache.get(Pair(player.uniqueId, argsList[1]))?.toString() ?: "false").lowercase()
+
+                else -> "N/A"
+            }
+
+            else -> "N/A"
         }
     }
 }
