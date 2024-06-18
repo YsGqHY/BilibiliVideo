@@ -29,7 +29,7 @@ taboolib {
         install(BUKKIT_ALL)
     }
     version {
-        taboolib = "6.1.2-beta4"
+        taboolib = "6.1.2-beta10"
     }
     relocate("com.google.zxing", "online.bingzi.libs.zxing")
     relocate("com.google.gson", "online.bingzi.libs.gson")
@@ -38,6 +38,7 @@ taboolib {
 
 repositories {
     mavenCentral()
+    maven("https://repo.dmulloy2.net/repository/public/")
 }
 
 dependencies {
@@ -46,6 +47,7 @@ dependencies {
     taboo("com.squareup.retrofit2:converter-gson:2.9.0")
     taboo("com.google.zxing:core:3.5.2")
     taboo("com.google.code.gson:gson:2.10.1")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:v12004:universal")
