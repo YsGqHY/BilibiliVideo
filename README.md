@@ -23,7 +23,7 @@
 
 > 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
 
-- [WIki](https://www.yuque.com/sakuraziyou/bilibili_video)
+- [WIki](https://wiki.ooci.co/zh/BilibiliVideo/Index)
 - [Github](https://github.com/BingZi-233/BilibiliVideo)
 - [CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo)
 
