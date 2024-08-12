@@ -11,9 +11,6 @@ import taboolib.common.util.unsafeLazy
 import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.MinecraftVersion
-import taboolib.module.nms.NMSMap
-import taboolib.module.nms.buildMap
-import taboolib.module.nms.sendMap
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
 import taboolib.platform.util.isNotAir

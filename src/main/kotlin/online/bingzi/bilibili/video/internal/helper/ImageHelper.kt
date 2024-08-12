@@ -43,13 +43,12 @@ fun String.toBufferedImage(size: Int): BufferedImage {
  * @param itemStack
  * @param slot
  */
-fun Player.sendVirtualItem(itemStack: ItemStack, slot: Int) {
+fun Player.sendVirtualItem(itemStack: ItemStack) {
     // 创建一个装载物品数据的包
     val packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.SET_SLOT)
 
     // 设置包中的数据
-    packet.integers.write(0, 0)  // 窗口ID，0表示主背包
-    packet.integers.write(1, slot)  // 插槽ID，指定要放置物品的插槽编号
+    packet.integers.write(1, 45)  // 插槽ID，指定要放置物品的插槽编号
 
     // 将物品堆栈放入包中
     packet.itemModifier.write(0, itemStack)
