@@ -1,9 +1,8 @@
-import io.izzel.taboolib.gradle.UNIVERSAL
-
 dependencies {
-    // 如果不需要跨平台，可以在此处引入 Bukkit 核心
-    // compileOnly("ink.ptms.core:v11903:11903:mapped")
-    // compileOnly("ink.ptms.core:v11903:11903:universal")
+    compileOnly(project(":project:nms"))
+    // 引入 服务端核心
+    compileOnly("ink.ptms.core:v12004:12004:mapped")
+    compileOnly("ink.ptms.core:v12004:12004:universal")
 }
 
 // 子模块

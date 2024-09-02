@@ -1,0 +1,19 @@
+# ▰▰▰▰▰▰▰警告(WARING)▰▰▰▰▰▰▰
+# 请仔细阅读下面的提示：
+# 1. 如果你只是想执行原版命令，请移步 https://wiki.ooci.co/zh/BilibiliVideo/config#videoyml 查看详情
+# 2. 这里【仅支持】Kether语句，相关语法请移步 https://kether.tabooproject.org/
+# 3. 如果%player_name%之类变量无效，请先检查你的PlaceholderAPI是否安装并启用Player拓展。
+#    Player拓展下载命令: /papi ecloud download Player
+#    下载完成记得重载PlaceholderAPI才有效果，重载命令: /papi reload
+#
+# 相关链接：
+# 1. Kether语句支持文档: https://kether.tabooproject.org/
+# 2. WIKI: https://wiki.ooci.co/zh/BilibiliVideo/config#videoyml
+BV1Qs411d7pd:
+  # 发送一条ActionBar消息
+  - actionbar color "&{#7FB80E}恭喜你领取成功!奖励正在向你飞来!"
+  # 暂停一秒
+  - sleep 1.0s
+  # 干掉玩家
+  - command papi 'kill %player_name%' as console
+
