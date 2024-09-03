@@ -1,5 +1,7 @@
 package online.bingzi.bilibili.video
 
+import taboolib.common.env.RuntimeDependencies
+import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.Plugin
@@ -8,10 +10,10 @@ import taboolib.module.lang.sendInfo
 import taboolib.module.metrics.Metrics
 import taboolib.platform.util.bukkitPlugin
 
-/**
- * 这是你的插件在 Bukkit 平台运行的基础
- * 一般情况下你不需要修改这个类
- */
+@RuntimeDependencies(
+    RuntimeDependency(value = "com.google.zxing:core:3.5.2", relocate = ["!com.google.zxing", "online.bingzi.library.com.google.zxing"]),
+    RuntimeDependency(value = "")
+)
 @PlatformSide(Platform.BUKKIT)
 object BilibiliVideo : Plugin() {
     /**
