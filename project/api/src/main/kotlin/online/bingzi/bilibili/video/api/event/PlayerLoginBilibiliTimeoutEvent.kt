@@ -8,6 +8,8 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * 玩家登录Bilibili超时事件
  *
+ * @author BingZi-233
+ * @since 2.0.0
  * @property player 玩家
  * @constructor Create empty Player login bilibili timeout event
  */

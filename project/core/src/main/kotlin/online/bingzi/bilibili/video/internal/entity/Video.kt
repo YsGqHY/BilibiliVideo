@@ -8,7 +8,7 @@ package online.bingzi.bilibili.video.internal.entity
  *
  *
  * @author BingZi-233
- * @since 1.0.0
+ * @since 2.0.0
  * @property bv 视频bv号
  * @property command 奖励命令列表
  * @constructor Create empty Video

@@ -8,6 +8,8 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * 玩家领取时间
  *
+ * @author BingZi-233
+ * @since 2.0.0
  * @property player 玩家
  * @property bv BV号
  * @constructor Create empty Player receive event
