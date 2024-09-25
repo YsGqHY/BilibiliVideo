@@ -5,30 +5,34 @@ import taboolib.common.platform.Awake
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 
-/**
- * MainConfig对象用于管理主配置文件和调试状态。
- *
- * @author BingZi-233
- * @since 2.0.0
- */
-object MainConfig {
+object DatabaseConfig {
     /**
      * 配置文件的引用，使用config.yml文件进行配置，并支持自动重载。
      *
      * @author BingZi-233
      * @since 2.0.0
      */
-    @Config(value = "config.yml", autoReload = true)
+    @Config(value = "database.yml")
     lateinit var config: Configuration
         private set
 
-    /**
-     * 调试状态，指示当前是否处于调试模式。
-     *
-     * @author BingZi-233
-     * @since 2.0.0
-     */
-    var debugStatus: Boolean = false
+    val databaseType by lazy {
+        config.getString("database.type")?.uppercase()
+    }
+
+    val mysqlJdbcUrl by lazy {
+        "jdbc:mysql://${config.getString("database.host")}:${config.getInt("database.port")}/${config.getString("database.database")}?${
+            config.getStringList("database.flag").joinToString("&")
+        }"
+    }
+
+    val mysqlUsername by lazy {
+        config.getString("database.username")
+    }
+
+    val mysqlPassword by lazy {
+        config.getString("database.password")
+    }
 
     /**
      * 加载配置的方法，从配置文件中读取调试状态。
@@ -39,7 +43,6 @@ object MainConfig {
      */
     @Awake(LifeCycle.ENABLE)
     fun load() {
-        debugStatus = config.getBoolean("debug")
     }
 
     /**
@@ -54,4 +57,3 @@ object MainConfig {
         config.onReload { load() }
     }
 }
-

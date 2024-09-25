@@ -15,6 +15,9 @@ import taboolib.module.configuration.Configuration
 object VideoConfig {
     /**
      * 配置文件的引用，使用video.yml文件进行配置，并支持自动重载。
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     @Config(value = "video.yml", autoReload = true)
     lateinit var config: Configuration
@@ -22,12 +25,18 @@ object VideoConfig {
 
     /**
      * 存储视频数据的映射，键为视频标识符，值为Video对象。
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     var videoData: Map<String, Video> = mapOf()
 
     /**
      * 加载视频数据的方法，将配置文件中的视频信息读取到videoData中。
      * 在生命周期启用时调用。
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     @Awake(LifeCycle.ENABLE)
     fun load() {
@@ -42,6 +51,9 @@ object VideoConfig {
     /**
      * 注册自动重载的方法，当配置文件发生变化时重新加载视频数据。
      * 在生命周期启用时调用。
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     @Awake(LifeCycle.ENABLE)
     fun registerAutoReload() {
@@ -53,6 +65,9 @@ object VideoConfig {
      *
      * @param bv 视频标识符
      * @return 如果存在则返回true，否则返回false
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     fun checkVideo(bv: String): Boolean {
         return videoData.containsKey(bv)
@@ -63,6 +78,9 @@ object VideoConfig {
      *
      * @param bv 视频标识符
      * @return 对应的Video对象，如果不存在则返回null
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     fun getVideo(bv: String): Video? {
         return videoData[bv]

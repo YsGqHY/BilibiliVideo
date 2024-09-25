@@ -1,14 +1,11 @@
 @file:Suppress("PropertyName", "SpellCheckingInspection")
 
-import io.izzel.taboolib.gradle.BUKKIT_ALL
-import io.izzel.taboolib.gradle.KETHER
-import io.izzel.taboolib.gradle.METRICS
-import io.izzel.taboolib.gradle.UNIVERSAL
+import io.izzel.taboolib.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "2.0.11"
+    id("io.izzel.taboolib") version "2.0.18"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
 }
 
@@ -20,11 +17,14 @@ subprojects {
     // TabooLib 配置
     taboolib {
         env {
-            install(KETHER)
-            install(METRICS)
-            install(UNIVERSAL, BUKKIT_ALL)
+            install(Basic)
+            install(Bukkit)
+            install(BukkitNMSUtil)
+            install(Kether)
+            install(Metrics)
+            install(CommandHelper)
         }
-        version { taboolib = "6.1.2-beta12" }
+        version { taboolib = "6.2.0-beta15-dev" }
     }
 
     // 全局仓库

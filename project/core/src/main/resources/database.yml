@@ -1,0 +1,14 @@
+database:
+  type: sqlite
+  host: localhost
+  port: 3306
+  user: root
+  password: root
+  database: minecraft
+  flag:
+    - "useSSL=false"
+    - "useUnicode=true"
+    - "characterEncoding=utf-8"
+    - "serverTimezone=Asia/Shanghai"
+hibernate:
+  show_sql: false
