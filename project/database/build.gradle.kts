@@ -1,6 +1,8 @@
-dependencies {    // Kotlin标准库
+dependencies {
     // Hibernate核心库
     compileOnly("org.hibernate.orm:hibernate-core:6.6.1.Final")
+    // HikariCP连接池
+    compileOnly("com.zaxxer:HikariCP:5.0.1")
     // MySQL数据库驱动
     compileOnly("mysql:mysql-connector-java:8.0.33")
     // SQLite数据库驱动

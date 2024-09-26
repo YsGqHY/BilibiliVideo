@@ -31,5 +31,7 @@ data class CookieEntity(
     var buvid3: String,
     var expiredTime: LocalDateTime
 ) {
-    constructor() : this(UUID.randomUUID(), "", "", LocalDateTime.now())
+    constructor() : this(UUID.randomUUID(), "", "", LocalDateTime.now()) {
+
+    }
 }

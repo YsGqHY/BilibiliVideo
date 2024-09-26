@@ -32,5 +32,7 @@ data class BindEntity(
     var bilibiliName: String,
     var createTime: LocalDateTime
 ) {
-    constructor() : this(UUID.randomUUID(), "", "", "", LocalDateTime.now())
+    constructor() : this(UUID.randomUUID(), "", "", "", LocalDateTime.now()) {
+
+    }
 }
