@@ -1,10 +1,10 @@
 package online.bingzi.bilibili.video.internal.entity
 
-import java.time.LocalDateTime
+import com.j256.ormlite.field.DataType
+import com.j256.ormlite.field.DatabaseField
+import com.j256.ormlite.misc.BaseDaoEnabled
+import com.j256.ormlite.table.DatabaseTable
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
 
 /**
  * Bind entity
@@ -22,17 +22,24 @@ import javax.persistence.Table
  * @author BingZi-233
  * @since 2.0.0
  */
-@Entity
-@Table(name = "bilibili_video_bind")
+@DatabaseTable(tableName = "bilibili_video_bind")
 data class BindEntity(
-    @Id
-    var playerUUID: UUID,
-    var playerName: String,
-    var bilibiliMid: String,
-    var bilibiliName: String,
-    var createTime: LocalDateTime
-) {
-    constructor() : this(UUID.randomUUID(), "", "", "", LocalDateTime.now()) {
-
-    }
-}
+    @DatabaseField(id = true, uniqueIndex = true)
+    var playerUUID: UUID = UUID.randomUUID(),
+    @DatabaseField
+    var playerName: String = "",
+    @DatabaseField
+    var bilibiliMid: String = "",
+    @DatabaseField
+    var bilibiliName: String = "",
+    @DatabaseField(
+        dataType = DataType.DATE_STRING,
+        format = "yyyy-MM-ss HH:mm:ss",
+        columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL",
+        readOnly = true,
+        canBeNull = false
+    )
+    var createTime: Date = Date(),
+    @DatabaseField(version = true, dataType = DataType.DATE_STRING, format = "yyyy-MM-ss HH:mm:ss", canBeNull = false)
+    var updateTime: Date = Date()
+) : BaseDaoEnabled<BindEntity, UUID>()
