@@ -1,9 +1,11 @@
 package online.bingzi.bilibili.video.internal.entity
 
+import com.j256.ormlite.dao.DaoManager
 import com.j256.ormlite.field.DataType
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.misc.BaseDaoEnabled
 import com.j256.ormlite.table.DatabaseTable
+import online.bingzi.bilibili.video.internal.database.Database
 import java.util.*
 
 /**
@@ -42,4 +44,8 @@ data class CookieEntity(
     var createTime: Date = Date(),
     @DatabaseField(version = true, dataType = DataType.DATE_STRING, format = "yyyy-MM-ss HH:mm:ss", canBeNull = false)
     var updateTime: Date = Date()
-) : BaseDaoEnabled<CookieEntity, UUID>()
+) : BaseDaoEnabled<CookieEntity, UUID>() {
+    init {
+        dao = DaoManager.createDao(Database.connectionSource, this::class.java)
+    }
+}

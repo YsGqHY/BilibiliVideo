@@ -43,7 +43,6 @@ object Database {
         bindEntity.playerName = "BingZi-233"
         bindEntity.bilibiliMid = "123456789"
         bindEntity.bilibiliName = "BingZi-233"
-        bindEntity.dao = createDao
         info("create: ${bindEntity.create()}")
         info("BindEntity = $bindEntity")
         var queryForAll = createDao.queryForAll()

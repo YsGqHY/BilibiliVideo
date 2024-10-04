@@ -8,8 +8,35 @@ import taboolib.module.lang.sendWarn
 import taboolib.platform.util.bukkitPlugin
 import java.io.File
 
+/**
+ * Database type
+ * <p>
+ * 数据库适配类型枚举
+ *
+ * @constructor Create empty Database type
+ *
+ * @author BingZi-233
+ * @since 2.0.0
+ */
 enum class DatabaseType {
+    /**
+     * Mysql
+     *
+     * @constructor Create empty Mysql
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     MYSQL,
+
+    /**
+     * Sqlite
+     *
+     * @constructor Create empty Sqlite
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     SQLITE;
 
     companion object {
@@ -30,6 +57,12 @@ enum class DatabaseType {
             config.getString("database.type")?.uppercase()?.let { valueOf(it) }
         }
 
+        /**
+         * Jdbc url
+         *
+         * @author BingZi-233
+         * @since 2.0.0
+         */
         val jdbcUrl by lazy {
             when (INSTANCEOF) {
                 MYSQL -> mysql
