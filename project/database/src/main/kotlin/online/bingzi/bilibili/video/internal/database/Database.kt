@@ -30,11 +30,11 @@ object Database {
         jdbcUrl = "jdbc:sqlite:${file.absolutePath}"
     }
     private val dataSource = HikariDataSource(hikariConfig)
+    val connectionSource = DataSourceConnectionSource(dataSource, SqliteDatabaseType())
 
     @Awake(LifeCycle.ACTIVE)
     fun init() {
-        val jdbcConnectionSource = DataSourceConnectionSource(dataSource, SqliteDatabaseType())
-        val createDao: Dao<BindEntity, UUID> = DaoManager.createDao(jdbcConnectionSource, BindEntity::class.java)
+        val createDao: Dao<BindEntity, UUID> = DaoManager.createDao(connectionSource, BindEntity::class.java)
         if (createDao.isTableExists.not()) {
             TableUtils.createTable(createDao)
         }

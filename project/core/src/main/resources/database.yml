@@ -1,14 +1,33 @@
+# Database
+# 数据相关设置
+# 我们有时需要写入一些持久化数据用于减轻请求压力
 database:
+  # sqlite or mysql
   type: sqlite
-  host: localhost
-  port: 3306
-  user: root
-  password: root
-  database: minecraft
+  # 链接地址
+  # 前置要求: database.type 的值为 mysql
+  url: "localhost"
+  # 数据库端口
+  # 前置要求: database.type 的值为 mysql
+  port: "3306"
+  # 数据库
+  # 前置要求: database.type 的值为 mysql
+  database: "minecraft"
+  # 用户名
+  # 前置要求: database.type 的值为 mysql
+  username: "root"
+  # 密码
+  # 前置要求: database.type 的值为 mysql
+  password: "root"
+  # 额外链接参数
+  # 若您不知道这里应该填写什么，你应该保持默认选项
+  # 前置要求: database.type 的值为 mysql
   flag:
+    # 关闭SSL
     - "useSSL=false"
+    # 使用定义的编码格式
     - "useUnicode=true"
-    - "characterEncoding=utf-8"
-    - "serverTimezone=Asia/Shanghai"
-hibernate:
-  show_sql: false
+    # 使用UTF8编码
+    - "characterEncoding=utf8"
+    # 时区
+    - "timezone=Asia/Shanghai"

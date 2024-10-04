@@ -1,55 +1,43 @@
 package online.bingzi.bilibili.video.internal.database
 
-import online.bingzi.bilibili.video.internal.config.DatabaseConfig
-import taboolib.common.platform.function.warning
+import online.bingzi.bilibili.video.internal.config.DatabaseConfig.config
+import online.bingzi.bilibili.video.internal.helper.DatabaseHelper
+import taboolib.common.platform.function.console
+import taboolib.module.lang.asLangText
+import taboolib.module.lang.sendWarn
+import taboolib.platform.util.bukkitPlugin
+import java.io.File
 
-/**
- * Database type
- * 数据库类型
- *
- * @constructor Create empty Database type
- *
- * @author BingZi-233
- * @since 2.0.0
- */
 enum class DatabaseType {
-    /**
-     * SQLite
-     * SQLite - 本地
-     *
-     * @constructor Create empty SQLite
-     *
-     * @author BingZi-233
-     * @since 2.0.0
-     */
-    SQLITE,
-
-    /**
-     * MySQL
-     * MySQL - 远程
-     *
-     * @constructor Create empty MySQL
-     *
-     * @author BingZi-233
-     * @since 2.0.0
-     */
-    MYSQL;
+    MYSQL,
+    SQLITE;
 
     companion object {
-        /**
-         * Instance
-         * <p>
-         * 获取实例
-         *
-         * @author BingZi-233
-         * @since 2.0.0
-         */
-        val INSTANCE: DatabaseType by lazy {
-            try {
-                valueOf(DatabaseConfig.databaseType!!.uppercase())
-            } catch (ignore: Exception) {
-                warning("数据库类型设置错误，已自动切换为SQLite.")
-                SQLITE
+        private val sqlite by lazy {
+            DatabaseHelper.buildSQLiteJdbcUrl(File(bukkitPlugin.dataFolder, "database.db").absolutePath)
+        }
+        private val mysql by lazy {
+            DatabaseHelper.buildMySQLJdbcUrl(
+                config.getString("database.url")!!,
+                config.getString("database.port")!!,
+                config.getString("database.database")!!,
+                config.getString("database.username")!!,
+                config.getString("database.password")!!,
+                config.getStringList("database.flag")
+            )
+        }
+        private val INSTANCEOF by lazy {
+            config.getString("database.type")?.uppercase()?.let { valueOf(it) }
+        }
+
+        val jdbcUrl by lazy {
+            when (INSTANCEOF) {
+                MYSQL -> mysql
+                SQLITE -> sqlite
+                null -> {
+                    console().sendWarn("databaseTypeError", console().asLangText(SQLITE.name.lowercase()))
+                    sqlite
+                }
             }
         }
     }
