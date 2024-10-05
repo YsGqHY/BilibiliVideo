@@ -10,7 +10,6 @@ dependencies {
 
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:v12004:universal")
-    compileOnly(project(":project:core"))
 }
 
 // 子模块

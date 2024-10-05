@@ -10,7 +10,7 @@ package online.bingzi.bilibili.video.internal.helper
  * @author BingZi-233
  * @since 2.0.0
  */
-object DatabaseHelper {
+internal object DatabaseHelper {
     /**
      * Build MySQL jdbc url
      * <p>

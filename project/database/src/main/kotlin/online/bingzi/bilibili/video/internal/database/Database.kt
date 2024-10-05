@@ -24,7 +24,7 @@ import taboolib.common.env.RuntimeDependency
     RuntimeDependency(value = "!com.zaxxer:HikariCP:5.1.0"),
     RuntimeDependency(value = "!com.mysql:mysql-connector-j:8.2.0"),
 )
-object Database {
+internal object Database {
     /**
      * Hikari config
      * <p>

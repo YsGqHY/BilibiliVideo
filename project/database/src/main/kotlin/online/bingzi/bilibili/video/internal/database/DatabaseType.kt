@@ -18,7 +18,7 @@ import java.io.File
  * @author BingZi-233
  * @since 2.0.0
  */
-enum class DatabaseType {
+internal enum class DatabaseType {
     /**
      * Mysql
      *

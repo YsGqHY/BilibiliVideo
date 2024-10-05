@@ -21,7 +21,7 @@ import java.util.*
  * @author BingZi-233
  * @since 2.0.0
  */
-object DatabaseInitializationTask {
+internal object DatabaseInitializationTask {
     /**
      * Database table initialization task
      * <p>
