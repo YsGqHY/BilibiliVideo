@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.config
 
+import online.bingzi.bilibili.video.internal.indicator.ServerStageIndicator
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
@@ -46,7 +47,9 @@ object MainConfig {
     @Awake(LifeCycle.ENABLE)
     fun load() {
         debugStatus = config.getBoolean("debug")
-        console().sendInfo("reloadSuccess", "config.yml")
+        if (ServerStageIndicator.serverStage == LifeCycle.ACTIVE) {
+            console().sendInfo("reloadSuccess", "config.yml")
+        }
     }
 
     /**

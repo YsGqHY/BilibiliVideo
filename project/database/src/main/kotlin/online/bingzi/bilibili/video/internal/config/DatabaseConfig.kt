@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.config
 
+import online.bingzi.bilibili.video.internal.indicator.ServerStageIndicator
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
@@ -39,7 +40,9 @@ internal object DatabaseConfig {
      */
     @Awake(LifeCycle.ENABLE)
     fun load() {
-        console().sendInfo("reloadWarn", "database.yml", console().asLangText("databaseReloadWarn"))
+        if (ServerStageIndicator.serverStage == LifeCycle.ACTIVE) {
+            console().sendInfo("reloadWarn", "database.yml", console().asLangText("databaseReloadWarn"))
+        }
     }
 
     /**

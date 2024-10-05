@@ -1,6 +1,7 @@
 package online.bingzi.bilibili.video.internal.config
 
 import online.bingzi.bilibili.video.internal.entity.Video
+import online.bingzi.bilibili.video.internal.indicator.ServerStageIndicator
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
@@ -49,7 +50,9 @@ object VideoConfig {
         videoData = config.getKeys(false).associateWith {
             Video(it, config.getStringList("$it.command"))
         }
-        console().sendInfo("reloadSuccess", "video.yml")
+        if (ServerStageIndicator.serverStage == LifeCycle.ACTIVE) {
+            console().sendInfo("reloadSuccess", "video.yml")
+        }
     }
 
     /**

@@ -12,6 +12,8 @@ dependencies {
 
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:v12004:universal")
+    // 引入 Indicator依赖
+    compileOnly(project(":project:indicator"))
 }
 
 // 子模块
