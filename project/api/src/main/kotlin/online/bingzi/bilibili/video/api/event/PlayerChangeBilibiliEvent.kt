@@ -8,11 +8,12 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * 玩家变更Bilibili事件(玩家换绑账户事件)
  *
- * @author BingZi-233
- * @since 2.0.0
  * @property player 玩家
  * @property oldMid 旧MID
  * @property newMid 新MID
  * @constructor Create empty Player change bilibili event
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 class PlayerChangeBilibiliEvent(val player: Player, val oldMid: String, val newMid: String) : BukkitProxyEvent()

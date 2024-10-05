@@ -10,10 +10,13 @@ import taboolib.module.lang.sendWarn
 
 /**
  * Kether eval
- *
+ * <p>
  * Kether 脚本
  *
  * @param sender 执行者
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 fun String.ketherEval(sender: Player) {
     getProxyPlayer(sender.uniqueId)?.let { evalScript(listOf(this), it) }
@@ -21,10 +24,13 @@ fun String.ketherEval(sender: Player) {
 
 /**
  * Kether eval
- *
+ * <p>
  * Kether 脚本
  *
  * @param sender 执行者
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 fun List<String>.ketherEval(sender: Player) {
     getProxyPlayer(sender.uniqueId)?.let { evalScript(this, it) }
@@ -32,10 +38,13 @@ fun List<String>.ketherEval(sender: Player) {
 
 /**
  * Kether eval
- *
+ * <p>
  * Kether 脚本
  *
  * @param sender 执行者
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 fun String.ketherEval(sender: ProxyCommandSender) {
     evalScript(listOf(this), sender)
@@ -43,10 +52,13 @@ fun String.ketherEval(sender: ProxyCommandSender) {
 
 /**
  * Kether eval
- *
+ * <p>
  * Kether 脚本
  *
  * @param sender 执行者
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 fun List<String>.ketherEval(sender: ProxyCommandSender) {
     evalScript(this, sender)
@@ -54,11 +66,14 @@ fun List<String>.ketherEval(sender: ProxyCommandSender) {
 
 /**
  * Eval script
- *
+ * <p>
  * 脚本执行
  *
  * @param script 脚本
  * @param sender 执行者
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 private fun evalScript(script: List<String>, sender: ProxyCommandSender) {
     try {
@@ -72,12 +87,15 @@ private fun evalScript(script: List<String>, sender: ProxyCommandSender) {
 
 /**
  * Eval script result boolean
- *
+ * <p>
  * 脚本执行并返回Boolean结果
  *
  * @param script 脚本
  * @param sender 执行者
  * @return Boolean
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 private fun evalScriptResultBoolean(script: List<String>, sender: ProxyCommandSender): Boolean {
     val result: Any? = try {

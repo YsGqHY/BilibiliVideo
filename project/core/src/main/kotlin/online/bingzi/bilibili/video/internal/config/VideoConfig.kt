@@ -7,7 +7,11 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 
 /**
+ * Video config
+ * <p>
  * VideoConfig对象用于管理视频配置和视频数据。
+ *
+ * @constructor Create empty Video config
  *
  * @author BingZi-233
  * @since 2.0.0

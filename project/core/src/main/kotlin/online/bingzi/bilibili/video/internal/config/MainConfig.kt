@@ -6,7 +6,11 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 
 /**
+ * Main config
+ * <p>
  * MainConfig对象用于管理主配置文件和调试状态。
+ *
+ * @constructor Create empty Main config
  *
  * @author BingZi-233
  * @since 2.0.0

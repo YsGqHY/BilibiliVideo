@@ -1,7 +1,5 @@
 package online.bingzi.bilibili.video
 
-import taboolib.common.env.RuntimeDependencies
-import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.Plugin
@@ -10,14 +8,15 @@ import taboolib.module.lang.sendInfo
 import taboolib.module.metrics.Metrics
 import taboolib.platform.util.bukkitPlugin
 
-@RuntimeDependencies(
-    RuntimeDependency(value = "com.google.zxing:core:3.5.2", relocate = ["!com.google.zxing", "online.bingzi.library.com.google.zxing"]),
-    RuntimeDependency(value = "")
-)
 @PlatformSide(Platform.BUKKIT)
 object BilibiliVideo : Plugin() {
     /**
+     * on load
+     * <p>
      * 初始化
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     override fun onLoad() {
         console().sendInfo("loading")
@@ -25,8 +24,12 @@ object BilibiliVideo : Plugin() {
     }
 
     /**
+     * on enable
+     * <p>
      * 启动
      *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     override fun onEnable() {
         console().sendInfo("enabling")
@@ -37,8 +40,12 @@ object BilibiliVideo : Plugin() {
     }
 
     /**
+     * on disable
+     * <p>
      * 关闭
      *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     override fun onDisable() {
         console().sendInfo("disabling")

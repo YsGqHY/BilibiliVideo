@@ -8,10 +8,11 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * 玩家领取成功事件
  *
- * @author BingZi-233
- * @since 2.0.0
  * @property player 玩家
  * @property bv BV号
  * @constructor Create empty Player receive success event
+ *
+ * @author BingZi-233
+ * @since 2.0.0
  */
 class PlayerReceiveSuccessEvent(val player: Player, val bv: String) : BukkitProxyEvent()

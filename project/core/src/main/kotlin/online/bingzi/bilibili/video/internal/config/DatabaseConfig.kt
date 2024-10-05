@@ -5,6 +5,16 @@ import taboolib.common.platform.Awake
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 
+/**
+ * Database config
+ * <p>
+ * DatabaseConfig对象用于管理数据库链接配置
+ *
+ * @constructor Create empty Database config
+ *
+ * @author BingZi-233
+ * @since 2.0.0
+ */
 object DatabaseConfig {
     /**
      * 配置文件的引用，使用config.yml文件进行配置，并支持自动重载。
@@ -15,24 +25,6 @@ object DatabaseConfig {
     @Config(value = "database.yml")
     lateinit var config: Configuration
         private set
-
-    val databaseType by lazy {
-        config.getString("database.type")?.uppercase()
-    }
-
-    val mysqlJdbcUrl by lazy {
-        "jdbc:mysql://${config.getString("database.host")}:${config.getInt("database.port")}/${config.getString("database.database")}?${
-            config.getStringList("database.flag").joinToString("&")
-        }"
-    }
-
-    val mysqlUsername by lazy {
-        config.getString("database.username")
-    }
-
-    val mysqlPassword by lazy {
-        config.getString("database.password")
-    }
 
     /**
      * 加载配置的方法，从配置文件中读取调试状态。
