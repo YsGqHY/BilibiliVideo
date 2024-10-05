@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.entity
 
+import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.dao.DaoManager
 import com.j256.ormlite.field.DataType
 import com.j256.ormlite.field.DatabaseField
@@ -43,6 +44,12 @@ data class ReceiveEntity(
     var updateTime: Date = Date()
 ) : BaseDaoEnabled<ReceiveEntity, UUID>() {
     init {
-        dao = DaoManager.createDao(Database.connectionSource, this::class.java)
+        dao = DaoManager.createDao(Database.connectionSource, ReceiveEntity::class.java)
+    }
+
+    companion object {
+        fun getDao(): Dao<ReceiveEntity, UUID> {
+            return DaoManager.createDao(Database.connectionSource, ReceiveEntity::class.java)
+        }
     }
 }

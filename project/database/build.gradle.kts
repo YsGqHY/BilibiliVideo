@@ -1,5 +1,7 @@
 dependencies {
+    // ORMLite 核心
     compileOnly("com.j256.ormlite:ormlite-core:6.1")
+    // ORMLite JDBC 驱动
     compileOnly("com.j256.ormlite:ormlite-jdbc:6.1")
     // SQLite驱动
     compileOnly("org.xerial:sqlite-jdbc:3.46.1.3")
