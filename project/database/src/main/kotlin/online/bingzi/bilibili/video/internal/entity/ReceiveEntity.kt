@@ -26,11 +26,11 @@ import java.util.*
 @DatabaseTable(tableName = "bilibili_video_receive")
 data class ReceiveEntity(
     @DatabaseField(id = true, index = true)
-    var playerUUID: UUID,
+    var playerUUID: UUID = UUID.randomUUID(),
     @DatabaseField
-    var playerName: String,
+    var playerName: String = "",
     @DatabaseField
-    var bilibiliBv: String,
+    var bilibiliBv: String = "",
     @DatabaseField(
         dataType = DataType.DATE_STRING,
         format = "yyyy-MM-ss HH:mm:ss",

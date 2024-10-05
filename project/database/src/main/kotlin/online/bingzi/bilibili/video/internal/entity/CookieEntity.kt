@@ -26,12 +26,12 @@ import java.util.*
 @DatabaseTable(tableName = "bilibili_video_cookie")
 data class CookieEntity(
     @DatabaseField(id = true, uniqueIndex = true)
-    var playerUUID: UUID,
+    var playerUUID: UUID = UUID.randomUUID(),
     @DatabaseField
-    var sessData: String,
+    var sessData: String = "",
     // https://github.com/SocialSisterYi/bilibili-API-collect/issues/790
     @DatabaseField
-    var buvid3: String,
+    var buvid3: String = "",
     @DatabaseField(dataType = DataType.DATE_INTEGER, format = "yyyy-MM-ss HH:mm:ss")
     var expiredTime: Date = Date(),
     @DatabaseField(
