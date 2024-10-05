@@ -1,7 +1,7 @@
 package online.bingzi.bilibili.video.internal.helper
 
-import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.library.kether.LocalizedException
 import taboolib.module.kether.KetherShell.eval
@@ -18,7 +18,7 @@ import taboolib.module.lang.sendWarn
  * @author BingZi-233
  * @since 2.0.0
  */
-fun String.ketherEval(sender: Player) {
+fun String.ketherEval(sender: ProxyPlayer) {
     getProxyPlayer(sender.uniqueId)?.let { evalScript(listOf(this), it) }
 }
 
@@ -32,7 +32,7 @@ fun String.ketherEval(sender: Player) {
  * @author BingZi-233
  * @since 2.0.0
  */
-fun List<String>.ketherEval(sender: Player) {
+fun List<String>.ketherEval(sender: ProxyPlayer) {
     getProxyPlayer(sender.uniqueId)?.let { evalScript(this, it) }
 }
 
