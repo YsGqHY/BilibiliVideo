@@ -3,8 +3,10 @@ package online.bingzi.bilibili.video.internal.config
 import online.bingzi.bilibili.video.internal.entity.Video
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.function.console
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
+import taboolib.module.lang.sendInfo
 
 /**
  * Video config
@@ -45,11 +47,9 @@ object VideoConfig {
     @Awake(LifeCycle.ENABLE)
     fun load() {
         videoData = config.getKeys(false).associateWith {
-            Video(
-                it,
-                config.getStringList("$it.command")
-            )
+            Video(it, config.getStringList("$it.command"))
         }
+        console().sendInfo("reloadSuccess", "video.yml")
     }
 
     /**

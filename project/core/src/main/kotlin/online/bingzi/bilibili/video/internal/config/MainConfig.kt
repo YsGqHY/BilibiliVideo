@@ -2,8 +2,10 @@ package online.bingzi.bilibili.video.internal.config
 
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.function.console
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
+import taboolib.module.lang.sendInfo
 
 /**
  * Main config
@@ -44,6 +46,7 @@ object MainConfig {
     @Awake(LifeCycle.ENABLE)
     fun load() {
         debugStatus = config.getBoolean("debug")
+        console().sendInfo("reloadSuccess", "config.yml")
     }
 
     /**

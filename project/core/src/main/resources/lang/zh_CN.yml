@@ -1,12 +1,32 @@
+# 前缀相关
+# 如果你想修改插件提示前缀，请将下面的注释取消并修改内容
+# prefix: "&7[&a&lBilibiliVideo&7]"
+
+# 载入相关
 loading: "&a&l正在尝试进行载入操作..."
 loaded: "&a&l已完成载入操作。"
+
+# 启动相关
 enabling: "&a&l正在尝试进行启动操作..."
 enabled: "&a&l已完成启动操作。"
+
+# 数据相关
 database: "&a&l正在尝试进行数据库初始化操作..."
 databased: "&a&l已完成数据库初始化操作。"
+databaseReloadWarn: "&c&l数据库配置文件已经重载完成, 但数据库连接将在下次启动时才会进行变更。"
+
+# 匿名统计相关
 metrics: "&a&l正在尝试进行匿名统计数据初始化操作..."
 metricated: "&a&l已完成匿名统计数据初始化操作。"
+
+# 关闭相关
 disabling: "&a&l正在尝试进行关闭操作..."
 disabled: "&a&l已完成关闭操作。"
+
+# Kether相关
 ketherLocalizedException: "&c&l发生了Kether本地化异常, 异常信息: {0}"
 ketherThrowable: "&c&l发生了Kether异常, 异常信息: {0}"
+
+# 重载配置文件相关
+reloadSuccess: "&a&l配置文件 {0} 已经自动重载完成。"
+reloadWarn: "&c&l配置文件 {0} 自动重载成功, 但有一些注意事项: {1}"
