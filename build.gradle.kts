@@ -7,6 +7,11 @@ plugins {
     java
     id("io.izzel.taboolib") version "2.0.18"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
+    id("org.jetbrains.dokka") version "1.9.20"
+}
+
+allprojects {
+    apply(plugin = "org.jetbrains.dokka")
 }
 
 subprojects {
