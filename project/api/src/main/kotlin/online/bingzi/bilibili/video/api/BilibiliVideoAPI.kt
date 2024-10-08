@@ -24,8 +24,7 @@ object BilibiliVideoAPI {
      * 获取玩家绑定数据
      *
      * @param playerUUID Player UUID
-     * @return BindEntity
-     * @see BindEntity
+     * @return [BindEntity]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -40,8 +39,7 @@ object BilibiliVideoAPI {
      * 获取玩家Cookie数据
      *
      * @param playerUUID Player UUID
-     * @return CookieEntity
-     * @see CookieEntity
+     * @return [CookieEntity]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -56,8 +54,7 @@ object BilibiliVideoAPI {
      * 获取玩家领取数据
      *
      * @param playerUUID Player UUID
-     * @return ReceiveEntity
-     * @see ReceiveEntity
+     * @return [ReceiveEntity]
      *
      * @author BingZi-233
      * @since 2.0.0
