@@ -37,11 +37,11 @@ internal object DatabaseInitializationTask {
         if (bindEntity.isTableExists.not()) {
             TableUtils.createTable(bindEntity)
         }
-        val cookieEntity = DaoManager.createDao(connectionSource, CookieEntity::class.java)
+        val cookieEntity: Dao<CookieEntity, UUID> = DaoManager.createDao(connectionSource, CookieEntity::class.java)
         if (cookieEntity.isTableExists.not()) {
             TableUtils.createTable(cookieEntity)
         }
-        val receiveEntity = DaoManager.createDao(connectionSource, ReceiveEntity::class.java)
+        val receiveEntity: Dao<ReceiveEntity, UUID> = DaoManager.createDao(connectionSource, ReceiveEntity::class.java)
         if (receiveEntity.isTableExists.not()) {
             TableUtils.createTable(receiveEntity)
         }
