@@ -86,7 +86,7 @@ object Network {
         .create(LoginService::class.java)
 
     /**
-     * Buvid3service
+     * Buvid3 service
      * <p>
      * Buvid3 服务
      *
@@ -101,14 +101,14 @@ object Network {
         .create(Buvid3Service::class.java)
 
     /**
-     * Action serice
+     * Action service
      * <p>
      * 动作 服务
      *
      * @author BingZi-233
      * @since 2.0.0
      */
-    val actionSerice = Retrofit.Builder()
+    val actionService = Retrofit.Builder()
         .baseUrl(API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(generalClient)
