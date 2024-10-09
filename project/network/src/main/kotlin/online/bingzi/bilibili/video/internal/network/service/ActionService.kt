@@ -3,6 +3,7 @@ package online.bingzi.bilibili.video.internal.network.service
 import online.bingzi.bilibili.video.internal.entity.CoinsData
 import online.bingzi.bilibili.video.internal.entity.FavouredData
 import online.bingzi.bilibili.video.internal.entity.ResultVO
+import online.bingzi.bilibili.video.internal.entity.TripleLinkData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -27,7 +28,11 @@ interface ActionService {
      *
      * @param bvid 稿件 bvid
      * @param sessData Cookie（SESSDATA）
+     * @param buvid3 Buvid3
      * @return [Int]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     @GET("/x/web-interface/archive/has/like")
     suspend fun getLike(
@@ -43,7 +48,11 @@ interface ActionService {
      *
      * @param bvid 稿件 bvid
      * @param sessData Cookie（SESSDATA）
+     * @param buvid3 Buvid3
      * @return [CoinsData]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     @GET("/x/web-interface/archive/coins")
     suspend fun getCoins(
@@ -59,7 +68,11 @@ interface ActionService {
      *
      * @param bvid 稿件 bvid
      * @param sessData Cookie（SESSDATA）
+     * @param buvid3 Buvid3
      * @return [FavouredData]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
     @GET("/x/v2/fav/video/favoured")
     suspend fun getFavoured(
@@ -68,10 +81,23 @@ interface ActionService {
         @Header("Cookie") buvid3: String
     ): Call<ResultVO<FavouredData>>
 
+    /**
+     * Action triple link
+     * <p>
+     * 三连动作
+     *
+     * @param bvid 稿件 bvid
+     * @param sessData Cookie（SESSDATA）
+     * @param buvid3 Buvid3
+     * @return [TripleLinkData]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     @GET("/x/web-interface/archive/like/triple")
     suspend fun actionTripleLink(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
         @Header("Cookie") buvid3: String
-    ): Call<ResultVO<FavouredData>>
+    ): Call<ResultVO<TripleLinkData>>
 }
