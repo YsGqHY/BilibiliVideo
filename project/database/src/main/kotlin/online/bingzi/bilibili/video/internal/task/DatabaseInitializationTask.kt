@@ -1,15 +1,9 @@
 package online.bingzi.bilibili.video.internal.task
 
-import com.j256.ormlite.dao.Dao
-import com.j256.ormlite.dao.DaoManager
 import com.j256.ormlite.table.TableUtils
-import online.bingzi.bilibili.video.internal.database.Database.connectionSource
-import online.bingzi.bilibili.video.internal.entity.BindEntity
-import online.bingzi.bilibili.video.internal.entity.CookieEntity
-import online.bingzi.bilibili.video.internal.entity.ReceiveEntity
+import online.bingzi.bilibili.video.internal.helper.DatabaseHelper
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
-import java.util.*
 
 /**
  * Database initialization task
@@ -33,17 +27,17 @@ internal object DatabaseInitializationTask {
      */
     @Awake(LifeCycle.ENABLE)
     fun databaseTableInitializationTask() {
-        val bindEntity: Dao<BindEntity, UUID> = DaoManager.createDao(connectionSource, BindEntity::class.java)
-        if (bindEntity.isTableExists.not()) {
-            TableUtils.createTable(bindEntity)
+        val bindEntityDaoSource = DatabaseHelper.bindEntityDaoSource
+        if (bindEntityDaoSource.isTableExists.not()) {
+            TableUtils.createTable(bindEntityDaoSource)
         }
-        val cookieEntity: Dao<CookieEntity, UUID> = DaoManager.createDao(connectionSource, CookieEntity::class.java)
-        if (cookieEntity.isTableExists.not()) {
-            TableUtils.createTable(cookieEntity)
+        val cookieEntityDaoSource = DatabaseHelper.cookieEntityDaoSource
+        if (cookieEntityDaoSource.isTableExists.not()) {
+            TableUtils.createTable(cookieEntityDaoSource)
         }
-        val receiveEntity: Dao<ReceiveEntity, UUID> = DaoManager.createDao(connectionSource, ReceiveEntity::class.java)
-        if (receiveEntity.isTableExists.not()) {
-            TableUtils.createTable(receiveEntity)
+        val receiveEntityDaoSource = DatabaseHelper.receiveEntityDaoSource
+        if (receiveEntityDaoSource.isTableExists.not()) {
+            TableUtils.createTable(receiveEntityDaoSource)
         }
     }
 }
