@@ -16,6 +16,7 @@ import java.util.*
  *
  * @property playerUUID 玩家UUID
  * @property playerName 玩家名称
+ * @property bilibiliMid 领取账户MID
  * @property bilibiliBv 领取视频BV
  * @property createTime 领取时间
  * @constructor Create empty Receive entity
@@ -29,6 +30,8 @@ data class ReceiveEntity(
     var playerUUID: UUID = UUID.randomUUID(),
     @DatabaseField
     var playerName: String = "",
+    @DatabaseField
+    var bilibiliMid: String = "",
     @DatabaseField
     var bilibiliBv: String = "",
     @DatabaseField(
