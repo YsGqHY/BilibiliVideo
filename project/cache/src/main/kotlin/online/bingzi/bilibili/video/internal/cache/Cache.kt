@@ -32,7 +32,7 @@ object Cache {
      */
     val bindCache = Caffeine.newBuilder()
         .maximumSize(100)
-        .buildAsync<UUID, BindEntity> { k ->
+        .build<UUID, BindEntity> { k ->
             BindEntity.getDao().queryForId(k)
         }
 
@@ -46,7 +46,7 @@ object Cache {
      */
     val cookieCache = Caffeine.newBuilder()
         .maximumSize(100)
-        .buildAsync<UUID, CookieEntity> { k ->
+        .build<UUID, CookieEntity> { k ->
             CookieEntity.getDao().queryForId(k)
         }
 
@@ -60,7 +60,7 @@ object Cache {
      */
     val receiveCache = Caffeine.newBuilder()
         .maximumSize(100)
-        .buildAsync<UUID, ReceiveEntity> { k ->
+        .build<UUID, ReceiveEntity> { k ->
             ReceiveEntity.getDao().queryForId(k)
         }
 }

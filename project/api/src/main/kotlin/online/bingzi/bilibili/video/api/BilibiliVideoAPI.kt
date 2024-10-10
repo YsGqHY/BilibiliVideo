@@ -5,7 +5,6 @@ import online.bingzi.bilibili.video.internal.entity.BindEntity
 import online.bingzi.bilibili.video.internal.entity.CookieEntity
 import online.bingzi.bilibili.video.internal.entity.ReceiveEntity
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 /**
  * Bilibili video API
@@ -29,7 +28,7 @@ object BilibiliVideoAPI {
      * @author BingZi-233
      * @since 2.0.0
      */
-    fun getPlayerBindEntity(playerUUID: UUID): CompletableFuture<BindEntity> {
+    fun getPlayerBindEntity(playerUUID: UUID): BindEntity? {
         return Cache.bindCache.get(playerUUID)
     }
 
@@ -44,7 +43,7 @@ object BilibiliVideoAPI {
      * @author BingZi-233
      * @since 2.0.0
      */
-    fun getPlayerCookieEntity(playerUUID: UUID): CompletableFuture<CookieEntity> {
+    fun getPlayerCookieEntity(playerUUID: UUID): CookieEntity? {
         return Cache.cookieCache.get(playerUUID)
     }
 
@@ -59,7 +58,7 @@ object BilibiliVideoAPI {
      * @author BingZi-233
      * @since 2.0.0
      */
-    fun getPlayerReceiveEntity(playerUUID: UUID): CompletableFuture<ReceiveEntity> {
+    fun getPlayerReceiveEntity(playerUUID: UUID): ReceiveEntity? {
         return Cache.receiveCache.get(playerUUID)
     }
 }
