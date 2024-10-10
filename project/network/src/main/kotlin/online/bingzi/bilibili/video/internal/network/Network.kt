@@ -56,7 +56,7 @@ object Network {
      * @author BingZi-233
      * @since 2.0.0
      */
-    private val loginClient = OkHttpClient.Builder().addInterceptor(ReceivedCookiesInterceptor())
+    private val loginClient: OkHttpClient = OkHttpClient.Builder().addInterceptor(ReceivedCookiesInterceptor())
         .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion(lhby233@outlook.com)")).build()
 
     /**
@@ -67,7 +67,7 @@ object Network {
      * @author BingZi-233
      * @since 2.0.0
      */
-    private val generalClient = OkHttpClient.Builder()
+    private val generalClient: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(UserAgentInterceptor("MinecraftPlugin $pluginId/$pluginVersion(lhby233@outlook.com)")).build()
 
     /**
@@ -78,7 +78,7 @@ object Network {
      * @author BingZi-233
      * @since 2.0.0
      */
-    val loginService = Retrofit.Builder()
+    val loginService: LoginService = Retrofit.Builder()
         .baseUrl(PASSPORT_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(loginClient)
@@ -93,7 +93,7 @@ object Network {
      * @author BingZi-233
      * @since 2.0.0
      */
-    val buvid3Service = Retrofit.Builder()
+    val buvid3Service: Buvid3Service = Retrofit.Builder()
         .baseUrl(API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(generalClient)
@@ -108,7 +108,7 @@ object Network {
      * @author BingZi-233
      * @since 2.0.0
      */
-    val actionService = Retrofit.Builder()
+    val actionService: ActionService = Retrofit.Builder()
         .baseUrl(API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(generalClient)
