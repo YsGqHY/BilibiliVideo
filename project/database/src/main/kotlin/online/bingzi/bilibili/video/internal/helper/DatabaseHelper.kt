@@ -1,5 +1,13 @@
 package online.bingzi.bilibili.video.internal.helper
 
+import com.j256.ormlite.dao.Dao
+import com.j256.ormlite.dao.DaoManager
+import online.bingzi.bilibili.video.internal.database.Database
+import online.bingzi.bilibili.video.internal.entity.BindEntity
+import online.bingzi.bilibili.video.internal.entity.CookieEntity
+import online.bingzi.bilibili.video.internal.entity.ReceiveEntity
+import java.util.*
+
 /**
  * Database helper
  * <p>
@@ -11,6 +19,42 @@ package online.bingzi.bilibili.video.internal.helper
  * @since 2.0.0
  */
 internal object DatabaseHelper {
+    /**
+     * Bind entity dao source
+     * <p>
+     * 绑定实体数据源
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    val bindEntityDaoSource: Dao<BindEntity, UUID> by lazy {
+        DaoManager.createDao(Database.connectionSource, BindEntity::class.java)
+    }
+
+    /**
+     * Cookie entity dao source
+     * <p>
+     * Cookie实体数据源
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    val cookieEntityDaoSource: Dao<CookieEntity, UUID> by lazy {
+        DaoManager.createDao(Database.connectionSource, CookieEntity::class.java)
+    }
+
+    /**
+     * Receive entity dao source
+     * <p>
+     * 领取实体数据源
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    val receiveEntityDaoSource: Dao<ReceiveEntity, UUID> by lazy {
+        DaoManager.createDao(Database.connectionSource, ReceiveEntity::class.java)
+    }
+
     /**
      * Build MySQL jdbc url
      * <p>
