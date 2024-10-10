@@ -36,7 +36,7 @@ object VideoConfig {
      * @author BingZi-233
      * @since 2.0.0
      */
-    var videoData: Map<String, Video> = mapOf()
+    private var videoData: Map<String, Video> = mapOf()
 
     /**
      * 加载视频数据的方法，将配置文件中的视频信息读取到videoData中。
