@@ -15,6 +15,7 @@ import java.util.*
  * 用于操作数据库中保存的Cookie数据
  *
  * @property playerUUID 玩家UUID
+ * @property playerName 玩家名称
  * @property sessData sessData
  * @property buvid3 buvid3
  * @property expiredTime 数据失效时间
@@ -26,14 +27,16 @@ import java.util.*
 @DatabaseTable(tableName = "bilibili_video_cookie")
 data class CookieEntity(
     @DatabaseField(id = true, uniqueIndex = true)
-    var playerUUID: UUID = UUID.randomUUID(),
+    var playerUUID: UUID? = null,
     @DatabaseField
-    var sessData: String = "",
+    var playerName: String? = null,
+    @DatabaseField
+    var sessData: String? = null,
     // https://github.com/SocialSisterYi/bilibili-API-collect/issues/790
     @DatabaseField
-    var buvid3: String = "",
+    var buvid3: String? = null,
     @DatabaseField(dataType = DataType.DATE_INTEGER, format = "yyyy-MM-ss HH:mm:ss")
-    var expiredTime: Date = Date(),
+    var expiredTime: Date? = null,
     @DatabaseField(
         dataType = DataType.DATE_STRING,
         format = "yyyy-MM-ss HH:mm:ss",
@@ -41,9 +44,9 @@ data class CookieEntity(
         readOnly = true,
         canBeNull = false
     )
-    var createTime: Date = Date(),
+    var createTime: Date? = null,
     @DatabaseField(version = true, dataType = DataType.DATE_STRING, format = "yyyy-MM-ss HH:mm:ss", canBeNull = false)
-    var updateTime: Date = Date()
+    var updateTime: Date? = null
 ) : BaseDaoEnabled<CookieEntity, UUID>() {
     init {
         dao = DatabaseHelper.cookieEntityDaoSource

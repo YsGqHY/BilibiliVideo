@@ -27,13 +27,13 @@ import java.util.*
 @DatabaseTable(tableName = "bilibili_video_bind")
 data class BindEntity(
     @DatabaseField(id = true, uniqueIndex = true)
-    var playerUUID: UUID = UUID.randomUUID(),
+    var playerUUID: UUID? = null,
     @DatabaseField
-    var playerName: String = "",
+    var playerName: String? = null,
     @DatabaseField
-    var bilibiliMid: String = "",
+    var bilibiliMid: String? = null,
     @DatabaseField
-    var bilibiliName: String = "",
+    var bilibiliName: String? = null,
     @DatabaseField(
         dataType = DataType.DATE_STRING,
         format = "yyyy-MM-ss HH:mm:ss",
@@ -41,9 +41,9 @@ data class BindEntity(
         readOnly = true,
         canBeNull = false
     )
-    var createTime: Date = Date(),
+    var createTime: Date? = null,
     @DatabaseField(version = true, dataType = DataType.DATE_STRING, format = "yyyy-MM-ss HH:mm:ss", canBeNull = false)
-    var updateTime: Date = Date()
+    var updateTime: Date? = null
 ) : BaseDaoEnabled<BindEntity, UUID>() {
     init {
         dao = DatabaseHelper.bindEntityDaoSource

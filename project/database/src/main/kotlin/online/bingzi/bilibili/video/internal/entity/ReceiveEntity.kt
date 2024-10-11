@@ -14,6 +14,7 @@ import java.util.*
  * 领取实体
  * 用户记录玩家领取状态
  *
+ * @property id 索引
  * @property playerUUID 玩家UUID
  * @property playerName 玩家名称
  * @property bilibiliMid 领取账户MID
@@ -27,13 +28,15 @@ import java.util.*
 @DatabaseTable(tableName = "bilibili_video_receive")
 data class ReceiveEntity(
     @DatabaseField(id = true, index = true)
-    var playerUUID: UUID = UUID.randomUUID(),
+    var id: UUID? = null,
     @DatabaseField
-    var playerName: String = "",
+    var playerUUID: UUID? = null,
     @DatabaseField
-    var bilibiliMid: String = "",
+    var playerName: String? = null,
     @DatabaseField
-    var bilibiliBv: String = "",
+    var bilibiliMid: String? = null,
+    @DatabaseField
+    var bilibiliBv: String? = null,
     @DatabaseField(
         dataType = DataType.DATE_STRING,
         format = "yyyy-MM-ss HH:mm:ss",
@@ -41,9 +44,9 @@ data class ReceiveEntity(
         readOnly = true,
         canBeNull = false
     )
-    var createTime: Date = Date(),
+    var createTime: Date? = null,
     @DatabaseField(version = true, dataType = DataType.DATE_STRING, format = "yyyy-MM-ss HH:mm:ss", canBeNull = false)
-    var updateTime: Date = Date()
+    var updateTime: Date? = null
 ) : BaseDaoEnabled<ReceiveEntity, UUID>() {
     init {
         dao = DatabaseHelper.receiveEntityDaoSource
