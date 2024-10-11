@@ -10,14 +10,11 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
 }
 
-allprojects {
-    apply(plugin = "org.jetbrains.dokka")
-}
-
 subprojects {
     apply<JavaPlugin>()
     apply(plugin = "io.izzel.taboolib")
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.dokka")
 
     // TabooLib 配置
     taboolib {
@@ -61,4 +58,8 @@ subprojects {
 
 gradle.buildFinished {
     buildDir.deleteRecursively()
+}
+
+tasks.dokkaHtmlMultiModule.configure {
+    outputDirectory.set(file("docs"))
 }

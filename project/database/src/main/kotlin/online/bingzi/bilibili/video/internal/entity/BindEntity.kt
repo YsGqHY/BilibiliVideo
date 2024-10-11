@@ -19,6 +19,7 @@ import java.util.*
  * @property bilibiliMid Bilibili账户MID
  * @property bilibiliName Bilibili账户名称
  * @property createTime 创建时间
+ * @property updateTime 更新时间
  * @constructor Create empty Bind entity
  *
  * @author BingZi-233

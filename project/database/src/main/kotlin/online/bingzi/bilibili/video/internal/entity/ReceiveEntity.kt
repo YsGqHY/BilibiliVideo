@@ -19,7 +19,8 @@ import java.util.*
  * @property playerName 玩家名称
  * @property bilibiliMid 领取账户MID
  * @property bilibiliBv 领取视频BV
- * @property createTime 领取时间
+ * @property createTime 创建时间(等价领取时间)
+ * @property updateTime 更新时间
  * @constructor Create empty Receive entity
  *
  * @author BingZi-233

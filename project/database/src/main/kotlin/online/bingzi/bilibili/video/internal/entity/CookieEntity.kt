@@ -19,6 +19,8 @@ import java.util.*
  * @property sessData sessData
  * @property buvid3 buvid3
  * @property expiredTime 数据失效时间
+ * @property createTime 创建时间
+ * @property updateTime 更新时间
  * @constructor Create empty Cookie entity
  *
  * @author BingZi-233
