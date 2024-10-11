@@ -55,7 +55,7 @@ object CommandReceive {
                     }
                 } ?: sender.sendWarn("bindNotFound") // 绑定实体未找到，发送警告信息
             }
-            dynamic(comment = "player") {
+            dynamic(comment = "player", optional = true, permission = "BilibiliVideo.command.receive.player") {
                 // 提供玩家名称的建议
                 suggestPlayers()
                 execute<ProxyPlayer> { sender, context, _ ->
