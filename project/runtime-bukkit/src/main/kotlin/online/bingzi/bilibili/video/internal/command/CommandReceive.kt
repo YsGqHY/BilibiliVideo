@@ -1,9 +1,12 @@
 package online.bingzi.bilibili.video.internal.command
 
 import online.bingzi.bilibili.video.api.BilibiliVideoAPI
+import online.bingzi.bilibili.video.api.event.BilibiliPlayerReceiveFailedEvent
+import online.bingzi.bilibili.video.api.event.BilibiliPlayerReceiveSuccessEvent
 import online.bingzi.bilibili.video.internal.config.VideoConfig
 import online.bingzi.bilibili.video.internal.helper.ketherEval
 import online.bingzi.bilibili.video.internal.helper.toFormatter
+import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestPlayers
@@ -36,6 +39,13 @@ object CommandReceive {
                 BilibiliVideoAPI.getPlayerBindEntity(sender.uniqueId)?.let { bindEntity ->
                     // 检查该玩家是否已经领取过该 bv 对应的奖励
                     if (BilibiliVideoAPI.checkPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv)) {
+                        val bilibiliPlayerReceiveFailedEvent = BilibiliPlayerReceiveFailedEvent(sender.castSafely<Player>()!!, bilibiliBv)
+                        // 调用事件
+                        bilibiliPlayerReceiveFailedEvent.call()
+                        // 如果被取消，则中断后续流程
+                        if (bilibiliPlayerReceiveFailedEvent.isCancelled) {
+                            return@execute
+                        }
                         // 已经领取过了，发送警告信息
                         BilibiliVideoAPI.getPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv)?.let {
                             sender.sendWarn(
@@ -49,6 +59,13 @@ object CommandReceive {
                             )
                         }
                     } else {
+                        val bilibiliPlayerReceiveSuccessEvent = BilibiliPlayerReceiveSuccessEvent(sender.castSafely<Player>()!!, bilibiliBv)
+                        // 调用事件
+                        bilibiliPlayerReceiveSuccessEvent.call()
+                        // 如果被取消，则中断后续流程
+                        if (bilibiliPlayerReceiveSuccessEvent.isCancelled) {
+                            return@execute
+                        }
                         // 还没有领取过，设置领取实体并执行相关命令
                         BilibiliVideoAPI.setPlayerReceiveEntityByPlayerUUIDAndBv(sender.uniqueId, sender.name, bilibiliBv, bindEntity.bilibiliMid.toString())
                         VideoConfig.getVideo(bilibiliBv)!!.command.ketherEval(sender)
@@ -71,6 +88,13 @@ object CommandReceive {
                     BilibiliVideoAPI.getPlayerBindEntity(player.uniqueId)?.let { bindEntity ->
                         // 检查该玩家是否已经领取过该 bv 对应的奖励
                         if (BilibiliVideoAPI.checkPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv)) {
+                            val bilibiliPlayerReceiveFailedEvent = BilibiliPlayerReceiveFailedEvent(player.castSafely<Player>()!!, bilibiliBv)
+                            // 调用事件
+                            bilibiliPlayerReceiveFailedEvent.call()
+                            // 如果被取消，则中断后续流程
+                            if (bilibiliPlayerReceiveFailedEvent.isCancelled) {
+                                return@execute
+                            }
                             // 已经领取过了，发送警告信息
                             BilibiliVideoAPI.getPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv)?.let {
                                 sender.sendWarn(
@@ -85,6 +109,13 @@ object CommandReceive {
                                 )
                             }
                         } else {
+                            val bilibiliPlayerReceiveSuccessEvent = BilibiliPlayerReceiveSuccessEvent(player.castSafely<Player>()!!, bilibiliBv)
+                            // 调用事件
+                            bilibiliPlayerReceiveSuccessEvent.call()
+                            // 如果被取消，则中断后续流程
+                            if (bilibiliPlayerReceiveSuccessEvent.isCancelled) {
+                                return@execute
+                            }
                             // 还没有领取过，设置领取实体并执行相关命令
                             BilibiliVideoAPI.setPlayerReceiveEntityByPlayerUUIDAndBv(
                                 player.uniqueId,

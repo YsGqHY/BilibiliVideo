@@ -4,9 +4,9 @@ import org.bukkit.entity.Player
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
- * Bilibili player receive event
+ * Bilibili player receive failed event
  * <p>
- * 玩家领取时间
+ * 玩家领取失败事件
  *
  * @property player 玩家
  * @property bv BV号
@@ -15,4 +15,4 @@ import taboolib.platform.type.BukkitProxyEvent
  * @author BingZi-233
  * @since 2.0.0
  */
-class BilibiliPlayerReceiveEvent(val player: Player, val bv: String) : BukkitProxyEvent()
+class BilibiliPlayerReceiveFailedEvent(val player: Player, val bv: String) : BukkitProxyEvent()
