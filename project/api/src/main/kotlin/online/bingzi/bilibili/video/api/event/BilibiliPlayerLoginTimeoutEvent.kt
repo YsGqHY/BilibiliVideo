@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
- * Player login bilibili timeout event
+ * Bilibili player login timeout event
  * <p>
  * 玩家登录Bilibili超时事件
  *
@@ -14,4 +14,4 @@ import taboolib.platform.type.BukkitProxyEvent
  * @author BingZi-233
  * @since 2.0.0
  */
-class PlayerLoginBilibiliTimeoutEvent(val player: Player) : BukkitProxyEvent()
+class BilibiliPlayerLoginTimeoutEvent(val player: Player) : BukkitProxyEvent()

@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
- * Player login bilibili success event
+ * Bilibili player login success event
  * <p>
  * 玩家登录Bilibili成功事件
  *
@@ -14,4 +14,4 @@ import taboolib.platform.type.BukkitProxyEvent
  * @author BingZi-233
  * @since 2.0.0
  */
-class PlayerLoginBilibiliSuccessEvent(val player: Player) : BukkitProxyEvent()
+class BilibiliPlayerLoginSuccessEvent(val player: Player) : BukkitProxyEvent()

@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
- * Player change bilibili event
+ * Bilibili player change bind event
  * <p>
  * 玩家变更Bilibili事件(玩家换绑账户事件)
  *
@@ -16,4 +16,4 @@ import taboolib.platform.type.BukkitProxyEvent
  * @author BingZi-233
  * @since 2.0.0
  */
-class PlayerChangeBilibiliEvent(val player: Player, val oldMid: String, val newMid: String) : BukkitProxyEvent()
+class BilibiliPlayerChangeBindEvent(val player: Player, val oldMid: String, val newMid: String) : BukkitProxyEvent()
