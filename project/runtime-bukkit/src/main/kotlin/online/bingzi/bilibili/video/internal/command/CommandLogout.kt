@@ -1,6 +1,8 @@
 package online.bingzi.bilibili.video.internal.command
 
 import online.bingzi.bilibili.video.api.BilibiliVideoAPI
+import online.bingzi.bilibili.video.api.event.BilibiliPlayerQuitEvent
+import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
@@ -42,7 +44,14 @@ object CommandLogout {
                 // 获取指定名称的玩家
                 getProxyPlayer(playerName)?.let {
                     // 获取与该玩家唯一 ID 绑定的 Bilibili Cookie 实体并删除
-                    BilibiliVideoAPI.getPlayerCookieEntity(it.uniqueId)?.delete()
+                    BilibiliVideoAPI.getPlayerCookieEntity(it.uniqueId)?.let {
+                        val bilibiliPlayerQuitEvent = BilibiliPlayerQuitEvent(sender.castSafely<Player>()!!)
+                        bilibiliPlayerQuitEvent.call()
+                        if (bilibiliPlayerQuitEvent.isCancelled) {
+                            return@execute
+                        }
+                        it.delete()
+                    }
                     // 发送指定玩家登出成功的信息
                     sender.sendInfo("commandLogoutPlayerSuccess", playerName)
                 } ?: sender.sendWarn("playerNotFound", playerName) // 玩家未找到，发送警告信息
