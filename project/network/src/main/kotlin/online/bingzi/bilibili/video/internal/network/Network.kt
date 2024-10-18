@@ -49,6 +49,16 @@ object Network {
     private const val API_BASE_URL = "https://api.bilibili.com"
 
     /**
+     * Github Base Url
+     * <p>
+     * GitHub Api 接口 Base Url
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    private const val GITHUB_BASE_URL = "https://api.github.com"
+
+    /**
      * Login client
      * <p>
      * 登录相关的 OkHttpClient
