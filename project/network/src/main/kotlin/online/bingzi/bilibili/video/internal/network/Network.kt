@@ -5,6 +5,7 @@ import online.bingzi.bilibili.video.internal.interceptor.ReceivedCookiesIntercep
 import online.bingzi.bilibili.video.internal.interceptor.UserAgentInterceptor
 import online.bingzi.bilibili.video.internal.network.service.ActionService
 import online.bingzi.bilibili.video.internal.network.service.Buvid3Service
+import online.bingzi.bilibili.video.internal.network.service.GitHubService
 import online.bingzi.bilibili.video.internal.network.service.LoginService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -124,4 +125,18 @@ object Network {
         .client(generalClient)
         .build()
         .create(ActionService::class.java)
+
+    /**
+     * Github service
+     * <p>
+     * Github 服务
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    val githubService: GitHubService = Retrofit.Builder()
+        .baseUrl(GITHUB_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(GitHubService::class.java)
 }
