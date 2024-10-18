@@ -80,15 +80,15 @@ object CommandReceive {
                     val bilibiliBv = context["bv"]
                     val playerName = context["player"]
                     // 获取指定名称的玩家
-                    val player = getProxyPlayer(playerName) ?: let {
+                    val proxyPlayer = getProxyPlayer(playerName) ?: let {
                         sender.sendWarn("playerNotFound", playerName) // 玩家未找到，发送警告信息
                         return@execute
                     }
                     // 获取与该玩家唯一 ID 绑定的 Bilibili 视频实体
-                    BilibiliVideoAPI.getPlayerBindEntity(player.uniqueId)?.let { bindEntity ->
+                    BilibiliVideoAPI.getPlayerBindEntity(proxyPlayer.uniqueId)?.let { bindEntity ->
                         // 检查该玩家是否已经领取过该 bv 对应的奖励
                         if (BilibiliVideoAPI.checkPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv)) {
-                            val bilibiliPlayerReceiveFailedEvent = BilibiliPlayerReceiveFailedEvent(player.castSafely<Player>()!!, bilibiliBv)
+                            val bilibiliPlayerReceiveFailedEvent = BilibiliPlayerReceiveFailedEvent(proxyPlayer.castSafely<Player>()!!, bilibiliBv)
                             // 调用事件
                             bilibiliPlayerReceiveFailedEvent.call()
                             // 如果被取消，则中断后续流程
@@ -109,7 +109,7 @@ object CommandReceive {
                                 )
                             }
                         } else {
-                            val bilibiliPlayerReceiveSuccessEvent = BilibiliPlayerReceiveSuccessEvent(player.castSafely<Player>()!!, bilibiliBv)
+                            val bilibiliPlayerReceiveSuccessEvent = BilibiliPlayerReceiveSuccessEvent(proxyPlayer.castSafely<Player>()!!, bilibiliBv)
                             // 调用事件
                             bilibiliPlayerReceiveSuccessEvent.call()
                             // 如果被取消，则中断后续流程
@@ -118,8 +118,8 @@ object CommandReceive {
                             }
                             // 还没有领取过，设置领取实体并执行相关命令
                             BilibiliVideoAPI.setPlayerReceiveEntityByPlayerUUIDAndBv(
-                                player.uniqueId,
-                                player.name,
+                                proxyPlayer.uniqueId,
+                                proxyPlayer.name,
                                 bilibiliBv,
                                 bindEntity.bilibiliMid.toString()
                             )
