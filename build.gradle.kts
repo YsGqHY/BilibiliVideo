@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "2.0.18"
+    id("io.izzel.taboolib") version "2.0.19"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
     id("org.jetbrains.dokka") version "1.9.20"
 }
@@ -26,7 +26,7 @@ subprojects {
             install(Metrics)
             install(CommandHelper)
         }
-        version { taboolib = "6.2.0-beta15-dev" }
+        version { taboolib = "6.2.0-beta20" }
     }
 
     // 全局仓库
