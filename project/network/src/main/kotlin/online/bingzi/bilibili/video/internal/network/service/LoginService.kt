@@ -29,7 +29,7 @@ interface LoginService {
      * @since 2.0.0
      */
     @GET("/x/passport-login/web/qrcode/generate")
-    suspend fun generate(): Call<ResultVO<GenerateData>>
+    fun generate(): Call<ResultVO<GenerateData>>
 
     /**
      * Poll
@@ -43,5 +43,5 @@ interface LoginService {
      * @since 2.0.0
      */
     @GET("/x/passport-login/web/qrcode/poll")
-    suspend fun poll(@Query("qrcode_key") qrcodeKey: String): Call<ResultVO<PollData>>
+    fun poll(@Query("qrcode_key") qrcodeKey: String): Call<ResultVO<PollData>>
 }

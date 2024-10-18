@@ -24,5 +24,5 @@ interface Buvid3Service {
      * @return [Buvid3Data]
      */
     @GET("/x/web-frontend/getbuvid")
-    suspend fun getBuvid3(): Call<ResultVO<Buvid3Data>>
+    fun getBuvid3(): Call<ResultVO<Buvid3Data>>
 }

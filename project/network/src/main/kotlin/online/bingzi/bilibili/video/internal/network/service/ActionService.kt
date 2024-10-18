@@ -35,7 +35,7 @@ interface ActionService {
      * @since 2.0.0
      */
     @GET("/x/web-interface/archive/has/like")
-    suspend fun getLike(
+    fun getLike(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
         @Header("Cookie") buvid3: String
@@ -55,7 +55,7 @@ interface ActionService {
      * @since 2.0.0
      */
     @GET("/x/web-interface/archive/coins")
-    suspend fun getCoins(
+    fun getCoins(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
         @Header("Cookie") buvid3: String
@@ -75,7 +75,7 @@ interface ActionService {
      * @since 2.0.0
      */
     @GET("/x/v2/fav/video/favoured")
-    suspend fun getFavoured(
+    fun getFavoured(
         @Query("aid") bvid: String,
         @Header("Cookie") sessData: String,
         @Header("Cookie") buvid3: String
@@ -95,7 +95,7 @@ interface ActionService {
      * @since 2.0.0
      */
     @GET("/x/web-interface/archive/like/triple")
-    suspend fun actionTripleLink(
+    fun actionTripleLink(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
         @Header("Cookie") buvid3: String

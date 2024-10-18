@@ -26,5 +26,5 @@ interface GitHubService {
      * @since 2.0.0
      */
     @GET("/repos/BingZi-233/BilibiliVideo/releases/latest")
-    suspend fun getLatestRelease(): Call<ReleasesData>
+    fun getLatestRelease(): Call<ReleasesData>
 }
