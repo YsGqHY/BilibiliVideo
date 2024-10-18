@@ -1,6 +1,7 @@
 package online.bingzi.bilibili.video.internal.network.service
 
 import online.bingzi.bilibili.video.internal.entity.ReleasesData
+import retrofit2.Call
 import retrofit2.http.GET
 
 /**
@@ -25,5 +26,5 @@ interface GitHubService {
      * @since 2.0.0
      */
     @GET("/repos/BingZi-233/BilibiliVideo/releases/latest")
-    suspend fun getLatestRelease(): ReleasesData
+    suspend fun getLatestRelease(): Call<ReleasesData>
 }
