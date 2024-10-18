@@ -26,7 +26,7 @@ object CommandUnbind {
      * @author BingZi-233
      * @since 2.0.0
      */
-    var execute = subCommand {
+    val execute = subCommand {
         // 定义一个执行命令的处理器，处理ProxyPlayer类型的发送者
         execute<ProxyPlayer> { sender, context, argument ->
             // 获取与发送者唯一ID相关的Bilibili视频绑定实体
