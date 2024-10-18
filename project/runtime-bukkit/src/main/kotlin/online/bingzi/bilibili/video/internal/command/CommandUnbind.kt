@@ -28,7 +28,7 @@ object CommandUnbind {
      */
     val execute = subCommand {
         // 定义一个执行命令的处理器，处理ProxyPlayer类型的发送者
-        execute<ProxyPlayer> { sender, context, argument ->
+        execute<ProxyPlayer> { sender, _, _ ->
             // 获取与发送者唯一ID相关的Bilibili视频绑定实体
             BilibiliVideoAPI.getPlayerBindEntity(sender.uniqueId)?.let {
                 // 如果成功获取绑定实体，向发送者发送解绑成功的信息

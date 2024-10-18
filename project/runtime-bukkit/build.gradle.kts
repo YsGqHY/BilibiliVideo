@@ -2,7 +2,6 @@ dependencies {
     // 引入 API
     compileOnly(project(":project:api"))
     compileOnly(project(":project:core"))
-    compileOnly(project(":project:network"))
     compileOnly(project(":project:database"))
     // 引入 服务端核心
     compileOnly("ink.ptms.core:v12004:12004:mapped")
