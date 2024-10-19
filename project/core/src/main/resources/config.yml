@@ -2,3 +2,8 @@
 # true - 开启，将会有更多的日志输出。
 # false - 关闭，将会屏蔽细节日志输出。
 debug: false
+
+# GitHub 配置
+github:
+  # 代理前缀
+  proxy: ""

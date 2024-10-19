@@ -38,6 +38,14 @@ object MainConfig {
     var debugStatus: Boolean = false
 
     /**
+     * Github访问代理，用于访问Github资源。
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    var githubProxy: String = ""
+
+    /**
      * 加载配置的方法，从配置文件中读取调试状态。
      * 在生命周期启用时调用。
      *
@@ -47,6 +55,7 @@ object MainConfig {
     @Awake(LifeCycle.ENABLE)
     fun load() {
         debugStatus = config.getBoolean("debug")
+        githubProxy = config.getString("github.proxy") ?: ""
         if (ServerStageIndicator.serverStage == LifeCycle.ACTIVE) {
             console().sendInfo("reloadSuccess", "config.yml")
         }
