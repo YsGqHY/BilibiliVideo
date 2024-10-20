@@ -5,9 +5,12 @@ dependencies {
     compileOnly(project(":project:database"))
     // 引入 Indicator依赖
     compileOnly(project(":project:indicator"))
+    // 二维码转换
+    compileOnly("com.google.zxing:core:3.5.2")
 }
 
 // 子模块
 taboolib {
     subproject = true
+    relocate("com.google.zxing", "oonline.bingzi.bilibili.video.library.zxing")
 }

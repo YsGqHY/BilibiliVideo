@@ -3,6 +3,7 @@ dependencies {
     compileOnly(project(":project:api"))
     compileOnly(project(":project:core"))
     compileOnly(project(":project:database"))
+    compileOnly(project(":project:nms"))
     // 引入 服务端核心
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
@@ -13,4 +14,6 @@ dependencies {
 }
 
 // 子模块
-taboolib { subproject = true }
+taboolib {
+    subproject = true
+}

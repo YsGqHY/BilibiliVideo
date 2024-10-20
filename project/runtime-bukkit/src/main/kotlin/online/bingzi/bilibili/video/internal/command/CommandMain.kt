@@ -1,9 +1,10 @@
 package online.bingzi.bilibili.video.internal.command
 
-import taboolib.common.platform.command.CommandBody
-import taboolib.common.platform.command.CommandHeader
-import taboolib.common.platform.command.PermissionDefault
-import taboolib.common.platform.command.mainCommand
+import online.bingzi.bilibili.video.internal.helper.ImageHelper
+import online.bingzi.bilibili.video.internal.nms.NMS
+import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyPlayer
+import taboolib.common.platform.command.*
 import taboolib.expansion.createHelper
 
 /**
@@ -42,7 +43,11 @@ object CommandMain {
      * @author BingZi-233
      * @since 2.0.0
      */
-    @CommandBody(aliases = ["open"], permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(
+        aliases = ["open"],
+        permission = "BilibiliVideo.command.login",
+        permissionDefault = PermissionDefault.TRUE
+    )
     val login = CommandLogin.execute
 
     /**
@@ -64,7 +69,11 @@ object CommandMain {
      * @author BingZi-233
      * @since 2.0.0
      */
-    @CommandBody(aliases = ["use"], permission = "BilibiliVideo.command.receive", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(
+        aliases = ["use"],
+        permission = "BilibiliVideo.command.receive",
+        permissionDefault = PermissionDefault.TRUE
+    )
     val receive = CommandReceive.execute
 
     /**
@@ -110,5 +119,14 @@ object CommandMain {
      */
     @CommandBody(permission = "BilibiliVideo.command.version", permissionDefault = PermissionDefault.OP)
     val version = CommandVersion.execute
+
+    @CommandBody()
+    val test = subCommand {
+        execute<ProxyPlayer> { sender, context, argument ->
+            val itemStack =
+                NMS.INSTANCE.builderMap(ImageHelper.stringToBufferImage("https://img.fastmirror.net/s/2024/10/18/6711d11d4495c.png"))
+            sender.castSafely<Player>()!!.inventory.addItem(itemStack)
+        }
+    }
 }
 
