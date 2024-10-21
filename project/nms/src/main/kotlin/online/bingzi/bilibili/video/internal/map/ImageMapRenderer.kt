@@ -10,7 +10,7 @@ class ImageMapRenderer(val image: BufferedImage) : MapRenderer() {
     private var renderer = false
     override fun render(mapView: MapView, mapCanvas: MapCanvas, player: Player) {
         if (renderer) {
-//            return
+            return
         }
         mapCanvas.drawImage(0, 0, image)
         renderer = true
