@@ -6,11 +6,33 @@ import taboolib.common.env.RuntimeDependency
 import java.awt.Color
 import java.awt.image.BufferedImage
 
+/**
+ * Image helper
+ * <p>
+ * 图像辅助类
+ *
+ * @constructor Create empty Image helper
+ *
+ * @author BingZi-233
+ * @since 2.0.0
+ */
 @RuntimeDependency(value = "!com.google.zxing:core:3.5.2", test = "com.google.zxing.qrcode.QRCodeWriter")
 object ImageHelper {
-    fun stringToBufferImage(url: String, size: Int = 128): BufferedImage {
+    /**
+     * String to buffer image
+     * <p>
+     * 字符串转图像
+     *
+     * @param content 内容
+     * @param size 默认 128
+     * @return [BufferedImage]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun stringToBufferImage(content: String, size: Int = 128): BufferedImage {
         val writer = QRCodeWriter()
-        val bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, size, size)
+        val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, size, size)
         val image = BufferedImage(size, size, BufferedImage.TYPE_INT_RGB)
         val graphics = image.createGraphics()
         graphics.color = Color.WHITE
