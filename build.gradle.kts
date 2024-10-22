@@ -18,6 +18,17 @@ subprojects {
 
     // TabooLib 配置
     taboolib {
+        description {
+            desc("Bilibili视频一键三连奖励系统，目前维护在GitHub上。遇到问题请先在GitHub上提出Issue，遇到长时间无反应请联系[冰子]。")
+            contributors {
+                name("坏黑")
+                name("冰子")
+                name("南瓜")
+            }
+            links {
+                name("homepage").url("https://github.com/BingZi-233/BilibiliVideo")
+            }
+        }
         env {
             install(Basic)
             install(Bukkit)

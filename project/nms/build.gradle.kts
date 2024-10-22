@@ -13,4 +13,10 @@ dependencies {
 // 子模块
 taboolib {
     subproject = true
+
+    description {
+        dependencies {
+            name("ProtocolLib").with("bukkit")
+        }
+    }
 }
