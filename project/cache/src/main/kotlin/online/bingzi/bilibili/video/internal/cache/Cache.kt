@@ -19,7 +19,7 @@ import java.util.*
  * @since 2.0.0
  */
 @RuntimeDependencies(
-    RuntimeDependency(value = "!com.github.ben-manes.caffeine:caffeine:2.9.2")
+    RuntimeDependency(value = "!com.github.ben-manes.caffeine:caffeine:2.9.2", relocate = ["!com.github.ben-manes", "!online.bingzi.bilibili.video.library.caffeine"])
 )
 object Cache {
     /**

@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage
  * @author BingZi-233
  * @since 2.0.0
  */
-@RuntimeDependency(value = "!com.google.zxing:core:3.5.2", test = "com.google.zxing.qrcode.QRCodeWriter")
+@RuntimeDependency(value = "!com.google.zxing:core:3.5.2", relocate = ["!com.google.zxing", "!online.bingzi.bilibili.video.library.zxing"])
 object ImageHelper {
     /**
      * String to buffer image
