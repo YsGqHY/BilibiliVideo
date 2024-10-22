@@ -21,7 +21,7 @@ import taboolib.common.env.RuntimeDependency
     RuntimeDependency(value = "!com.j256.ormlite:ormlite-core:6.1"),
     RuntimeDependency(value = "!com.j256.ormlite:ormlite-jdbc:6.1"),
     RuntimeDependency(value = "!org.xerial:sqlite-jdbc:3.46.1.3"),
-    RuntimeDependency(value = "!com.zaxxer:HikariCP:5.1.0"),
+    RuntimeDependency(value = "!com.zaxxer:HikariCP:4.0.3"),
     RuntimeDependency(value = "!com.mysql:mysql-connector-j:8.2.0"),
 )
 internal object Database {

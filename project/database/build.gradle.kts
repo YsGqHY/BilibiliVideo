@@ -8,7 +8,7 @@ dependencies {
     // MySQL驱动
     compileOnly("com.mysql:mysql-connector-j:8.2.0")
     // HikariCP 数据库连接池
-    compileOnly("com.zaxxer:HikariCP:5.1.0")
+    compileOnly("com.zaxxer:HikariCP:4.0.3")
 
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:v12004:universal")
