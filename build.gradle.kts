@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     java
     id("io.izzel.taboolib") version "2.0.19"
-    id("org.jetbrains.kotlin.jvm") version "1.8.22"
+    id("org.jetbrains.kotlin.jvm") version "1.9.23"
     id("org.jetbrains.dokka") version "1.9.20"
 }
 
@@ -29,6 +29,7 @@ subprojects {
                 name("homepage").url("https://github.com/BingZi-233/BilibiliVideo")
             }
         }
+
         env {
             install(Basic)
             install(Bukkit)
@@ -37,6 +38,7 @@ subprojects {
             install(Metrics)
             install(CommandHelper)
         }
+
         version { taboolib = "6.2.0-beta20" }
     }
 
@@ -44,7 +46,9 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven("https://repo.dmulloy2.net/repository/public/")
     }
+
     // 全局依赖
     dependencies {
         compileOnly(kotlin("stdlib"))

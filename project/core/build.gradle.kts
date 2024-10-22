@@ -12,5 +12,4 @@ dependencies {
 // 子模块
 taboolib {
     subproject = true
-    relocate("com.google.zxing", "oonline.bingzi.bilibili.video.library.zxing")
 }

@@ -14,5 +14,4 @@ dependencies {
 // 子模块
 taboolib {
     subproject = true
-    relocate("com.github.ben-manes", "online.bingzi.bilibili.video.library.caffeine")
 }

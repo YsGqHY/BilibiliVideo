@@ -6,5 +6,4 @@ dependencies {
 // 子模块
 taboolib {
     subproject = true
-    relocate("retrofit2", "online.bingzi.bilibili.video.library.retrofit2")
 }

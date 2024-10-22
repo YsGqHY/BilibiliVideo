@@ -1,8 +1,3 @@
-repositories {
-    mavenCentral()
-    maven("https://repo.dmulloy2.net/repository/public/")
-}
-
 dependencies {
     // 引入 服务端核心
     compileOnly("ink.ptms.core:v12004:12004:mapped")
@@ -13,10 +8,4 @@ dependencies {
 // 子模块
 taboolib {
     subproject = true
-
-    description {
-        dependencies {
-            name("ProtocolLib").with("bukkit")
-        }
-    }
 }

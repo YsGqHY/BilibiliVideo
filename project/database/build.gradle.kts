@@ -19,8 +19,4 @@ dependencies {
 // 子模块
 taboolib {
     subproject = true
-    relocate("com.j256.ormlite", "online.bingzi.bilibili.video.library.ormlite")
-    relocate("com.zaxxer.hikari", "online.bingzi.bilibili.video.library.hikari")
-    relocate("org.sqlite", "online.bingzi.bilibili.video.library.sqlite")
-    relocate("org.mysql", "online.bingzi.bilibili.video.library.mysql")
 }
