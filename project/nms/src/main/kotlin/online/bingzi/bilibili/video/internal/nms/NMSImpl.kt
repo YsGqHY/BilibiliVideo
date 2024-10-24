@@ -3,7 +3,6 @@ package online.bingzi.bilibili.video.internal.nms
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.wrappers.Pair
-import net.minecraft.world.level.saveddata.maps.MapId
 import online.bingzi.bilibili.video.internal.entity.HandEnum
 import online.bingzi.bilibili.video.internal.map.ImageMapRenderer
 import org.bukkit.Bukkit
@@ -11,6 +10,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.MapMeta
 import taboolib.common.util.unsafeLazy
 import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.library.reflex.Reflex.Companion.invokeConstructor
 import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.library.reflex.Reflex.Companion.unsafeInstance
@@ -40,6 +40,9 @@ class NMSImpl : NMS() {
                 Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
             }
         }
+    }
+    private val classMapId: Class<*> by unsafeLazy {
+        Class.forName("net.minecraft.world.level.saveddata.maps.MapId")
     }
 
     override fun sendVirtualMapToPlayer(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit) {
@@ -73,7 +76,7 @@ class NMSImpl : NMS() {
         when {
             // 如果高于 1.21 版本，则使用新的方法发送地图渲染包
             MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_21) -> {
-                packetPlayOutMap.setProperty("mapId", MapId(mapView.id))
+                packetPlayOutMap.setProperty("mapId", classMapId.invokeConstructor(mapView.id))
                 packetPlayOutMap.setProperty("scale", 0)
                 packetPlayOutMap.setProperty("locked", false)
                 packetPlayOutMap.setProperty("decorations", ArrayList<Any>())
