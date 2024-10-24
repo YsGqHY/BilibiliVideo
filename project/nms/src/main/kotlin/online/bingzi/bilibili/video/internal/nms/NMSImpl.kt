@@ -24,6 +24,7 @@ import taboolib.platform.util.buildItem
 import java.awt.image.BufferedImage
 import java.lang.reflect.Array
 
+@Suppress("DEPRECATION")
 class NMSImpl : NMS() {
     private val protocolManager = ProtocolLibrary.getProtocolManager()
     private val packetEntityEquipment = protocolManager.createPacket(PacketType.Play.Server.ENTITY_EQUIPMENT)
