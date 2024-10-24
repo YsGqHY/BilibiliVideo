@@ -19,9 +19,9 @@ import java.awt.image.BufferedImage
  */
 abstract class NMS {
     /**
-     * Send player map
+     * Send virtual map to player
      * <p>
-     * 发送地图给指定的玩家。
+     * 发送虚拟地图给指定的玩家。
      *
      * @param player 目标玩家对象
      * @param bufferedImage 要发送的图像
@@ -32,7 +32,23 @@ abstract class NMS {
      * @author BingZi-233
      * @since 2.0.0
      */
-    abstract fun sendPlayerMap(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit)
+    abstract fun sendVirtualMapToPlayer(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit)
+
+    /**
+     * Send virtual map to player async
+     * <p>
+     * 发送虚拟地图给指定的玩家。
+     *
+     * @param player 目标玩家对象
+     * @param bufferedImage 要发送的图像
+     * @param hand 玩家手中的物品类型
+     * @param itemBuilder 用于构建物品的lambda表达式
+     * @receiver [ItemBuilder]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    abstract fun sendVirtualMapToPlayerAsync(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit)
 
     companion object {
         /**

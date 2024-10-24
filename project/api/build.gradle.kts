@@ -5,6 +5,8 @@ dependencies {
     compileOnly(project(":project:cache"))
     // network 模块
     compileOnly(project(":project:network"))
+    // nms 模块
+    compileOnly(project(":project:nms"))
     // ORMLite 核心
     compileOnly("com.j256.ormlite:ormlite-core:6.1")
     // ORMLite JDBC 驱动

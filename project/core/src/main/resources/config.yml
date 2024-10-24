@@ -7,3 +7,14 @@ debug: false
 github:
   # 代理前缀
   proxy: ""
+
+setting:
+  # 地图将会出现在玩家的那只手里
+  # MAIN_HAND - 主手
+  # OFF_HAND - 副手
+  hand: MAIN_HAND
+  # 是否异步发送地图显示数据包
+  # true - 异步
+  # false - 同步
+  # 注：如果你使用BungeeCord等代理，请设置为false。
+  asyncSendPacket: false

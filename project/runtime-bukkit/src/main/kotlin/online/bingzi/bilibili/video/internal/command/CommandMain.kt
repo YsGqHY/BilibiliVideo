@@ -1,11 +1,9 @@
 package online.bingzi.bilibili.video.internal.command
 
-import online.bingzi.bilibili.video.internal.entity.HandEnum
-import online.bingzi.bilibili.video.internal.helper.ImageHelper
-import online.bingzi.bilibili.video.internal.nms.NMS
-import org.bukkit.entity.Player
-import taboolib.common.platform.ProxyPlayer
-import taboolib.common.platform.command.*
+import taboolib.common.platform.command.CommandBody
+import taboolib.common.platform.command.CommandHeader
+import taboolib.common.platform.command.PermissionDefault
+import taboolib.common.platform.command.mainCommand
 import taboolib.expansion.createHelper
 
 /**
@@ -120,16 +118,5 @@ object CommandMain {
      */
     @CommandBody(permission = "BilibiliVideo.command.version", permissionDefault = PermissionDefault.OP)
     val version = CommandVersion.execute
-
-    @CommandBody()
-    val test = subCommand {
-        execute<ProxyPlayer> { sender, _, _ ->
-            val image = ImageHelper.stringToBufferImage("https://img.fastmirror.net/s/2024/10/18/6711d11d4495c.png")
-//            sender.castSafely<Player>()?.inventory?.addItem(itemStack)
-            NMS.INSTANCE.sendPlayerMap(sender.castSafely<Player>()!!, image, HandEnum.OFF_HAND) {
-                name = "TestItemStack"
-            }
-        }
-    }
 }
 

@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.config
 
+import online.bingzi.bilibili.video.internal.entity.HandEnum
 import online.bingzi.bilibili.video.internal.indicator.ServerStageIndicator
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -46,6 +47,22 @@ object MainConfig {
     var githubProxy: String = ""
 
     /**
+     * 地图发送到玩家到那个位置
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    var settingHand = HandEnum.MAIN_HAND
+
+    /**
+     * 虚拟包发送方式
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    var settingAsyncSendPacket = false
+
+    /**
      * 加载配置的方法，从配置文件中读取调试状态。
      * 在生命周期启用时调用。
      *
@@ -56,6 +73,8 @@ object MainConfig {
     fun load() {
         debugStatus = config.getBoolean("debug")
         githubProxy = config.getString("github.proxy") ?: ""
+        settingHand = config.getEnum("setting.hand", HandEnum::class.java) ?: HandEnum.MAIN_HAND
+        settingAsyncSendPacket = config.getBoolean("setting.asyncSendPacket")
         if (ServerStageIndicator.serverStage == LifeCycle.ACTIVE) {
             console().sendInfo("reloadSuccess", "config.yml")
         }
