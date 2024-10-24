@@ -18,6 +18,7 @@ import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.NMSMap.Companion.classMapIcon
 import taboolib.module.nms.nmsClass
+import taboolib.module.nms.sendPacket
 import taboolib.module.nms.sendPacketBlocking
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
@@ -153,6 +154,10 @@ class NMSImpl : NMS() {
                 packetPlayOutMap.setProperty("h", buffer)
             }
         }
-        player.sendPacketBlocking(packetPlayOutMap)
+        if (async) {
+            player.sendPacket(packetPlayOutMap)
+        } else {
+            player.sendPacketBlocking(packetPlayOutMap)
+        }
     }
 }
