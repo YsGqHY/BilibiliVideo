@@ -33,7 +33,7 @@ class NMSImpl : NMS() {
     private val classPacketPlayOutMap = nmsClass("PacketPlayOutMap")
     private val classMapData: Class<*> by unsafeLazy {
         when {
-            MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_20) -> Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
+            MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_20) -> Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData\$MapPatch")
             else -> Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
         }
     }
