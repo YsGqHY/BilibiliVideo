@@ -25,8 +25,10 @@ import taboolib.common.platform.function.pluginVersion
  * @since 2.0.0
  */
 @RuntimeDependencies(
-    RuntimeDependency(value = "!com.squareup.retrofit2:retrofit:2.11.0"),
-    RuntimeDependency(value = "!com.squareup.retrofit2:converter-gson:2.11.0"),
+    RuntimeDependency(value = "!com.squareup.okio:okio-jvm:3.9.0", relocate = ["!kotlin.", "!kotlin1923"]),
+    RuntimeDependency(value = "!com.squareup.okhttp3:okhttp:3.14.9", relocate = ["!kotlin.", "!kotlin1923"]),
+    RuntimeDependency(value = "!com.squareup.retrofit2:retrofit:2.11.0", relocate = ["!retrofit2", "!online.bingzi.bilibili.video.library.retrofit2"]),
+    RuntimeDependency(value = "!com.squareup.retrofit2:converter-gson:2.11.0", relocate = ["!retrofit2", "!online.bingzi.bilibili.video.library.retrofit2"]),
 )
 object Network {
     /**

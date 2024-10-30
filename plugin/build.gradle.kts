@@ -28,11 +28,6 @@ taboolib {
     relocate("org.mysql", "online.bingzi.bilibili.video.library.mysql")
 }
 
-dependencies {
-    taboo("com.squareup.retrofit2:retrofit:2.11.0")
-    taboo("com.squareup.retrofit2:converter-gson:2.11.0")
-}
-
 tasks {
     jar {
         // 构件名
