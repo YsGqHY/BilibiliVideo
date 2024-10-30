@@ -24,6 +24,7 @@ import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
 import java.awt.image.BufferedImage
 import java.lang.reflect.Array
+import java.util.*
 
 @Suppress("DEPRECATION")
 class NMSImpl : NMS() {
@@ -32,18 +33,11 @@ class NMSImpl : NMS() {
     private val classPacketPlayOutMap = nmsClass("PacketPlayOutMap")
     private val classMapData: Class<*> by unsafeLazy {
         when {
-            MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_20) -> {
-                Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap.b")
-            }
-
-            else -> {
-                Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
-            }
+            MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_20) -> Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
+            else -> Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
         }
     }
-    private val classMapId: Class<*> by unsafeLazy {
-        Class.forName("net.minecraft.world.level.saveddata.maps.MapId")
-    }
+    private val classMapId: Class<*> by unsafeLazy { Class.forName("net.minecraft.world.level.saveddata.maps.MapId") }
 
     override fun sendVirtualMapToPlayer(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit) {
         sendMapToPlayer(player, bufferedImage, hand, false, itemBuilder)
@@ -62,7 +56,11 @@ class NMSImpl : NMS() {
         mapView.addRenderer(imageMapRenderer)
         mapItem.itemMeta?.let {
             if (it is MapMeta) {
-                it.mapView = mapView
+                if (MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_13)) {
+                    it.mapView = mapView
+                } else {
+
+                }
                 mapItem.itemMeta = it
             }
         }
@@ -77,21 +75,21 @@ class NMSImpl : NMS() {
             // 如果高于 1.21 版本，则使用新的方法发送地图渲染包
             MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_21) -> {
                 packetPlayOutMap.setProperty("mapId", classMapId.invokeConstructor(mapView.id))
-                packetPlayOutMap.setProperty("scale", 0)
+                packetPlayOutMap.setProperty("scale", mapView.scale.value)
                 packetPlayOutMap.setProperty("locked", false)
-                packetPlayOutMap.setProperty("decorations", ArrayList<Any>())
-                packetPlayOutMap.setProperty("colorPatch", classMapData.unsafeInstance().also {
+                packetPlayOutMap.setProperty("decorations", Optional.empty<List<Any>>())
+                packetPlayOutMap.setProperty("colorPatch", Optional.of(classMapData.unsafeInstance().also {
                     it.setProperty("startX", 0)
                     it.setProperty("startY", 0)
                     it.setProperty("width", 128)
                     it.setProperty("height", 128)
                     it.setProperty("mapColors", buffer)
-                })
+                }))
             }
             // 如果高于 1.20 版本，则使用新的方法发送地图渲染包
             MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_20) -> {
                 packetPlayOutMap.setProperty("mapId", mapView.id)
-                packetPlayOutMap.setProperty("scale", 0)
+                packetPlayOutMap.setProperty("scale", mapView.scale.value)
                 packetPlayOutMap.setProperty("locked", false)
                 packetPlayOutMap.setProperty("decorations", ArrayList<Any>())
                 packetPlayOutMap.setProperty("colorPatch", classMapData.unsafeInstance().also {
