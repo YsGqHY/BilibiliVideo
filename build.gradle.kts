@@ -10,6 +10,11 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
 }
 
+// 全局依赖
+dependencies {
+    compileOnly(fileTree("libs"))
+}
+
 subprojects {
     apply<JavaPlugin>()
     apply(plugin = "io.izzel.taboolib")
@@ -42,6 +47,7 @@ subprojects {
     // 全局依赖
     dependencies {
         compileOnly(kotlin("stdlib"))
+        compileOnly(fileTree("libs"))
     }
 
     // 编译配置
