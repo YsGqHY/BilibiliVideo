@@ -16,7 +16,6 @@ import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.library.reflex.Reflex.Companion.unsafeInstance
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.MinecraftVersion
-import taboolib.module.nms.NMSMap.Companion.classMapIcon
 import taboolib.module.nms.nmsClass
 import taboolib.module.nms.sendPacket
 import taboolib.module.nms.sendPacketBlocking
@@ -42,6 +41,7 @@ class NMSImpl : NMS() {
         }
     }
     private val classMapId: Class<*> by unsafeLazy { Class.forName("net.minecraft.world.level.saveddata.maps.MapId") }
+    private val classMapIcon by unsafeLazy { nmsClass("MapIcon") }
 
     override fun sendVirtualMapToPlayer(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit) {
         sendMapToPlayer(player, bufferedImage, hand, false, itemBuilder)
