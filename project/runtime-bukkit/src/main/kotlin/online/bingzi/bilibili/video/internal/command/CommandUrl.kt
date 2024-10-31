@@ -32,7 +32,7 @@ object CommandUrl {
      */
     val execute = subCommand {
         dynamic(comment = "bv") {
-            suggestion<ProxyPlayer> { _, _ ->
+            suggestion<ProxyCommandSender> { _, _ ->
                 VideoConfig.getVideoKeys()
             }
             execute<ProxyPlayer> { sender, context, _ ->

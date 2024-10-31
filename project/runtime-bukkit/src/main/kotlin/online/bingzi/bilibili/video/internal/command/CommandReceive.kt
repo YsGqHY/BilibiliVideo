@@ -7,6 +7,7 @@ import online.bingzi.bilibili.video.internal.config.VideoConfig
 import online.bingzi.bilibili.video.internal.helper.ketherEval
 import online.bingzi.bilibili.video.internal.helper.toFormatter
 import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestPlayers
@@ -32,6 +33,9 @@ object CommandReceive {
      */
     val execute = subCommand {
         dynamic(comment = "bv") {
+            suggestion<ProxyCommandSender> { _, _ ->
+                VideoConfig.getVideoKeys()
+            }
             execute<ProxyPlayer> { sender, context, _ ->
                 // 从上下文中获取 bv 参数
                 val bilibiliBv = context["bv"]
