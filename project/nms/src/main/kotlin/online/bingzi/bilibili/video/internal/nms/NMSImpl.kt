@@ -22,6 +22,7 @@ import taboolib.module.nms.sendPacket
 import taboolib.module.nms.sendPacketBlocking
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
+import taboolib.platform.util.modifyMeta
 import java.awt.image.BufferedImage
 import java.lang.reflect.Array
 import java.util.*
@@ -32,9 +33,12 @@ class NMSImpl : NMS() {
     private val packetEntityEquipment = protocolManager.createPacket(PacketType.Play.Server.ENTITY_EQUIPMENT)
     private val classPacketPlayOutMap = nmsClass("PacketPlayOutMap")
     private val classMapData: Class<*> by unsafeLazy {
-        when {
-            MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_20) -> Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData\$MapPatch")
-            else -> Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
+        try {
+            // 尝试找Spigot的WorldMap.b
+            Class.forName("net.minecraft.world.level.saveddata.maps.WorldMap\$b")
+        } catch (e: ClassNotFoundException) {
+            // 没有找到Spigot的WorldMap.b，尝试找Paper的MapItemSavedData.MapPatch
+            Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData\$MapPatch")
         }
     }
     private val classMapId: Class<*> by unsafeLazy { Class.forName("net.minecraft.world.level.saveddata.maps.MapId") }
@@ -49,20 +53,20 @@ class NMSImpl : NMS() {
 
     private fun sendMapToPlayer(player: Player, bufferedImage: BufferedImage, hand: HandEnum, async: Boolean, itemBuilder: ItemBuilder.() -> Unit) {
         val imageMapRenderer = ImageMapRenderer(bufferedImage)
-        val mapItem = buildItem(XMaterial.FILLED_MAP, itemBuilder)
         val mapView = Bukkit.createMap(Bukkit.getWorlds()[0]).apply {
             renderers.forEach { removeRenderer(it) }
         }
         mapView.addRenderer(imageMapRenderer)
-        mapItem.itemMeta?.let {
-            if (it is MapMeta) {
-                if (MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_13)) {
-                    it.mapView = mapView
-                } else {
-
-                }
-                mapItem.itemMeta = it
+        val mapItem = if (MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_13)) {
+            buildItem(XMaterial.FILLED_MAP, itemBuilder)
+        } else {
+            buildItem(XMaterial.FILLED_MAP) {
+                damage = mapView.invokeMethod<Short>("getId")!!.toInt()
+                itemBuilder(this)
             }
+        }
+        if (MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_13)) {
+            mapItem.modifyMeta<MapMeta> { this.mapView = mapView }
         }
         packetEntityEquipment.integers.write(0, player.entityId)
         packetEntityEquipment.slotStackPairLists.write(0, listOf(Pair(hand.wrapper, mapItem)))
