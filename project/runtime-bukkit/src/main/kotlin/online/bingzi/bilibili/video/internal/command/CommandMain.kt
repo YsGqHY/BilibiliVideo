@@ -17,10 +17,7 @@ import taboolib.expansion.createHelper
  * @since 2.0.0
  */
 @CommandHeader(
-    name = "BilibiliVideo",
-    aliases = ["bv", "bilibili-video"],
-    permission = "BilibiliVideo.command.use",
-    permissionDefault = PermissionDefault.TRUE
+    name = "BilibiliVideo", aliases = ["bv", "bilibili-video"], permission = "BilibiliVideo.command.use", permissionDefault = PermissionDefault.TRUE
 )
 object CommandMain {
     /**
@@ -42,11 +39,7 @@ object CommandMain {
      * @author BingZi-233
      * @since 2.0.0
      */
-    @CommandBody(
-        aliases = ["open"],
-        permission = "BilibiliVideo.command.login",
-        permissionDefault = PermissionDefault.TRUE
-    )
+    @CommandBody(aliases = ["open"], permission = "BilibiliVideo.command.login", permissionDefault = PermissionDefault.TRUE)
     val login = CommandLogin.execute
 
     /**
@@ -57,7 +50,7 @@ object CommandMain {
      * @author BingZi-233
      * @since 2.0.0
      */
-    @CommandBody(permission = "BilibiliVideo.command.logout", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(aliases = ["quit"], permission = "BilibiliVideo.command.logout", permissionDefault = PermissionDefault.TRUE)
     val logout = CommandLogout.execute
 
     /**
@@ -68,11 +61,7 @@ object CommandMain {
      * @author BingZi-233
      * @since 2.0.0
      */
-    @CommandBody(
-        aliases = ["use"],
-        permission = "BilibiliVideo.command.receive",
-        permissionDefault = PermissionDefault.TRUE
-    )
+    @CommandBody(aliases = ["use"], permission = "BilibiliVideo.command.receive", permissionDefault = PermissionDefault.TRUE)
     val receive = CommandReceive.execute
 
     /**
@@ -105,7 +94,7 @@ object CommandMain {
      * @author BingZi-233
      * @since 2.0.0
      */
-    @CommandBody(permission = "BilibiliVideo.command.url", permissionDefault = PermissionDefault.TRUE)
+    @CommandBody(aliases = ["video"], permission = "BilibiliVideo.command.url", permissionDefault = PermissionDefault.TRUE)
     val url = CommandUrl.execute
 
     /**
@@ -116,7 +105,7 @@ object CommandMain {
      * @author BingZi-233
      * @since 2.0.0
      */
-    @CommandBody(permission = "BilibiliVideo.command.version", permissionDefault = PermissionDefault.OP)
+    @CommandBody(aliases = ["v"], permission = "BilibiliVideo.command.version", permissionDefault = PermissionDefault.OP)
     val version = CommandVersion.execute
 }
 
