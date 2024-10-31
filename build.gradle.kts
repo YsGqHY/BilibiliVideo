@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "2.0.12"
+    id("io.izzel.taboolib") version "2.0.19"
     id("org.jetbrains.kotlin.jvm") version "1.9.23"
 }
 
@@ -23,13 +23,19 @@ taboolib {
         }
     }
     env {
-        install(KETHER, DATABASE, METRICS, UI)
-        install(NMS, NMS_UTIL)
-        install(UNIVERSAL)
-        install(BUKKIT_ALL)
+        install(Kether)
+        install(Database)
+        install(Metrics)
+        install(Basic)
+        install(Bukkit)
+        install(BukkitNMS)
+        install(BukkitNMSUtil)
+        install(BukkitNMSItemTag)
+        install(CommandHelper)
+        install(BukkitHook)
     }
     version {
-        taboolib = "6.1.2-beta10"
+        taboolib = "6.2.0-beta26"
     }
     relocate("com.google.zxing", "online.bingzi.libs.zxing")
     relocate("com.google.gson", "online.bingzi.libs.gson")
