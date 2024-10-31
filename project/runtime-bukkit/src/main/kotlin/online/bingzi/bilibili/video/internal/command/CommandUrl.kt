@@ -2,6 +2,7 @@ package online.bingzi.bilibili.video.internal.command
 
 import online.bingzi.bilibili.video.api.BilibiliVideoNMSAPI
 import online.bingzi.bilibili.video.internal.config.MainConfig
+import online.bingzi.bilibili.video.internal.config.VideoConfig
 import online.bingzi.bilibili.video.internal.helper.ImageHelper
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
@@ -31,6 +32,9 @@ object CommandUrl {
      */
     val execute = subCommand {
         dynamic(comment = "bv") {
+            suggestion<ProxyPlayer> { _, _ ->
+                VideoConfig.getVideoKeys()
+            }
             execute<ProxyPlayer> { sender, context, _ ->
                 // 从上下文中获取视频标识符 bv
                 val bv = context["bv"]

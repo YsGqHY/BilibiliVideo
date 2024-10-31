@@ -92,5 +92,18 @@ object VideoConfig {
     fun getVideo(bv: String): Video? {
         return videoData[bv]
     }
+
+    /**
+     * 获取所有视频标识符的列表。
+     *
+     * @return [List]
+     * @see [String]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun getVideoKeys(): List<String> {
+        return videoData.keys.toList()
+    }
 }
 
