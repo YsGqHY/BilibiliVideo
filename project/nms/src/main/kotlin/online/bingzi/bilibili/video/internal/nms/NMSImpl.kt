@@ -58,15 +58,16 @@ class NMSImpl : NMS() {
         }
         mapView.addRenderer(imageMapRenderer)
         val mapItem = if (MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_13)) {
-            buildItem(XMaterial.FILLED_MAP, itemBuilder)
+            buildItem(XMaterial.FILLED_MAP, itemBuilder).apply {
+                this.modifyMeta<MapMeta> {
+                    this@modifyMeta.mapView = mapView
+                }
+            }
         } else {
             buildItem(XMaterial.FILLED_MAP) {
                 damage = mapView.invokeMethod<Short>("getId")!!.toInt()
                 itemBuilder(this)
             }
-        }
-        if (MinecraftVersion.isHigherOrEqual(MinecraftVersion.V1_13)) {
-            mapItem.modifyMeta<MapMeta> { this.mapView = mapView }
         }
         packetEntityEquipment.integers.write(0, player.entityId)
         packetEntityEquipment.slotStackPairLists.write(0, listOf(Pair(hand.wrapper, mapItem)))
