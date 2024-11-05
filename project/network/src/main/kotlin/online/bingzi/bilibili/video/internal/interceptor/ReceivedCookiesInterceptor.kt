@@ -2,7 +2,7 @@ package online.bingzi.bilibili.video.internal.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import online.bingzi.bilibili.video.internal.cache.NetworkCache
+import online.bingzi.bilibili.video.internal.cache.Cache
 
 /**
  * Received cookies interceptor
@@ -19,7 +19,7 @@ class ReceivedCookiesInterceptor : Interceptor {
         val originalResponse: Response = chain.proceed(chain.request())
         if (originalResponse.headers("Set-Cookie").isNotEmpty()) {
             chain.request().url().queryParameter("qrcode_key")?.let {
-                NetworkCache.loginCookieCache.put(it, originalResponse.headers("Set-Cookie"))
+                Cache.loginCookieCache.put(it, originalResponse.headers("Set-Cookie"))
             }
         }
         return originalResponse
