@@ -40,4 +40,18 @@ data class ResultVO<T>(
     fun isSuccess(): Boolean {
         return code == 0
     }
+
+    /**
+     * Is failed
+     * <p>
+     * 是否失败
+     *
+     * @return Boolean
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun isFailed(): Boolean {
+        return isSuccess().not()
+    }
 }
