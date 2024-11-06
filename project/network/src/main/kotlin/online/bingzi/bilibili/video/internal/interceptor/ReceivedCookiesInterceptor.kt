@@ -17,9 +17,10 @@ import online.bingzi.bilibili.video.internal.cache.Cache
 class ReceivedCookiesInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalResponse: Response = chain.proceed(chain.request())
-        if (originalResponse.headers("Set-Cookie").isNotEmpty()) {
+        val headers = originalResponse.headers("Set-Cookie")
+        if (headers.isNotEmpty()) {
             chain.request().url().queryParameter("qrcode_key")?.let {
-                Cache.loginCookieCache.put(it, originalResponse.headers("Set-Cookie"))
+                Cache.loginCookieCache.put(it, headers)
             }
         }
         return originalResponse
