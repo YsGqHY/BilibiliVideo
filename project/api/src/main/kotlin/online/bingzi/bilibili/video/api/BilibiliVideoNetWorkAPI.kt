@@ -15,6 +15,7 @@ import retrofit2.await
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.pluginVersion
+import taboolib.expansion.DurationType
 import taboolib.expansion.chain
 import taboolib.module.lang.sendInfo
 import taboolib.module.lang.sendWarn
@@ -63,7 +64,7 @@ object BilibiliVideoNetWorkAPI {
                 if (resultVO.isSuccess() && (resultVO.data.isLogin() || resultVO.data.isInvalid())) {
                     return@chain
                 }
-                delay(2000)
+                wait(20L, type = DurationType.MINECRAFT_TICK)
             }
         }
     }
