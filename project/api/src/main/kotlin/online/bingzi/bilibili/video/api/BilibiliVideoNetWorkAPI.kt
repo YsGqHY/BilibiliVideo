@@ -3,8 +3,11 @@ package online.bingzi.bilibili.video.api
 import kotlinx.coroutines.delay
 import online.bingzi.bilibili.video.api.event.BilibiliQRCodeWriteCacheEvent
 import online.bingzi.bilibili.video.internal.cache.Cache
+import online.bingzi.bilibili.video.internal.config.MainConfig
 import online.bingzi.bilibili.video.internal.entity.ReleasesData
+import online.bingzi.bilibili.video.internal.helper.ImageHelper
 import online.bingzi.bilibili.video.internal.network.Network
+import org.bukkit.entity.Player
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +44,12 @@ object BilibiliVideoNetWorkAPI {
             if (resultVo.isSuccess()) {
                 Cache.qrCodeCache.put(proxyPlayer.uniqueId, resultVo.data.qrcodeKey)
                 BilibiliQRCodeWriteCacheEvent(proxyPlayer, resultVo.data.qrcodeKey).call()
+                val stringToBufferImage = ImageHelper.stringToBufferImage(resultVo.data.url)
+                if (MainConfig.settingAsyncSendPacket) {
+                    BilibiliVideoNMSAPI.sendVirtualMapToPlayerAsync(proxyPlayer.castSafely<Player>()!!, stringToBufferImage, MainConfig.settingHand)
+                } else {
+                    BilibiliVideoNMSAPI.sendVirtualMapToPlayer(proxyPlayer.castSafely<Player>()!!, stringToBufferImage, MainConfig.settingHand)
+                }
             } else {
                 proxyPlayer.sendWarn("responseFailed", resultVo.message)
             }
