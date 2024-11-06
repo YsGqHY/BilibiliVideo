@@ -3,8 +3,6 @@ dependencies {
     compileOnly(project(":project:api"))
     // 引入 核心 模块
     compileOnly(project(":project:core"))
-    // 引入 数据库 模块
-    compileOnly(project(":project:database"))
     // 引入 NMS 模块
     compileOnly(project(":project:nms"))
     // 引入 服务端 核心

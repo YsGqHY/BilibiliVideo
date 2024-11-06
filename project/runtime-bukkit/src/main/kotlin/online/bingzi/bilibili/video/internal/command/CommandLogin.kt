@@ -4,6 +4,5 @@ import taboolib.common.platform.command.subCommand
 
 object CommandLogin {
     val execute = subCommand {
-
     }
 }

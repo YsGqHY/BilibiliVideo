@@ -25,7 +25,7 @@ object CommandVersion {
         // 定义一个执行命令的处理器，处理ProxyCommandSender类型的发送者
         execute<ProxyCommandSender> { sender, _, _ ->
             // 调用Bilibili视频网络API发送版本信息给发送者
-            BilibiliVideoNetWorkAPI.sendVersion(sender)
+            BilibiliVideoNetWorkAPI.requestLatestVersion(sender)
         }
     }
 }

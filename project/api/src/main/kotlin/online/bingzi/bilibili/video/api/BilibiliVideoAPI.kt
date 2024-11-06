@@ -4,6 +4,7 @@ import online.bingzi.bilibili.video.internal.cache.Cache
 import online.bingzi.bilibili.video.internal.entity.BindEntity
 import online.bingzi.bilibili.video.internal.entity.CookieEntity
 import online.bingzi.bilibili.video.internal.entity.ReceiveEntity
+import taboolib.common.platform.ProxyPlayer
 import java.util.*
 
 /**
@@ -45,6 +46,16 @@ object BilibiliVideoAPI {
      */
     fun getPlayerCookieEntity(playerUUID: UUID): CookieEntity? {
         return Cache.cookieCache.get(playerUUID)
+    }
+
+    fun setPlayerCookieEntity(proxyPlayer: ProxyPlayer, qrCodeKey: String): Boolean {
+        val cookieList = Cache.loginCookieCache.get(qrCodeKey) { null } ?: return false
+        val cookieEntity = CookieEntity(proxyPlayer.uniqueId, proxyPlayer.name)
+        val sessData = cookieList
+            .first { it.startsWith("SESSDATA") }
+            .split(";", "=", limit = 2)[1]
+        cookieEntity.sessData = sessData
+        return true
     }
 
     /**

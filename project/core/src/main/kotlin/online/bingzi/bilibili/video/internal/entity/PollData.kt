@@ -30,16 +30,16 @@ data class PollData(
     val message: String
 ) {
     /**
-     * Is timeout
+     * Is invalid
      * <p>
      * 是否超时
      *
-     * @return Boolean
+     * @return [Boolean]
      *
      * @author BingZi-233
      * @since 2.0.0
      */
-    fun isTimeout(): Boolean {
+    fun isInvalid(): Boolean {
         return code == 86038
     }
 
@@ -48,30 +48,12 @@ data class PollData(
      * <p>
      * 是否登录
      *
-     * @return Boolean
+     * @return [Boolean]
      *
      * @author BingZi-233
      * @since 2.0.0
      */
     fun isLogin(): Boolean {
         return code == 0
-    }
-
-    /**
-     * Get status message
-     * <p>
-     * 获取状态描述
-     *
-     * @return Message
-     *
-     * @author BingZi-233
-     * @since 2.0.0
-     */
-    fun getStatusMessage(): String {
-        return if (code == 0) {
-            "已登录"
-        } else {
-            message
-        }
     }
 }

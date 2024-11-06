@@ -1,10 +1,5 @@
 dependencies {
-    // database 模块
-    compileOnly(project(":project:database"))
-    // cache 模块
-    compileOnly(project(":project:cache"))
-    // network 模块
-    compileOnly(project(":project:network"))
+    compileOnly(project(":project:core"))
     // nms 模块
     compileOnly(project(":project:nms"))
     // ORMLite 核心

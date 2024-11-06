@@ -36,6 +36,9 @@ playerNotFound: "&c&l未找到玩家 {0} 游戏数据。"
 versionNotSupported: "&c&l当前服务器版本 {0} 未被支持。"
 bindNotFound: "&c&l未找到绑定的账户数据。"
 bindPlayerNotFound: "&c&l未找到玩家 {0} 绑定的账户数据。"
+networkError: "&c&l网络连接错误，无法与Bilibili建立数据通讯。诊断信息: {0}"
+responseBodyEmptyError: "&c&lBilibili返回响应体为空，请稍后再试。"
+responseFailed: "&c&lBilibili返回响应失败，请稍后再试。诊断信息: {0}"
 
 # 命令相关
 commandLogoutSuccess: "&a&l账户数据登出成功。！"
