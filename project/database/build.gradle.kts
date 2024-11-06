@@ -9,10 +9,10 @@ dependencies {
     compileOnly("com.mysql:mysql-connector-j:8.2.0")
     // HikariCP 数据库连接池
     compileOnly("com.zaxxer:HikariCP:4.0.3")
-
+    // 引入 服务端 核心
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:v12004:universal")
-    // 引入 Indicator依赖
+    // 引入 Indicator 依赖
     compileOnly(project(":project:indicator"))
 }
 

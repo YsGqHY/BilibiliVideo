@@ -15,7 +15,7 @@ dependencies {
     compileOnly("com.github.ben-manes.caffeine:caffeine:2.9.2")
     // 引入 Retrofit 网络请求
     compileOnly("com.squareup.retrofit2:retrofit:2.11.0")
-    // 引入 服务端核心
+    // 引入 服务端 核心
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
 }
