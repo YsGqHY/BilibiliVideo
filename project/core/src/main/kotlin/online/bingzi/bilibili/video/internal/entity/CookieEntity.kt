@@ -34,8 +34,8 @@ data class CookieEntity(
     var playerName: String? = null,
     @DatabaseField
     var sessData: String? = null,
-    @DatabaseField(dataType = DataType.DATE_INTEGER, format = "yyyy-MM-ss HH:mm:ss")
-    var expiredTime: Date? = null,
+    @DatabaseField
+    var refreshToken: String? = null,
     @DatabaseField(
         dataType = DataType.DATE_STRING,
         format = "yyyy-MM-ss HH:mm:ss",

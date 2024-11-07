@@ -82,6 +82,19 @@ object Cache {
         .build<String, List<String>>()
 
     /**
+     * Login refresh token cache
+     * <p>
+     * 登录刷新令牌
+     * 用户在Cookie请求失效的时候进行令牌轮换
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    val loginRefreshTokenCache = Caffeine.newBuilder()
+        .maximumSize(100)
+        .build<String, String>()
+
+    /**
      * Qr code cache
      * <p>
      * 二维码缓存

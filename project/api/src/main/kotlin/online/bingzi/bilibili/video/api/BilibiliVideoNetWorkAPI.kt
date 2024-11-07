@@ -111,6 +111,7 @@ object BilibiliVideoNetWorkAPI {
             voResponse.body()?.let { resultVO ->
                 if (resultVO.isSuccess() && (resultVO.data.isLogin() || resultVO.data.isInvalid())) {
                     if (resultVO.data.isLogin()) {
+                        Cache.loginRefreshTokenCache.put(qrCodeKey, resultVO.data.refreshToken)
                         BilibiliCookieWriteCacheEvent(qrCodeKey).call()
                     }
                     return true

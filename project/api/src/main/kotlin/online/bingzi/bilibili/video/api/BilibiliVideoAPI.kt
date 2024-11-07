@@ -64,10 +64,12 @@ object BilibiliVideoAPI {
      */
     fun setPlayerCookieEntity(qrCodeKey: String): Boolean {
         val cookieList = Cache.loginCookieCache.get(qrCodeKey) { null } ?: return false
+        val refreshToken = Cache.loginRefreshTokenCache.get(qrCodeKey) { null } ?: return false
         val proxyPlayer = (Cache.qrCodeCache.get(qrCodeKey) { null })?.let { getProxyPlayer(it) } ?: return false
         val cookieEntity = CookieEntity(proxyPlayer.uniqueId, proxyPlayer.name)
         val sessData = cookieList.first { it.startsWith("SESSDATA") }.split(";", "=", limit = 2)[1]
         cookieEntity.sessData = sessData
+        cookieEntity.refreshToken = refreshToken
         cookieEntity.create()
         BilibiliCookieEntityCreateEvent(cookieEntity).call()
         return true
