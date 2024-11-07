@@ -17,8 +17,7 @@ import java.util.*
  * @property playerUUID 玩家UUID
  * @property playerName 玩家名称
  * @property sessData sessData
- * @property buvid3 buvid3
- * @property expiredTime 数据失效时间
+ * @property refreshToken 刷新令牌
  * @property createTime 创建时间
  * @property updateTime 更新时间
  * @constructor Create empty Cookie entity
