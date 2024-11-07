@@ -63,12 +63,11 @@ object BilibiliVideoAPI {
      * @since 2.0.0
      */
     fun saveOrUpdatePlayerBindEntity(proxyPlayer: ProxyPlayer, bindEntity: BindEntity) {
-        val entity = BindEntity.getDao().queryForId(proxyPlayer.uniqueId)
-        if (entity == null) {
+        val entity = BindEntity.getDao().queryForId(proxyPlayer.uniqueId) ?: let {
             bindEntity.create()
-        } else {
-            bindEntity.update()
+            bindEntity
         }
+        entity.update()
     }
 
     /**
@@ -83,12 +82,11 @@ object BilibiliVideoAPI {
      * @since 2.0.0
      */
     fun saveOrUpdatePlayerCookieEntity(proxyPlayer: ProxyPlayer, cookieEntity: CookieEntity) {
-        val entity = CookieEntity.getDao().queryForId(proxyPlayer.uniqueId)
-        if (entity == null) {
+        val entity = CookieEntity.getDao().queryForId(proxyPlayer.uniqueId) ?: let {
             cookieEntity.create()
-        } else {
-            cookieEntity.update()
+            cookieEntity
         }
+        entity.update()
     }
 
     /**
