@@ -1,0 +1,8 @@
+version: "1.0"
+profile:
+  name: qodana.starter
+exclude:
+  # KDoc未解析
+  - name: KDocUnresolvedReference
+  # 存在漏洞的依赖
+  - name: VulnerableLibrariesLocal
