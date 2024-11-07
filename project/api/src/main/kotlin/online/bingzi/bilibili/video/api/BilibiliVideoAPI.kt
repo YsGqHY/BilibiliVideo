@@ -71,7 +71,7 @@ object BilibiliVideoAPI {
         cookieEntity.sessData = sessData
         cookieEntity.refreshToken = refreshToken
         cookieEntity.create()
-        BilibiliCookieEntityCreateEvent(cookieEntity).call()
+        BilibiliCookieEntityCreateEvent(proxyPlayer, cookieEntity).call()
         return true
     }
 

@@ -7,6 +7,7 @@ import online.bingzi.bilibili.video.internal.config.MainConfig
 import online.bingzi.bilibili.video.internal.entity.GenerateData
 import online.bingzi.bilibili.video.internal.entity.ReleasesData
 import online.bingzi.bilibili.video.internal.entity.ResultVO
+import online.bingzi.bilibili.video.internal.entity.UserInfo
 import online.bingzi.bilibili.video.internal.helper.ImageHelper
 import online.bingzi.bilibili.video.internal.helper.debug
 import online.bingzi.bilibili.video.internal.network.Network
@@ -157,5 +158,28 @@ object BilibiliVideoNetWorkAPI {
                 Cache.buvid3 = it
             }
         }
+    }
+
+    /**
+     * Request bilibili get user info
+     * <p>
+     * 请求用户信息
+     *
+     * @param sessData Cookie(SESSDATA)
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun requestBilibiliGetUserInfo(sessData: String) {
+        Network.actionService.getUserInfo(sessData).enqueue(object : Callback<ResultVO<UserInfo>> {
+            override fun onResponse(call: Call<ResultVO<UserInfo>>, response: Response<ResultVO<UserInfo>>) {
+
+            }
+
+            override fun onFailure(call: Call<ResultVO<UserInfo>>, t: Throwable) {
+
+            }
+
+        })
     }
 }
