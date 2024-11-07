@@ -43,7 +43,6 @@ object BilibiliVideoNMSAPI {
      * @param player 目标玩家
      * @param bufferedImage 图片
      * @param hand 手
-     * @param itemBuilder 构建器
      * @receiver [ItemBuilder]
      *
      * @author BingZi-233
@@ -82,7 +81,6 @@ object BilibiliVideoNMSAPI {
      * @param player 目标玩家
      * @param bufferedImage 图片
      * @param hand 手
-     * @param itemBuilder 构建器
      * @receiver [ItemBuilder]
      *
      * @author BingZi-233
