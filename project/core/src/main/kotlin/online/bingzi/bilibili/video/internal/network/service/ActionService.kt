@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.internal.network.service
 
+import online.bingzi.bilibili.video.internal.cache.Cache
 import online.bingzi.bilibili.video.internal.entity.CoinsData
 import online.bingzi.bilibili.video.internal.entity.FavouredData
 import online.bingzi.bilibili.video.internal.entity.ResultVO
@@ -38,7 +39,7 @@ interface ActionService {
     fun getLike(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String
+        @Header("Cookie") buvid3: String = Cache.buvid3
     ): Call<ResultVO<Int>>
 
     /**
@@ -58,7 +59,7 @@ interface ActionService {
     fun getCoins(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String
+        @Header("Cookie") buvid3: String = Cache.buvid3
     ): Call<ResultVO<CoinsData>>
 
     /**
@@ -78,7 +79,7 @@ interface ActionService {
     fun getFavoured(
         @Query("aid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String
+        @Header("Cookie") buvid3: String = Cache.buvid3
     ): Call<ResultVO<FavouredData>>
 
     /**
@@ -98,6 +99,6 @@ interface ActionService {
     fun actionTripleLink(
         @Query("bvid") bvid: String,
         @Header("Cookie") sessData: String,
-        @Header("Cookie") buvid3: String
+        @Header("Cookie") buvid3: String = Cache.buvid3
     ): Call<ResultVO<TripleLinkData>>
 }
