@@ -79,8 +79,8 @@ object BilibiliVideoAPI {
      * 通过玩家UUID获取玩家领取数据
      *
      * @param playerUUID Player UUID
-     * @return List
-     * @see ReceiveEntity
+     * @return [List]
+     * @see [ReceiveEntity]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -98,7 +98,7 @@ object BilibiliVideoAPI {
      *
      * @param bilibiliMid Bilibili MID
      * @param bilibiliBv Bilibili BV
-     * @return Boolean
+     * @return [Boolean]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -113,8 +113,8 @@ object BilibiliVideoAPI {
      * 通过MID获取玩家领取数据
      *
      * @param bilibiliMid Bilibili MID
-     * @return List
-     * @see ReceiveEntity
+     * @return [List]
+     * @see [ReceiveEntity]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -129,8 +129,8 @@ object BilibiliVideoAPI {
      * 通过BV获取玩家领取数据
      *
      * @param bilibiliBv Bilibili BV
-     * @return List
-     * @see ReceiveEntity
+     * @return [List]
+     * @see [ReceiveEntity]
      *
      * @author BingZi-233
      * @since 2.0.0
