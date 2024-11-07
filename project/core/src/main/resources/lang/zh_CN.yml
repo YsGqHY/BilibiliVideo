@@ -31,6 +31,10 @@ ketherThrowable: "&c&l发生了Kether异常, 异常信息: {0}"
 reloadSuccess: "&a&l配置文件 {0} 已经自动重载完成。"
 reloadWarn: "&c&l配置文件 {0} 自动重载成功, 但有一些注意事项: {1}"
 
+# Buvid3获取相关
+buvid3Loading: "&a&l正在尝试获取Buvid3..."
+buvid3Loaded: "&a&l已获取到Buvid3。"
+
 # 公共
 playerNotFound: "&c&l未找到玩家 {0} 游戏数据。"
 versionNotSupported: "&c&l当前服务器版本 {0} 未被支持。"

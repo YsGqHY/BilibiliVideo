@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video
 
+import online.bingzi.bilibili.video.api.BilibiliVideoNetWorkAPI
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.Plugin
@@ -20,6 +21,9 @@ object BilibiliVideo : Plugin() {
      */
     override fun onLoad() {
         console().sendInfo("loading")
+        console().sendInfo("buvid3Loading")
+        BilibiliVideoNetWorkAPI.requestBilibiliGetBuvid3WriteCache()
+        console().sendInfo("buvid3Loaded")
         console().sendInfo("loaded")
     }
 

@@ -106,4 +106,14 @@ object Cache {
         .maximumSize(100)
         .expireAfterWrite(180, TimeUnit.SECONDS)
         .build<String, UUID>()
+
+    /**
+     * Buvid3
+     * <p>
+     * Buvid3标识，启动的时候自动获取
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    var buvid3: String = ""
 }

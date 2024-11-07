@@ -128,15 +128,34 @@ object BilibiliVideoNetWorkAPI {
      * <p>
      * 获取Buvid3
      *
-     * @param qrCodeKey 二维码Key
      * @return [String]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
      */
-    fun requestBilibiliGetBuvid3(qrCodeKey: String): String {
+    fun requestBilibiliGetBuvid3(): String {
         val voResponse = Network.buvid3Service.getBuvid3().execute()
         return if (voResponse.isSuccessful) {
             voResponse.body()?.data?.buVid ?: ""
         } else {
             ""
+        }
+    }
+
+    /**
+     * Request bilibili get buvid3 write cache
+     * <p>
+     * 请求buvid3写入缓存
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun requestBilibiliGetBuvid3WriteCache() {
+        val voResponse = Network.buvid3Service.getBuvid3().execute()
+        if (voResponse.isSuccessful) {
+            voResponse.body()?.data?.buVid?.let {
+                Cache.buvid3 = it
+            }
         }
     }
 }
