@@ -1,5 +1,6 @@
 package online.bingzi.bilibili.video.api
 
+import online.bingzi.bilibili.video.api.event.BilibiliCookieWriteCacheEvent
 import online.bingzi.bilibili.video.api.event.BilibiliQRCodeWriteCacheEvent
 import online.bingzi.bilibili.video.internal.cache.Cache
 import online.bingzi.bilibili.video.internal.config.MainConfig
@@ -20,8 +21,27 @@ import taboolib.module.lang.sendInfo
 import taboolib.module.lang.sendWarn
 import taboolib.platform.util.bukkitPlugin
 
-
+/**
+ * Bilibili video network API
+ * <p>
+ * Bilibili video network API
+ *
+ * @constructor Create empty Bilibili video network API
+ *
+ * @author BingZi-233
+ * @since 2.0.0
+ */
 object BilibiliVideoNetWorkAPI {
+    /**
+     * Request latest version
+     * <p>
+     * 获取最新版本信息
+     *
+     * @param proxyCommandSender 执行者
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     fun requestLatestVersion(proxyCommandSender: ProxyCommandSender) {
         Network.githubService.getLatestRelease().enqueue(object : Callback<ReleasesData> {
             override fun onResponse(call: Call<ReleasesData>, response: Response<ReleasesData>) {
@@ -38,12 +58,22 @@ object BilibiliVideoNetWorkAPI {
         })
     }
 
+    /**
+     * Request bilibili get qr code key
+     * <p>
+     * 获取二维码 key
+     *
+     * @param proxyPlayer 执行玩家
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     fun requestBilibiliGetQRCodeKey(proxyPlayer: ProxyPlayer) {
         Network.loginService.generate().enqueue(object : Callback<ResultVO<GenerateData>> {
             override fun onResponse(call: Call<ResultVO<GenerateData>>, response: Response<ResultVO<GenerateData>>) {
                 response.body()?.let { resultVo ->
                     if (resultVo.isSuccess()) {
-                        Cache.qrCodeCache.put(proxyPlayer.uniqueId, resultVo.data.qrcodeKey)
+                        Cache.qrCodeCache.put(resultVo.data.qrcodeKey, proxyPlayer.uniqueId)
                         BilibiliQRCodeWriteCacheEvent(proxyPlayer, resultVo.data.qrcodeKey).call()
                         val stringToBufferImage = ImageHelper.stringToBufferImage(resultVo.data.url)
                         if (MainConfig.settingAsyncSendPacket) {
@@ -64,11 +94,25 @@ object BilibiliVideoNetWorkAPI {
         })
     }
 
+    /**
+     * Request bilibili get cookie
+     * <p>
+     * 获取Cookie
+     *
+     * @param qrCodeKey 二维码Key
+     * @return [Boolean]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     fun requestBilibiliGetCookie(qrCodeKey: String): Boolean {
         val voResponse = Network.loginService.poll(qrCodeKey).execute()
         if (voResponse.isSuccessful) {
             voResponse.body()?.let { resultVO ->
                 if (resultVO.isSuccess() && (resultVO.data.isLogin() || resultVO.data.isInvalid())) {
+                    if (resultVO.data.isLogin()) {
+                        BilibiliCookieWriteCacheEvent(qrCodeKey).call()
+                    }
                     return true
                 }
             }
@@ -76,5 +120,22 @@ object BilibiliVideoNetWorkAPI {
             debug("网络故障，错误码 ${voResponse.code()} 错误信息 ${voResponse.message()}")
         }
         return false
+    }
+
+    /**
+     * Request bilibili get buvid3
+     * <p>
+     * 获取Buvid3
+     *
+     * @param qrCodeKey 二维码Key
+     * @return [String]
+     */
+    fun requestBilibiliGetBuvid3(qrCodeKey: String): String {
+        val voResponse = Network.buvid3Service.getBuvid3().execute()
+        return if (voResponse.isSuccessful) {
+            voResponse.body()?.data?.buVid ?: ""
+        } else {
+            ""
+        }
     }
 }

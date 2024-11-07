@@ -92,5 +92,5 @@ object Cache {
     val qrCodeCache = Caffeine.newBuilder()
         .maximumSize(100)
         .expireAfterWrite(180, TimeUnit.SECONDS)
-        .build<UUID, String>()
+        .build<String, UUID>()
 }

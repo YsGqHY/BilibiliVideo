@@ -18,3 +18,8 @@ setting:
   # false - 同步
   # 注：如果你使用BungeeCord等代理，请设置为false。
   asyncSendPacket: false
+
+bilibili:
+  # 风控标识
+  # 切勿改动该值
+  buvid3: ""

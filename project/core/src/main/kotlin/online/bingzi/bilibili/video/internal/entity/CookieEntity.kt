@@ -34,9 +34,6 @@ data class CookieEntity(
     var playerName: String? = null,
     @DatabaseField
     var sessData: String? = null,
-    // https://github.com/SocialSisterYi/bilibili-API-collect/issues/790
-    @DatabaseField
-    var buvid3: String? = null,
     @DatabaseField(dataType = DataType.DATE_INTEGER, format = "yyyy-MM-ss HH:mm:ss")
     var expiredTime: Date? = null,
     @DatabaseField(

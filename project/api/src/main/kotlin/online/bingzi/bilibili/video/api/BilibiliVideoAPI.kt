@@ -1,10 +1,13 @@
 package online.bingzi.bilibili.video.api
 
+import online.bingzi.bilibili.video.api.event.BilibiliCookieEntityCreateEvent
 import online.bingzi.bilibili.video.internal.cache.Cache
 import online.bingzi.bilibili.video.internal.entity.BindEntity
 import online.bingzi.bilibili.video.internal.entity.CookieEntity
 import online.bingzi.bilibili.video.internal.entity.ReceiveEntity
+import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyPlayer
+import taboolib.common.platform.function.getProxyPlayer
 import java.util.*
 
 /**
@@ -48,12 +51,64 @@ object BilibiliVideoAPI {
         return Cache.cookieCache.get(playerUUID)
     }
 
+    /**
+     * Set player cookie entity
+     * <p>
+     * 设置玩家Cookie实体
+     *
+     * @param qrCodeKey 二维码Key
+     * @return [Boolean]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun setPlayerCookieEntity(qrCodeKey: String): Boolean {
+        val cookieList = Cache.loginCookieCache.get(qrCodeKey) { null } ?: return false
+        val proxyPlayer = (Cache.qrCodeCache.get(qrCodeKey) { null })?.let { getProxyPlayer(it) } ?: return false
+        val cookieEntity = CookieEntity(proxyPlayer.uniqueId, proxyPlayer.name)
+        val sessData = cookieList.first { it.startsWith("SESSDATA") }.split(";", "=", limit = 2)[1]
+        cookieEntity.sessData = sessData
+        cookieEntity.create()
+        BilibiliCookieEntityCreateEvent(cookieEntity).call()
+        return true
+    }
+
+    /**
+     * Set player cookie entity
+     * <p>
+     * 设置玩家Cookie实体
+     *
+     * @param proxyPlayer 玩家
+     * @param qrCodeKey 二维码Key
+     * @return [Boolean]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     fun setPlayerCookieEntity(proxyPlayer: ProxyPlayer, qrCodeKey: String): Boolean {
         val cookieList = Cache.loginCookieCache.get(qrCodeKey) { null } ?: return false
         val cookieEntity = CookieEntity(proxyPlayer.uniqueId, proxyPlayer.name)
-        val sessData = cookieList
-            .first { it.startsWith("SESSDATA") }
-            .split(";", "=", limit = 2)[1]
+        val sessData = cookieList.first { it.startsWith("SESSDATA") }.split(";", "=", limit = 2)[1]
+        cookieEntity.sessData = sessData
+        return true
+    }
+
+    /**
+     * Set player cookie entity
+     * <p>
+     * 设置玩家Cookie实体
+     *
+     * @param player 玩家
+     * @param qrCodeKey 二维码Key
+     * @return [Boolean]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun setPlayerCookieEntity(player: Player, qrCodeKey: String): Boolean {
+        val cookieList = Cache.loginCookieCache.get(qrCodeKey) { null } ?: return false
+        val cookieEntity = CookieEntity(player.uniqueId, player.name)
+        val sessData = cookieList.first { it.startsWith("SESSDATA") }.split(";", "=", limit = 2)[1]
         cookieEntity.sessData = sessData
         return true
     }
@@ -170,10 +225,7 @@ object BilibiliVideoAPI {
      */
     fun setPlayerReceiveEntityByPlayerUUIDAndBv(playerUUID: UUID, playerName: String, bilibiliBv: String, bilibiliMid: String) {
         val receiveEntity = ReceiveEntity(
-            playerUUID = playerUUID,
-            playerName = playerName,
-            bilibiliBv = bilibiliBv,
-            bilibiliMid = bilibiliMid
+            playerUUID = playerUUID, playerName = playerName, bilibiliBv = bilibiliBv, bilibiliMid = bilibiliMid
         )
         receiveEntity.create()
     }
