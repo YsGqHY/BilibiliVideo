@@ -107,5 +107,16 @@ object CommandMain {
      */
     @CommandBody(aliases = ["v"], permission = "BilibiliVideo.command.version", permissionDefault = PermissionDefault.OP)
     val version = CommandVersion.execute
+
+    /**
+     * Buvid3
+     * <p>
+     * 定义buvid3命令，设置权限
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    @CommandBody(permission = "BilibiliVideo.command.buvid3", permissionDefault = PermissionDefault.OP)
+    val buvid3 = CommandBuvid3.execute
 }
 
