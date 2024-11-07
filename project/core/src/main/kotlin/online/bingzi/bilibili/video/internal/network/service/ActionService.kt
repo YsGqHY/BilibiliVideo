@@ -1,10 +1,7 @@
 package online.bingzi.bilibili.video.internal.network.service
 
 import online.bingzi.bilibili.video.internal.cache.Cache
-import online.bingzi.bilibili.video.internal.entity.CoinsData
-import online.bingzi.bilibili.video.internal.entity.FavouredData
-import online.bingzi.bilibili.video.internal.entity.ResultVO
-import online.bingzi.bilibili.video.internal.entity.TripleLinkData
+import online.bingzi.bilibili.video.internal.entity.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -30,7 +27,10 @@ interface ActionService {
      * @param bvid 稿件 bvid
      * @param sessData Cookie（SESSDATA）
      * @param buvid3 Buvid3
-     * @return [Int]
+     * @return [Call]
+     *
+     * @see [ResultVO]
+     * @see [Int]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -50,7 +50,10 @@ interface ActionService {
      * @param bvid 稿件 bvid
      * @param sessData Cookie（SESSDATA）
      * @param buvid3 Buvid3
-     * @return [CoinsData]
+     * @return [Call]
+     *
+     * @see [ResultVO]
+     * @see [CoinsData]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -70,7 +73,10 @@ interface ActionService {
      * @param bvid 稿件 bvid
      * @param sessData Cookie（SESSDATA）
      * @param buvid3 Buvid3
-     * @return [FavouredData]
+     * @return [Call]
+     *
+     * @see [ResultVO]
+     * @see [FavouredData]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -90,7 +96,10 @@ interface ActionService {
      * @param bvid 稿件 bvid
      * @param sessData Cookie（SESSDATA）
      * @param buvid3 Buvid3
-     * @return [TripleLinkData]
+     * @return [Call]
+     *
+     * @see [ResultVO]
+     * @see [TripleLinkData]
      *
      * @author BingZi-233
      * @since 2.0.0
@@ -101,4 +110,23 @@ interface ActionService {
         @Header("Cookie") sessData: String,
         @Header("Cookie") buvid3: String = Cache.buvid3
     ): Call<ResultVO<TripleLinkData>>
+
+    /**
+     * Get user info
+     * <p>
+     * 获取用户信息
+     *
+     * @param sessData Cookie（SESSDATA）
+     * @return [Call]
+     *
+     * @see [ResultVO]
+     * @see [UserInfo]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    @GET("/x/web-interface/nav")
+    fun getUserInfo(
+        @Query("Cookie") sessData: String
+    ): Call<ResultVO<UserInfo>>
 }
