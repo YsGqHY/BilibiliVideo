@@ -8,7 +8,7 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * 玩家领取成功事件
  *
- * @property player 玩家
+ * @property player [Player]
  * @property bv BV号
  * @constructor Create empty Player receive success event
  *

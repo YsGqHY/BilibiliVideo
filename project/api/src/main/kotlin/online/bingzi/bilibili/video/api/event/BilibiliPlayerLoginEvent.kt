@@ -8,7 +8,7 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * 玩家登录Bilibili事件
  *
- * @property player 玩家
+ * @property player [Player]
  * @constructor Create empty Player login bilibili event
  *
  * @author BingZi-233

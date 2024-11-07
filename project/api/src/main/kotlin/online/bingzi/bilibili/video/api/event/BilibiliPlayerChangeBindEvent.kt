@@ -8,7 +8,7 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * 玩家变更Bilibili事件(玩家换绑账户事件)
  *
- * @property player 玩家
+ * @property player [Player]
  * @property oldMid 旧MID
  * @property newMid 新MID
  * @constructor Create empty Player change bilibili event

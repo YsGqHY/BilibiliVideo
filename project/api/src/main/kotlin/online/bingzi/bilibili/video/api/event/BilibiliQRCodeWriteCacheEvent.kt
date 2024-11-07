@@ -8,7 +8,7 @@ import taboolib.platform.type.BukkitProxyEvent
  * <p>
  * QRCode写入缓存事件
  *
- * @property proxyPlayer 玩家
+ * @property proxyPlayer [ProxyPlayer]
  * @property qrCodeKey 二维码 key
  * @constructor Create empty Bilibili QR code write cache event
  *
