@@ -52,6 +52,46 @@ object BilibiliVideoAPI {
     }
 
     /**
+     * Save or update player bind entity
+     * <p>
+     * 保存或更新玩家绑定数据
+     *
+     * @param proxyPlayer [ProxyPlayer]
+     * @param bindEntity [BindEntity]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun saveOrUpdatePlayerBindEntity(proxyPlayer: ProxyPlayer, bindEntity: BindEntity) {
+        val entity = BindEntity.getDao().queryForId(proxyPlayer.uniqueId)
+        if (entity == null) {
+            bindEntity.create()
+        } else {
+            bindEntity.update()
+        }
+    }
+
+    /**
+     * Save or update player cookie entity
+     * <p>
+     * 保存或更新玩家Cookie数据
+     *
+     * @param proxyPlayer [ProxyPlayer]
+     * @param cookieEntity [CookieEntity]
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
+    fun saveOrUpdatePlayerCookieEntity(proxyPlayer: ProxyPlayer, cookieEntity: CookieEntity) {
+        val entity = CookieEntity.getDao().queryForId(proxyPlayer.uniqueId)
+        if (entity == null) {
+            cookieEntity.create()
+        } else {
+            cookieEntity.update()
+        }
+    }
+
+    /**
      * Set player cookie entity
      * <p>
      * 设置玩家Cookie实体
@@ -70,7 +110,7 @@ object BilibiliVideoAPI {
         val sessData = cookieList.first { it.startsWith("SESSDATA") }.split(";", "=", limit = 2)[1]
         cookieEntity.sessData = sessData
         cookieEntity.refreshToken = refreshToken
-        cookieEntity.create()
+        saveOrUpdatePlayerCookieEntity(proxyPlayer, cookieEntity)
         BilibiliCookieEntityCreateEvent(proxyPlayer, cookieEntity).call()
         return true
     }
@@ -89,9 +129,14 @@ object BilibiliVideoAPI {
      */
     fun setPlayerCookieEntity(proxyPlayer: ProxyPlayer, qrCodeKey: String): Boolean {
         val cookieList = Cache.loginCookieCache.get(qrCodeKey) { null } ?: return false
+        val refreshToken = Cache.loginRefreshTokenCache.get(qrCodeKey) { null } ?: return false
         val cookieEntity = CookieEntity(proxyPlayer.uniqueId, proxyPlayer.name)
         val sessData = cookieList.first { it.startsWith("SESSDATA") }.split(";", "=", limit = 2)[1]
         cookieEntity.sessData = sessData
+        cookieEntity.refreshToken = refreshToken
+        cookieEntity.refresh()
+        saveOrUpdatePlayerCookieEntity(proxyPlayer, cookieEntity)
+        BilibiliCookieEntityCreateEvent(proxyPlayer, cookieEntity).call()
         return true
     }
 
@@ -109,9 +154,14 @@ object BilibiliVideoAPI {
      */
     fun setPlayerCookieEntity(player: Player, qrCodeKey: String): Boolean {
         val cookieList = Cache.loginCookieCache.get(qrCodeKey) { null } ?: return false
+        val refreshToken = Cache.loginRefreshTokenCache.get(qrCodeKey) { null } ?: return false
+        val proxyPlayer = getProxyPlayer(player.uniqueId)!!
         val cookieEntity = CookieEntity(player.uniqueId, player.name)
         val sessData = cookieList.first { it.startsWith("SESSDATA") }.split(";", "=", limit = 2)[1]
         cookieEntity.sessData = sessData
+        cookieEntity.refreshToken = refreshToken
+        saveOrUpdatePlayerCookieEntity(proxyPlayer, cookieEntity)
+        BilibiliCookieEntityCreateEvent(proxyPlayer, cookieEntity).call()
         return true
     }
 

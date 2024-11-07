@@ -66,6 +66,6 @@ object BilibiliListener {
      */
     @SubscribeEvent
     fun onBilibiliCookieEntityCreateEvent(event: BilibiliCookieEntityCreateEvent) {
-
+        BilibiliVideoNetWorkAPI.requestBilibiliGetUserInfo(event.proxyPlayer, event.cookieEntity.sessData!!)
     }
 }

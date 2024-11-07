@@ -4,12 +4,8 @@ import online.bingzi.bilibili.video.api.event.BilibiliCookieWriteCacheEvent
 import online.bingzi.bilibili.video.api.event.BilibiliQRCodeWriteCacheEvent
 import online.bingzi.bilibili.video.internal.cache.Cache
 import online.bingzi.bilibili.video.internal.config.MainConfig
-import online.bingzi.bilibili.video.internal.entity.GenerateData
-import online.bingzi.bilibili.video.internal.entity.ReleasesData
-import online.bingzi.bilibili.video.internal.entity.ResultVO
-import online.bingzi.bilibili.video.internal.entity.UserInfo
+import online.bingzi.bilibili.video.internal.entity.*
 import online.bingzi.bilibili.video.internal.helper.ImageHelper
-import online.bingzi.bilibili.video.internal.helper.debug
 import online.bingzi.bilibili.video.internal.network.Network
 import org.bukkit.entity.Player
 import retrofit2.Call
@@ -91,7 +87,6 @@ object BilibiliVideoNetWorkAPI {
             override fun onFailure(call: Call<ResultVO<GenerateData>>, t: Throwable) {
                 proxyPlayer.sendWarn("networkError", t.message ?: "")
             }
-
         })
     }
 
@@ -118,8 +113,6 @@ object BilibiliVideoNetWorkAPI {
                     return true
                 }
             }
-        } else {
-            debug("网络故障，错误码 ${voResponse.code()} 错误信息 ${voResponse.message()}")
         }
         return false
     }
@@ -152,12 +145,18 @@ object BilibiliVideoNetWorkAPI {
      * @since 2.0.0
      */
     fun requestBilibiliGetBuvid3WriteCache() {
-        val voResponse = Network.buvid3Service.getBuvid3().execute()
-        if (voResponse.isSuccessful) {
-            voResponse.body()?.data?.buVid?.let {
-                Cache.buvid3 = it
+        Network.buvid3Service.getBuvid3().enqueue(object : Callback<ResultVO<Buvid3Data>> {
+            override fun onResponse(call: Call<ResultVO<Buvid3Data>>, response: Response<ResultVO<Buvid3Data>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        Cache.buvid3 = it.data.buVid
+                    }
+                }
             }
-        }
+
+            override fun onFailure(call: Call<ResultVO<Buvid3Data>>, t: Throwable) {
+            }
+        })
     }
 
     /**
@@ -165,21 +164,26 @@ object BilibiliVideoNetWorkAPI {
      * <p>
      * 请求用户信息
      *
+     * @param proxyPlayer [ProxyPlayer]
      * @param sessData Cookie(SESSDATA)
      *
      * @author BingZi-233
      * @since 2.0.0
      */
-    fun requestBilibiliGetUserInfo(sessData: String) {
+    fun requestBilibiliGetUserInfo(proxyPlayer: ProxyPlayer, sessData: String) {
         Network.actionService.getUserInfo(sessData).enqueue(object : Callback<ResultVO<UserInfo>> {
             override fun onResponse(call: Call<ResultVO<UserInfo>>, response: Response<ResultVO<UserInfo>>) {
-
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        val bindEntity = BindEntity(proxyPlayer.uniqueId, proxyPlayer.name, it.data.mid, it.data.mid)
+                        BilibiliVideoAPI.saveOrUpdatePlayerBindEntity(proxyPlayer, bindEntity)
+                    }
+                }
             }
 
             override fun onFailure(call: Call<ResultVO<UserInfo>>, t: Throwable) {
-
+                proxyPlayer.sendWarn("networkError", t.message ?: "")
             }
-
         })
     }
 }
