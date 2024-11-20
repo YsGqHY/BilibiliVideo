@@ -153,6 +153,6 @@ BV1Qs411d7pD:
 
 特别鸣谢 [TabooLib](https://github.com/TabooLib/taboolib) 为本开源项目提供技术支持。
 
-[<img src="https://img.fastmirror.net/s/2024/11/20/673d3a319669b.jpg" alt="" width="200">](https://www.wuyuidc.com/)
+[<img src="./image/wuyuidc-logo.jpg" alt="" width="200">](https://www.wuyuidc.com/)
 
 特别鸣谢 [物语云计算](https://www.wuyuidc.com/) 为本开源项目提供算力支持。
