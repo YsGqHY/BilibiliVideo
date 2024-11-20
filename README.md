@@ -146,10 +146,13 @@ BV1Qs411d7pD:
 ## 鸣谢
 
 [<img src="https://user-images.githubusercontent.com/21148213/121807008-8ffc6700-cc52-11eb-96a7-2f6f260f8fda.png" alt="" width="100">](https://www.jetbrains.com)
+
 特别鸣谢 [JetBrains](https://www.jetbrains.com/) 为本开源项目提供免费的 [Open Source Licenses](https://www.jetbrains.com/opensource/) 。
 
 [<img src="https://camo.githubusercontent.com/a654761ad31039a9c29df9b92b1dc2be62d419f878bf665c3288f90254d58693/68747470733a2f2f77696b692e70746d732e696e6b2f696d616765732f362f36392f5461626f6f6c69622d706e672d626c75652d76322e706e67" alt="" width="300">](https://github.com/TabooLib/taboolib)
+
 特别鸣谢 [TabooLib](https://github.com/TabooLib/taboolib) 为本开源项目提供技术支持。
 
 [<img src="https://img.fastmirror.net/s/2024/11/20/673d3a319669b.jpg" alt="" width="200">](https://www.wuyuidc.com/)
+
 特别鸣谢 [物语云计算](https://www.wuyuidc.com/) 为本开源项目提供算力支持。
