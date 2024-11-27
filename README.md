@@ -1,5 +1,5 @@
 <h1 align="center">
-    BilibiliVideo - 2.0
+    BilibiliVideo
 </h1>
 
 <p align="center" class="shields">
@@ -12,7 +12,17 @@
     <a href='https://ci-dev.bingzi.online/job/BilibiliVideo/'>
         <img src='https://ci-dev.bingzi.online/job/BilibiliVideo/badge/icon' alt="Build Status">
     </a>
-</p> 
+</p>
+
+<p align="center" class="shields">
+  	<img src="https://img.fastmirror.net/s/2024/10/18/6711d11d4495c.png" alt="" width="auto" style="max-width: 800px">
+</p>
+
+## 简介
+
+这是一个让玩家给Bilibili视频一键三连后自助发放奖励的Bukkit插件。流程几乎**全异步操作**并且拥有**强大却很简单**
+的配置文件，你可以很轻松的完成许多高级操作。同时，社区十分活跃！你可以在哪里得到疑问解答。当然，本插件的更新十分频繁（某些时间段会变得平稳），内置了更新检查（**完全异步操作
+**）用来帮助你进行插件更新告知。
 
 ## 链接
 
@@ -21,20 +31,14 @@
 - [CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo)
 - [1.X Download](https://ci-dev.bingzi.online/job/BilibiliVideo-1.x/)
 
-### 注意
+### 你需要知道的一些事情
 
 1. `2.0`可能会存在存在部分功能缺失，若无法接受请移步使用 [1.X Download](https://ci-dev.bingzi.online/job/BilibiliVideo-1.x/) 版本。
 2. 请在CI/CD或者Github上下载，其他地方（包括群文件）的文件均不受支持。
-
-### 提示
-
-> 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
-
-### 备注
-
-1. 若插件启动时提示有新版本，在 [Github](https://github.com/BingZi-233/BilibiliVideo)
+3. 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
+4. 若插件启动时提示有新版本，在 [Github](https://github.com/BingZi-233/BilibiliVideo)
    上并没有看到。请移步到 [CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo) 上下载，更新检测是准确的。
-2. 插件的信息前缀在lang/zh_CN.yml里面修改
+5. 插件的信息前缀在lang/zh_CN.yml里面修改
 
 ## 命令
 
