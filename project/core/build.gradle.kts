@@ -4,8 +4,8 @@ dependencies {
     // 引入 二维码 依赖
     compileOnly("com.google.zxing:core:3.5.2")
     // 引入 Retrofit2 依赖
-    compileOnly("com.squareup.retrofit2:retrofit:2.11.0")
-    compileOnly("com.squareup.retrofit2:converter-gson:2.11.0")
+    compileOnly("com.squareup.retrofit2:retrofit:2.9.0")
+    compileOnly("com.squareup.retrofit2:converter-gson:2.9.0")
     // 引入 Caffeine 缓存
     compileOnly("com.github.ben-manes.caffeine:caffeine:2.9.2")
     // ORMLite 核心
