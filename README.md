@@ -1,5 +1,5 @@
 <h1 align="center">
-    BilibiliVideo - 正在打复活赛
+    BilibiliVideo - 2.0
 </h1>
 
 <p align="center" class="shields">
@@ -12,28 +12,33 @@
     <a href='https://ci-dev.bingzi.online/job/BilibiliVideo/'>
         <img src='https://ci-dev.bingzi.online/job/BilibiliVideo/badge/icon' alt="Build Status">
     </a>
-</p>
+</p> 
 
-## 注意
-
-1. 由于各种原因，我们目前无法完成对1.20.x版本的兼容计划。
-2. 代码质量检测因为我把检测服务器~~玩~~坏了一直没修......所以现在只有在GitHub上面才能看到检测报告。
-
-## Link
-
-> 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
+## 链接
 
 - [WIki](https://wiki.bingzi.online/zh/BilibiliVideo/Index)
 - [Github](https://github.com/BingZi-233/BilibiliVideo)
 - [CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo)
+- [1.X Download](https://ci-dev.bingzi.online/job/BilibiliVideo-1.x/)
 
-> 注：
-> 1. 若插件启动时提示有新版本，在[Github](https://github.com/BingZi-233/BilibiliVideo)
-     上并没有看到。请移步到[CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo)上下载，更新检测是准确的。
-> 2. 插件的信息前缀在lang/zh_CN.yml里面修改
-> 3. 【注意】请在CI/CD或者Github上下载，其他地方（包括群文件）的文件均不受支持。
+### 注意
+
+1. `2.0`可能会存在存在部分功能缺失，若无法接受请移步使用 [1.X Download](https://ci-dev.bingzi.online/job/BilibiliVideo-1.x/) 版本。
+2. 请在CI/CD或者Github上下载，其他地方（包括群文件）的文件均不受支持。
+
+### 提示
+
+> 如果你在使用过程中有任何疑问，都推荐你先看看WIKI。虽然WIKI并没有覆盖插件所有功能，但是已经足够解决大部分问题。
+
+### 备注
+
+1. 若插件启动时提示有新版本，在 [Github](https://github.com/BingZi-233/BilibiliVideo)
+   上并没有看到。请移步到 [CI/CD](https://ci-dev.bingzi.online/job/BilibiliVideo) 上下载，更新检测是准确的。
+2. 插件的信息前缀在lang/zh_CN.yml里面修改
 
 ## 命令
+
+> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
 
 - bilibilivideo reload - 重载配置文件（无效命令，仅图个心里安慰）
 - bilibilivideo login [<player_name>]- 绑定命令
@@ -48,6 +53,8 @@
 
 ## 权限
 
+> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
+
 - BilibiliVideo.command.use - 使用命令的权限
 - BilibiliVideo.command.reload - 重载配置文件的权限，默认仅OP可用
 - BilibiliVideo.command.login - 绑定命令的权限，默认全员可用
@@ -60,6 +67,8 @@
 
 ## 变量
 
+> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
+
 - %BilibiliVideo_uid% - 绑定账户UID，若为绑定显示为 N/A
     - 1.4.4之后可用
 - %BilibiliVideo_uname% - 绑定账户名称，若为绑定显示为 N/A
@@ -68,6 +77,8 @@
     - 1.6.2之后可用
 
 ## 配置文件
+
+> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
 
 ```yaml
 # 命令支持Kether

@@ -1,4 +1,4 @@
-rootProject.name = "BilibiliVideoPro"
+rootProject.name = "BilibiliVideo"
 
 include("plugin")
 include("project:core")
