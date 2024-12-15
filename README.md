@@ -42,8 +42,6 @@
 
 ## 命令
 
-> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
-
 主命令：/bilibilivideo (别名: /bv, /bilibili-video)
 
 - /bilibilivideo login - 为自己生成B站账号绑定二维码
@@ -63,14 +61,11 @@
 
 ## 权限
 
-> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
-
 基础权限：
 - BilibiliVideo.command.use - 使用插件命令的基础权限 (默认: 全员可用)
 
 功能权限：
 - BilibiliVideo.command.login - 使用登录绑定命令的权限 (默认: 全员可用)
-- BilibiliVideo.command.login.player - 为其他玩家生成绑定二维码的权限 (默认: OP可用)
 - BilibiliVideo.command.logout - 清除Cookie的权限 (默认: 全员可用)
 - BilibiliVideo.command.logout.player - 清除其他玩家Cookie的权限 (默认: OP可用)
 - BilibiliVideo.command.receive - 领取奖励的权限 (默认: 全员可用)
@@ -78,13 +73,10 @@
 - BilibiliVideo.command.reload - 重载配置的权限 (默认: OP可用)
 - BilibiliVideo.command.unbind - 解除绑定的权限 (默认: OP可用)
 - BilibiliVideo.command.url - 生成视频二维码的权限 (默认: 全员可用)
-- BilibiliVideo.command.url.player - 向其他玩家发送视频二维码的权限 (默认: OP可用)
 - BilibiliVideo.command.version - 查看版本信息的权限 (默认: OP可用)
 - BilibiliVideo.command.buvid3 - 管理buvid3的权限 (默认: OP可用)
 
 ## 变量
-
-> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
 
 - %bilibilivideo_bind_mid% - 绑定账户MID，若未绑定显示为"未绑定"
 - %bilibilivideo_bind_name% - 绑定账户名称，若未绑定显示为"未绑定"
@@ -95,14 +87,25 @@
 
 ## 配置文件
 
-> 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
-
 ```yaml
-# 命令支持Kether
-# 例如: tell "hello world"
-# 相关文档：https://kether.tabooproject.org/
+# ▰▰▰▰▰▰▰警告(WARING)▰▰▰▰▰▰▰
+# 请仔细阅读下面的提示：
+# 1. 如果你只是想执行原版命令，请移步 https://wiki.bingzi.online/zh/BilibiliVideo/config#videoyml 查看详情
+# 2. 这里【仅支持】Kether语句，相关语法请移步 https://kether.tabooproject.org/
+# 3. 如果%player_name%之类变量无效，请先检查你的PlaceholderAPI是否安装并启用Player拓展。
+#    Player拓展下载命令: /papi ecloud download Player
+#    下载完成记得重载PlaceholderAPI才有效果，重载命令: /papi reload
+#
+# 相关链接：
+# 1. Kether语句支持文档: https://kether.tabooproject.org/
+# 2. WIKI: https://wiki.bingzi.online/zh/BilibiliVideo/config#videoyml
 BV1Qs411d7pd:
-  - "tell 'hello world'"
+  # 发送一条ActionBar消息
+  - actionbar color "&{#7FB80E}恭喜你领取成功!奖励正在向你飞来!"
+  # 暂停一秒
+  - sleep 1.0s
+  # 干掉玩家
+  - command papi 'kill %player_name%' as console
 ```
 
 > 如果需要增加更多，按照上述样式复制即可。
