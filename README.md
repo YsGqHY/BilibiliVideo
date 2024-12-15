@@ -44,41 +44,54 @@
 
 > 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
 
-- bilibilivideo reload - 重载配置文件（无效命令，仅图个心里安慰）
-- bilibilivideo login [<player_name>]- 绑定命令
-- bilibilivideo unbind [player_name] - 解绑命令
-- bilibilivideo show - 查看绑定账户
-- bilibilivideo logout - 清理Cookie
-- bilibilivideo receive [bv] - 领取奖励命令 - 默认为Show模式
-- bilibilivideo receive [bv] show - 领取奖励命令(查看模式，并不会使用玩家账户三连视频)
-- bilibilivideo receive [bv] auto - 领取奖励命令(自动模式，会使用玩家账户三连视频后根据结果决定是否发放奖励)
-- bilibilivideo video [bv] - 生成视频传送门二维码，扫描自动跳转视频页面
-- bilibilivideo version - 查看插件版本
+主命令：/bilibilivideo (别名: /bv, /bilibili-video)
+
+- /bilibilivideo login - 为自己生成B站账号绑定二维码
+- /bilibilivideo login <玩家名> - 为指定玩家生成B站账号绑定二维码
+- /bilibilivideo logout - 清除自己的B站账号Cookie
+- /bilibilivideo logout <玩家名> - 清除指定玩家的B站账号Cookie
+- /bilibilivideo receive <BV号> - 领取指定视频的奖励
+- /bilibilivideo receive <BV号> <玩家名> - 让指定玩家领取视频奖励
+- /bilibilivideo reload - 重载配置文件(仅安慰剂)
+- /bilibilivideo unbind - 解除自己的B站账号绑定
+- /bilibilivideo unbind <玩家名> - 解除指定玩家的B站账号绑定
+- /bilibilivideo url <BV号> - 生成视频二维码
+- /bilibilivideo url <BV号> <玩家名> - 向指定玩家发送视频二维码
+- /bilibilivideo version - 查看插件版本信息
+- /bilibilivideo buvid3 show - 显示当前buvid3
+- /bilibilivideo buvid3 refresh - 刷新buvid3
 
 ## 权限
 
 > 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
 
-- BilibiliVideo.command.use - 使用命令的权限
-- BilibiliVideo.command.reload - 重载配置文件的权限，默认仅OP可用
-- BilibiliVideo.command.login - 绑定命令的权限，默认全员可用
-- BilibiliVideo.command.login.other - 绑定命令的权限，需要额外分配（不建议进行分配，该权限可为别人绑定账户）
-- BilibiliVideo.command.unbind - 绑定命令的权限，默认仅OP可用
-- BilibiliVideo.command.show - 查看命令的权限，默认全员可用
-- BilibiliVideo.command.logout - 清理Cookie命令的权限，默认全员可用
-- BilibiliVideo.command.receive - 领取奖励命令的权限，默认全员可用
-- BilibiliVideo.command.version - 查看插件版本命令的权限，默认仅OP可用
+基础权限：
+- BilibiliVideo.command.use - 使用插件命令的基础权限 (默认: 全员可用)
+
+功能权限：
+- BilibiliVideo.command.login - 使用登录绑定命令的权限 (默认: 全员可用)
+- BilibiliVideo.command.login.player - 为其他玩家生成绑定二维码的权限 (默认: OP可用)
+- BilibiliVideo.command.logout - 清除Cookie的权限 (默认: 全员可用)
+- BilibiliVideo.command.logout.player - 清除其他玩家Cookie的权限 (默认: OP可用)
+- BilibiliVideo.command.receive - 领取奖励的权限 (默认: 全员可用)
+- BilibiliVideo.command.receive.player - 让其他玩家领取奖励的权限 (默认: OP可用)
+- BilibiliVideo.command.reload - 重载配置的权限 (默认: OP可用)
+- BilibiliVideo.command.unbind - 解除绑定的权限 (默认: OP可用)
+- BilibiliVideo.command.url - 生成视频二维码的权限 (默认: 全员可用)
+- BilibiliVideo.command.url.player - 向其他玩家发送视频二维码的权限 (默认: OP可用)
+- BilibiliVideo.command.version - 查看版本信息的权限 (默认: OP可用)
+- BilibiliVideo.command.buvid3 - 管理buvid3的权限 (默认: OP可用)
 
 ## 变量
 
 > 当您使用 `2.0` 版本的时候，这部分内容可能会有些许变化。
 
-- %BilibiliVideo_uid% - 绑定账户UID，若为绑定显示为 N/A
-    - 1.4.4之后可用
-- %BilibiliVideo_uname% - 绑定账户名称，若为绑定显示为 N/A
-    - 1.4.4之后可用
-- %BilibiliVideo_check_[bv]% - 是否领取对应BV视频奖励，若为未领取显示为 false，领取显示为 true
-    - 1.6.2之后可用
+- %bilibilivideo_bind_mid% - 绑定账户MID，若未绑定显示为"未绑定"
+- %bilibilivideo_bind_name% - 绑定账户名称，若未绑定显示为"未绑定"
+- %bilibilivideo_bind_time% - 绑定时间，若未绑定显示为"未绑定"
+- %bilibilivideo_receive_count% - 已领取的奖励总数
+- %bilibilivideo_receive_[bv]% - 检查特定BV视频是否已领取，已领取显示"已领取"，未领取显示"未领取"
+    - 例如：%bilibilivideo_receive_BV1Qs411d7pd%
 
 ## 配置文件
 
