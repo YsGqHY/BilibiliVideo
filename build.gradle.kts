@@ -26,6 +26,7 @@ subprojects {
         env {
             install(Basic)
             install(Bukkit)
+            install(BukkitHook)
             install(BukkitNMSUtil)
             install(Kether)
             install(Metrics)
