@@ -26,11 +26,16 @@ object CommandLogin {
      * @since 2.0.0
      */
     val execute = subCommand {
+        // 定义一个执行命令的处理器，处理ProxyPlayer类型的发送者
         execute<ProxyPlayer> { sender, _, _ ->
+            // 请求获取B站登录二维码密钥
             BilibiliVideoNetWorkAPI.requestBilibiliGetQRCodeKey(sender)
         }
+        // 定义一个动态参数，参数名为"player"
         dynamic(comment = "player") {
+            // 提供玩家名称的建议
             suggestPlayers()
+            // 定义一个执行命令的处理器，处理ProxyCommandSender类型的发送者
             execute<ProxyCommandSender> { sender, context, _ ->
                 // 从上下文中获取玩家名称
                 val playerName = context["player"]
@@ -39,6 +44,7 @@ object CommandLogin {
                     sender.sendWarn("playerNotFound", playerName)
                     return@execute
                 }
+                // 为指定玩家请求获取B站登录二维码密钥
                 BilibiliVideoNetWorkAPI.requestBilibiliGetQRCodeKey(proxyPlayer)
             }
         }

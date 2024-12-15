@@ -8,6 +8,7 @@ import taboolib.platform.compat.PlaceholderExpansion
  * Bilibili video expansion
  * <p>
  * PlaceholderAPI 扩展
+ * 提供与 Bilibili 相关的变量支持
  *
  * @constructor Create empty Bilibili video expansion
  *
@@ -15,8 +16,21 @@ import taboolib.platform.compat.PlaceholderExpansion
  * @since 2.0.2
  */
 class BilibiliVideoExpansion : PlaceholderExpansion {
+    /**
+     * 扩展标识符
+     */
     override val identifier: String = "bilibilivideo"
 
+    /**
+     * 处理变量请求
+     * 
+     * @param player 玩家对象
+     * @param args 变量参数
+     * @return 变量值
+     *
+     * @author BingZi-233
+     * @since 2.0.2
+     */
     override fun onPlaceholderRequest(player: OfflinePlayer?, args: String): String {
         // 如果玩家为空则返回空字符串
         if (player == null) return ""
