@@ -6,6 +6,7 @@ import online.bingzi.bilibili.video.internal.database.Database
 import online.bingzi.bilibili.video.internal.entity.BindEntity
 import online.bingzi.bilibili.video.internal.entity.CookieEntity
 import online.bingzi.bilibili.video.internal.entity.ReceiveEntity
+import online.bingzi.bilibili.video.internal.entity.BindLogEntity
 import java.util.*
 
 /**
@@ -53,6 +54,18 @@ internal object DatabaseHelper {
      */
     val receiveEntityDaoSource: Dao<ReceiveEntity, UUID> by lazy {
         DaoManager.createDao(Database.connectionSource, ReceiveEntity::class.java)
+    }
+
+    /**
+     * Bind log entity dao source
+     * <p>
+     * 绑定日志实体数据源
+     *
+     * @author BingZi-233
+     * @since 2.0.1
+     */
+    val bindLogEntityDaoSource: Dao<BindLogEntity, Int> by lazy {
+        DaoManager.createDao(Database.connectionSource, BindLogEntity::class.java)
     }
 
     /**

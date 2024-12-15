@@ -5,6 +5,7 @@ import online.bingzi.bilibili.video.internal.cache.Cache
 import online.bingzi.bilibili.video.internal.entity.BindEntity
 import online.bingzi.bilibili.video.internal.entity.CookieEntity
 import online.bingzi.bilibili.video.internal.entity.ReceiveEntity
+import online.bingzi.bilibili.video.internal.entity.BindLogEntity
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.getProxyPlayer
@@ -52,6 +53,43 @@ object BilibiliVideoAPI {
     }
 
     /**
+     * Log bind operation
+     * <p>
+     * 记录绑定操作日志
+     *
+     * @param playerUUID 玩家UUID
+     * @param playerName 玩家名称
+     * @param bilibiliMid B站账户MID
+     * @param bilibiliName B站账户名称
+     * @param operationType 操作类型
+     * @param oldBilibiliMid 旧B站账户MID
+     * @param oldBilibiliName 旧B站账户名称
+     *
+     * @author BingZi-233
+     * @since 2.0.1
+     */
+    private fun logBindOperation(
+        playerUUID: UUID,
+        playerName: String,
+        bilibiliMid: String,
+        bilibiliName: String,
+        operationType: String,
+        oldBilibiliMid: String? = null,
+        oldBilibiliName: String? = null
+    ) {
+        val bindLogEntity = BindLogEntity(
+            playerUUID = playerUUID,
+            playerName = playerName,
+            bilibiliMid = bilibiliMid,
+            bilibiliName = bilibiliName,
+            operationType = operationType,
+            oldBilibiliMid = oldBilibiliMid,
+            oldBilibiliName = oldBilibiliName
+        )
+        bindLogEntity.create()
+    }
+
+    /**
      * Save or update player bind entity
      * <p>
      * 保存或更新玩家绑定数据
@@ -63,11 +101,53 @@ object BilibiliVideoAPI {
      * @since 2.0.0
      */
     fun saveOrUpdatePlayerBindEntity(proxyPlayer: ProxyPlayer, bindEntity: BindEntity) {
-        val entity = BindEntity.getDao().queryForId(proxyPlayer.uniqueId) ?: let {
+        val oldEntity = BindEntity.getDao().queryForId(proxyPlayer.uniqueId)
+        if (oldEntity == null) {
+            // 新绑定
             bindEntity.create()
-            bindEntity
+            logBindOperation(
+                playerUUID = proxyPlayer.uniqueId,
+                playerName = proxyPlayer.name,
+                bilibiliMid = bindEntity.bilibiliMid!!,
+                bilibiliName = bindEntity.bilibiliName!!,
+                operationType = "BIND"
+            )
+        } else {
+            // 换绑
+            if (oldEntity.bilibiliMid != bindEntity.bilibiliMid) {
+                logBindOperation(
+                    playerUUID = proxyPlayer.uniqueId,
+                    playerName = proxyPlayer.name,
+                    bilibiliMid = bindEntity.bilibiliMid!!,
+                    bilibiliName = bindEntity.bilibiliName!!,
+                    operationType = "CHANGE",
+                    oldBilibiliMid = oldEntity.bilibiliMid,
+                    oldBilibiliName = oldEntity.bilibiliName
+                )
+            }
+            bindEntity.update()
         }
-        entity.update()
+    }
+
+    /**
+     * Delete player bind entity
+     * <p>
+     * 删除玩家绑定数据
+     *
+     * @param bindEntity [BindEntity]
+     *
+     * @author BingZi-233
+     * @since 2.0.1
+     */
+    fun deletePlayerBindEntity(bindEntity: BindEntity) {
+        logBindOperation(
+            playerUUID = bindEntity.playerUUID!!,
+            playerName = bindEntity.playerName!!,
+            bilibiliMid = bindEntity.bilibiliMid!!,
+            bilibiliName = bindEntity.bilibiliName!!,
+            operationType = "UNBIND"
+        )
+        bindEntity.delete()
     }
 
     /**
@@ -278,5 +358,23 @@ object BilibiliVideoAPI {
             playerUUID = playerUUID, playerName = playerName, bilibiliBv = bilibiliBv, bilibiliMid = bilibiliMid
         )
         receiveEntity.create()
+    }
+
+    /**
+     * Check player receive entity by player UUID and bv
+     * <p>
+     * 通过玩家UUID和BV检查玩家领取数据
+     * true - 已领取
+     * false - 未领取
+     *
+     * @param playerUUID Player UUID
+     * @param bilibiliBv Bilibili BV
+     * @return [Boolean]
+     *
+     * @author BingZi-233
+     * @since 2.0.1
+     */
+    fun checkPlayerReceiveEntityByPlayerUUIDAndBv(playerUUID: UUID, bilibiliBv: String): Boolean {
+        return ReceiveEntity.getDao().queryForMatchingArgs(ReceiveEntity(playerUUID = playerUUID, bilibiliBv = bilibiliBv)).isNotEmpty()
     }
 }

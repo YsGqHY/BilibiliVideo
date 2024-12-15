@@ -42,7 +42,8 @@ object CommandReceive {
                 // 获取与发送者唯一 ID 绑定的 Bilibili 视频实体
                 BilibiliVideoAPI.getPlayerBindEntity(sender.uniqueId)?.let { bindEntity ->
                     // 检查该玩家是否已经领取过该 bv 对应的奖励
-                    if (BilibiliVideoAPI.checkPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv)) {
+                    if (BilibiliVideoAPI.checkPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv) ||
+                        BilibiliVideoAPI.checkPlayerReceiveEntityByPlayerUUIDAndBv(sender.uniqueId, bilibiliBv)) {
                         val bilibiliPlayerReceiveFailedEvent = BilibiliPlayerReceiveFailedEvent(sender.castSafely<Player>()!!, bilibiliBv)
                         // 调用事件
                         bilibiliPlayerReceiveFailedEvent.call()
@@ -91,7 +92,8 @@ object CommandReceive {
                     // 获取与该玩家唯一 ID 绑定的 Bilibili 视频实体
                     BilibiliVideoAPI.getPlayerBindEntity(proxyPlayer.uniqueId)?.let { bindEntity ->
                         // 检查该玩家是否已经领取过该 bv 对应的奖励
-                        if (BilibiliVideoAPI.checkPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv)) {
+                        if (BilibiliVideoAPI.checkPlayerReceiveEntityByMidAndBv(bindEntity.bilibiliMid!!, bilibiliBv) ||
+                            BilibiliVideoAPI.checkPlayerReceiveEntityByPlayerUUIDAndBv(proxyPlayer.uniqueId, bilibiliBv)) {
                             val bilibiliPlayerReceiveFailedEvent = BilibiliPlayerReceiveFailedEvent(proxyPlayer.castSafely<Player>()!!, bilibiliBv)
                             // 调用事件
                             bilibiliPlayerReceiveFailedEvent.call()
