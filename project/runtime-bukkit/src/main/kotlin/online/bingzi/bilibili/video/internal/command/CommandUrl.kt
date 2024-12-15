@@ -14,11 +14,11 @@ import taboolib.module.lang.sendWarn
 
 
 /**
- * Command Url
+ * Command url
  * <p>
- * 命令·传送门
+ * 命令·视频链接
  *
- * @constructor Create empty Command receive
+ * @constructor Create empty Command url
  *
  * @author BingZi-233
  * @since 2.0.0

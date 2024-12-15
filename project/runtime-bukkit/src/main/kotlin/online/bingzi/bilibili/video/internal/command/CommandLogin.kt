@@ -8,7 +8,23 @@ import taboolib.common.platform.command.suggestPlayers
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.module.lang.sendWarn
 
+/**
+ * Command login
+ * <p>
+ * 命令·登录
+ *
+ * @constructor Create empty Command login
+ *
+ * @author BingZi-233
+ * @since 2.0.0
+ */
 object CommandLogin {
+    /**
+     * 执行子命令的定义。
+     *
+     * @author BingZi-233
+     * @since 2.0.0
+     */
     val execute = subCommand {
         execute<ProxyPlayer> { sender, _, _ ->
             BilibiliVideoNetWorkAPI.requestBilibiliGetQRCodeKey(sender)
