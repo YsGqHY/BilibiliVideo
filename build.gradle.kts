@@ -10,6 +10,10 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
 }
 
+repositories {
+    mavenCentral()
+}
+
 // 全局依赖
 dependencies {
     compileOnly(fileTree("libs"))
