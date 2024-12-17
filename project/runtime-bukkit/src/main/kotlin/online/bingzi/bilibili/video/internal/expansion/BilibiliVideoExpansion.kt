@@ -15,7 +15,7 @@ import taboolib.platform.compat.PlaceholderExpansion
  * @author BingZi-233
  * @since 2.0.2
  */
-class BilibiliVideoExpansion : PlaceholderExpansion {
+object BilibiliVideoExpansion : PlaceholderExpansion {
     /**
      * 扩展标识符
      */
@@ -23,7 +23,7 @@ class BilibiliVideoExpansion : PlaceholderExpansion {
 
     /**
      * 处理变量请求
-     * 
+     *
      * @param player 玩家对象
      * @param args 变量参数
      * @return 变量值
@@ -34,10 +34,10 @@ class BilibiliVideoExpansion : PlaceholderExpansion {
     override fun onPlaceholderRequest(player: OfflinePlayer?, args: String): String {
         // 如果玩家为空则返回空字符串
         if (player == null) return ""
-        
+
         // 获取玩家绑定的实体信息
         val bindEntity = BilibiliVideoAPI.getPlayerBindEntity(player.uniqueId)?: return ""
-        
+
         return when {
             // 返回绑定的B站UID
             args.lowercase() == "bind_mid" -> bindEntity.bilibiliMid?.toString() ?: "未绑定"
@@ -61,4 +61,4 @@ class BilibiliVideoExpansion : PlaceholderExpansion {
             else -> ""
         }
     }
-} 
+}
