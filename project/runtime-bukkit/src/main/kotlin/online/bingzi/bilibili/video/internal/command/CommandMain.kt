@@ -118,5 +118,15 @@ object CommandMain {
      */
     @CommandBody(permission = "BilibiliVideo.command.buvid3", permissionDefault = PermissionDefault.OP)
     val buvid3 = CommandBuvid3.execute
+
+    /**
+     * MapInfo
+     * <p>
+     * 定义获取地图包数据结构的命令
+     *
+     * @since 2.0.4
+     */
+    @CommandBody(permission = "BilibiliVideo.command.mapinfo", permissionDefault = PermissionDefault.OP)
+    val mapInfo = CommandMapInfo.execute
 }
 

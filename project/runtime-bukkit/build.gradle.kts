@@ -14,6 +14,7 @@ dependencies {
     // 引入 服务端 核心
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
 }
 
 // 子模块

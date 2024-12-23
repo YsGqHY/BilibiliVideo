@@ -57,3 +57,9 @@ commandVersionSuccess: "&a&lVersion >>\n&a&l当前版本: {0} \n&a&l最新版本
 commandVersionFailed: "&a&lVersion >>\n&a&l当前版本: {0} \n&c&l更新检查: 失败 \n&a&l开发者名单: {1}\n&a&l开源地址: https://github.com/BingZi-233/BilibiliVideo"
 commandBuvid3Show: "&a&lBuvid3: {0}"
 commandBuvid3Refresh: "&a&lBuvid3 >>\n&a&lOld: {0} \n&a&lNew: {1} "
+
+# 新增的命令相关
+packetPlayOutMapStructure: "&a&lPacketPlayOutMap 结构: \n{0}"
+mapItemStructure: "&a&lMapItem 结构: \n{0}"
+packetPlayOutMapError: "&c&l无法获取结构: {0}"
+invalidType: "&c&l无效的类型: {0}"
