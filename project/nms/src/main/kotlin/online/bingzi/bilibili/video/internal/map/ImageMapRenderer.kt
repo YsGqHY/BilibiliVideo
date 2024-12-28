@@ -5,6 +5,7 @@ import org.bukkit.map.MapCanvas
 import org.bukkit.map.MapRenderer
 import org.bukkit.map.MapView
 import java.awt.image.BufferedImage
+import kotlin.math.sqrt
 
 /**
  * Image map renderer
@@ -71,13 +72,9 @@ class ImageMapRenderer(private val image: BufferedImage) : MapRenderer(false) {
         if (!renderedPlayers.add(player)) {
             return
         }
-        
-        // 直接将预处理的数据应用到画布
-        for (x in 0 until 128) {
-            for (y in 0 until 128) {
-                mapCanvas.setPixel(x, y, buffer[x + y * 128])
-            }
-        }
+
+        // 在地图画布上绘制图像
+        mapCanvas.drawImage(0, 0, image)
     }
 
     /**
@@ -86,23 +83,68 @@ class ImageMapRenderer(private val image: BufferedImage) : MapRenderer(false) {
      * @param player 玩家对象
      * @return 地图数据缓冲区
      */
-    fun getBufferForPlayer(player: Player): ByteArray {
+    fun getBufferForPlayer(): ByteArray {
         return buffer
     }
     
     /**
      * 将 RGB 颜色转换为 Minecraft 地图颜色索引
+     * 基于 Minecraft 1.12.2 的地图调色板
      */
     private fun convertToMapColor(red: Int, green: Int, blue: Int): Byte {
-        // 简化的颜色映射算法
-        val index = when {
-            red < 64 && green < 64 && blue < 64 -> 0 // 黑色
-            red > 191 && green > 191 && blue > 191 -> 34 // 白色
-            red > 191 && green < 64 && blue < 64 -> 18 // 红色
-            red < 64 && green > 191 && blue < 64 -> 30 // 绿色
-            red < 64 && green < 64 && blue > 191 -> 50 // 蓝色
-            else -> ((red + green + blue) / 3 * 4 / 255).toByte() // 灰度
+        // Minecraft 1.12.2 的基础颜色数组
+        val colors = arrayOf(
+            // 基础颜色 (multiplier = 180)
+            intArrayOf(0, 0, 0),      // 0 - 黑色
+            intArrayOf(0, 0, 180),    // 1 - 深蓝色
+            intArrayOf(0, 180, 0),    // 2 - 深绿色
+            intArrayOf(0, 180, 180),  // 3 - 深青色
+            intArrayOf(180, 0, 0),    // 4 - 深红色
+            intArrayOf(180, 0, 180),  // 5 - 深紫色
+            intArrayOf(180, 180, 0),  // 6 - 金色
+            intArrayOf(180, 180, 180),// 7 - 灰色
+            intArrayOf(90, 90, 90),   // 8 - 深灰色
+            intArrayOf(90, 90, 255),  // 9 - 蓝色
+            intArrayOf(90, 255, 90),  // 10 - 绿色
+            intArrayOf(90, 255, 255), // 11 - 青色
+            intArrayOf(255, 90, 90),  // 12 - 红色
+            intArrayOf(255, 90, 255), // 13 - 粉色
+            intArrayOf(255, 255, 90), // 14 - 黄色
+            intArrayOf(255, 255, 255) // 15 - 白色
+        )
+
+        var closestColor = 0
+        var minDistance = Double.MAX_VALUE
+
+        // 计算输入颜色与每个基础颜色的距离，找到最接近的颜色
+        for (i in colors.indices) {
+            val dr = red - colors[i][0]
+            val dg = green - colors[i][1]
+            val db = blue - colors[i][2]
+            
+            // 使用加权欧几里得距离，考虑人眼对绿色的敏感度更高
+            val distance = sqrt(
+                (dr * dr * 0.299) + 
+                (dg * dg * 0.587) + 
+                (db * db * 0.114)
+            )
+
+            if (distance < minDistance) {
+                minDistance = distance
+                closestColor = i
+            }
         }
-        return index.toByte()
+
+        // 根据亮度调整色阶
+        val brightness = (red * 0.299 + green * 0.587 + blue * 0.114).toInt()
+        val shade = when {
+            brightness > 200 -> 3  // 最亮
+            brightness > 150 -> 2  // 较亮
+            brightness > 100 -> 1  // 较暗
+            else -> 0             // 最暗
+        }
+
+        // 计算最终的颜色索引
+        return ((closestColor * 4) + shade).toByte()
     }
 }
