@@ -21,12 +21,33 @@ class NMSImpl : NMS() {
     private val protocolManager = ProtocolLibrary.getProtocolManager()
 
     /**
+     * 获取地图ID的方法
+     * 兼容不同版本的Bukkit API
+     */
+    private fun getMapId(mapView: MapView): Int {
+        return try {
+            // 1.12及以下版本使用getId()
+            mapView.javaClass.getMethod("getId").invoke(mapView) as Int
+        } catch (e: Exception) {
+            try {
+                // 1.13及以上版本使用id属性
+                mapView.javaClass.getMethod("getMapId").invoke(mapView) as Int
+            } catch (e: Exception) {
+                try {
+                    // 某些版本可能使用id字段
+                    val field = mapView.javaClass.getDeclaredField("id")
+                    field.isAccessible = true
+                    field.get(mapView) as Int
+                } catch (e: Exception) {
+                    // 如果都失败了，使用默认值0
+                    0
+                }
+            }
+        }
+    }
+
+    /**
      * 发送虚拟地图给玩家
-     *
-     * @param player 目标玩家对象
-     * @param bufferedImage 要发送的图像
-     * @param hand 玩家手中的物品类型
-     * @param itemBuilder 用于构建物品的lambda表达式
      */
     override fun sendVirtualMapToPlayer(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit) {
         sendMapToPlayer(player, bufferedImage, hand, false, itemBuilder)
@@ -34,116 +55,90 @@ class NMSImpl : NMS() {
 
     /**
      * 异步发送虚拟地图给玩家
-     *
-     * @param player 目标玩家对象
-     * @param bufferedImage 要发送的图像
-     * @param hand 玩家手中的物品类型
-     * @param itemBuilder 用于构建物品的lambda表达式
      */
     override fun sendVirtualMapToPlayerAsync(player: Player, bufferedImage: BufferedImage, hand: HandEnum, itemBuilder: ItemBuilder.() -> Unit) {
         sendMapToPlayer(player, bufferedImage, hand, true, itemBuilder)
     }
 
     /**
-     * 发送地图到玩家
-     *
-     * @param player 目标玩家对象
-     * @param bufferedImage 要发送的图像
-     * @param hand 玩家手中的物品类型
-     * @param async 是否异步发送
-     * @param itemBuilder 用于构建物品的lambda表达式
+     * 发送虚拟地图到玩家
      */
     private fun sendMapToPlayer(player: Player, bufferedImage: BufferedImage, hand: HandEnum, async: Boolean, itemBuilder: ItemBuilder.() -> Unit) {
-        val mapView = createMapView(bufferedImage) // 创建地图视图
-        val mapItem = createMapItem(itemBuilder) // 创建地图物品
-
-        // 发送装备数据包来更新玩家的主手或副手
-        sendEquipmentPacket(player, mapItem, hand)
-
-        sendMapPacket(player, mapView, mapItem, async) // 发送地图数据包
+        // 创建地图图并设置渲染器
+        val mapView = createMapView(bufferedImage)
+        
+        // 获取渲染器
+        val imageMapRenderer = mapView.renderers.filterIsInstance<ImageMapRenderer>().firstOrNull()
+        
+        // 创建地图物品
+        val virtualMapItem = ItemBuilder(XMaterial.FILLED_MAP).apply {
+            // 设置地图ID
+            damage = getMapId(mapView)
+            // 应用自定义设置
+            itemBuilder()
+        }.build()
+        
+        // 发送装备数据包
+        val equipmentPacket = protocolManager.createPacket(PacketType.Play.Server.ENTITY_EQUIPMENT)
+        equipmentPacket.integers.write(0, player.entityId)
+        equipmentPacket.itemSlots.write(0, if (hand == HandEnum.MAIN_HAND) EnumWrappers.ItemSlot.MAINHAND else EnumWrappers.ItemSlot.OFFHAND)
+        equipmentPacket.itemModifier.write(0, virtualMapItem)
+        
+        // 发送地图数据包
+        val mapPacket = protocolManager.createPacket(PacketType.Play.Server.MAP)
+        val buffer = imageMapRenderer?.getBufferForPlayer(player) ?: ByteArray(128 * 128)
+        
+        configureMapPacket(mapPacket, mapView, buffer)
+        
+        // 按顺序发送数据包
+        if (async) {
+            protocolManager.sendServerPacket(player, equipmentPacket)
+            protocolManager.sendServerPacket(player, mapPacket)
+        } else {
+            protocolManager.sendServerPacket(player, equipmentPacket, false)
+            protocolManager.sendServerPacket(player, mapPacket, false)
+        }
     }
 
     /**
      * 创建地图视图
-     *
-     * @param bufferedImage 要渲染的图像
-     * @return 创建的地图视图
      */
     private fun createMapView(bufferedImage: BufferedImage): MapView {
-        val imageMapRenderer = ImageMapRenderer(bufferedImage) // 创建图像渲染器
         return Bukkit.createMap(Bukkit.getWorlds()[0]).apply {
-            renderers.forEach { removeRenderer(it) } // 移除现有渲染器
-            addRenderer(imageMapRenderer) // 添加新的图像渲染器
-        }
-    }
-
-    /**
-     * 创建地图物品
-     *
-     * @param itemBuilder 用于构建物品的lambda表达式
-     * @return 创建的地图物品
-     */
-    private fun createMapItem(itemBuilder: ItemBuilder.() -> Unit): ItemStack {
-        return ItemBuilder(XMaterial.FILLED_MAP).apply(itemBuilder).build() // 使用 ItemBuilder 构建物品
-    }
-
-    /**
-     * 发送装备数据包
-     *
-     * @param player 目标玩家对象
-     * @param mapItem 地图物品
-     * @param hand 玩家手中的物品类型
-     */
-    private fun sendEquipmentPacket(player: Player, mapItem: ItemStack, hand: HandEnum) {
-        val packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_EQUIPMENT)
-        packet.integers.write(0, player.entityId) // 设置玩家实体ID
-
-        val equipmentSlot = if (hand == HandEnum.MAIN_HAND) {
-            EnumWrappers.ItemSlot.MAINHAND
-        } else {
-            EnumWrappers.ItemSlot.OFFHAND
-        }
-
-        packet.itemSlots.write(0, equipmentSlot) // 设置装备槽位
-        packet.itemModifier.write(0, mapItem) // 设置物品
-
-        protocolManager.sendServerPacket(player, packet) // 发送数据包
-    }
-
-    /**
-     * 发送地图数据包
-     *
-     * @param player 目标玩家对象
-     * @param mapView 地图视图
-     * @param mapItem 地图物品
-     * @param async 是否异步发送
-     */
-    private fun sendMapPacket(player: Player, mapView: MapView, mapItem: ItemStack, async: Boolean) {
-        // 假设 ImageMapRenderer 有一个方法 getBufferForPlayer
-        val imageMapRenderer = mapView.renderers.firstOrNull { it is ImageMapRenderer } as? ImageMapRenderer
-        val buffer = imageMapRenderer?.getBufferForPlayer(player) ?: ByteArray(0) // 获取地图数据缓冲区
-        val packet = protocolManager.createPacket(PacketType.Play.Server.MAP) // 创建地图数据包
-
-        configureMapPacket(packet, mapView, buffer) // 配置地图数据包
-
-        if (async) {
-            protocolManager.sendServerPacket(player, packet) // 异步发送数据包
-        } else {
-            protocolManager.sendServerPacket(player, packet, true) // 同步发送数据包
+            // 清除所有现有渲染器
+            renderers.forEach { removeRenderer(it) }
+            // 添加新的图像渲染器
+            addRenderer(ImageMapRenderer(bufferedImage))
+            // 设置地图属性
+            scale = MapView.Scale.CLOSEST
+            try {
+                // 尝试设置追踪属性（新版本）
+                javaClass.getMethod("setTrackingPosition", Boolean::class.java)?.invoke(this, false)
+                javaClass.getMethod("setUnlimitedTracking", Boolean::class.java)?.invoke(this, false)
+                javaClass.getMethod("setLocked", Boolean::class.java)?.invoke(this, true)
+            } catch (e: Exception) {
+                try {
+                    // 尝试设置追踪属性（旧版本）
+                    javaClass.getMethod("setTrackingPlayer", Boolean::class.java)?.invoke(this, false)
+                } catch (e: Exception) {
+                    // 忽略错误，继续执行
+                }
+            }
         }
     }
 
     /**
      * 配置地图数据包
-     *
-     * @param packet 地图数据包
-     * @param mapView 地图视图
-     * @param buffer 地图数据缓冲区
      */
     private fun configureMapPacket(packet: PacketContainer, mapView: MapView, buffer: ByteArray) {
-        packet.integers.write(0, mapView.id) // 设置地图ID
-        packet.bytes.write(0, mapView.scale.value.toByte()) // 设置地图缩放比例
-        packet.booleans.write(0, false) // 设置地图是否锁定
+        val mapId = getMapId(mapView)
+        packet.integers.write(0, mapId) // 设置地图ID
+        packet.bytes.write(0, 0) // 设置地图缩放级别
+        packet.booleans.write(0, false) // 设置是否追踪玩家
+        packet.integers.write(1, 0) // X 偏移
+        packet.integers.write(2, 0) // Y 偏移
+        packet.integers.write(3, 128) // 宽度
+        packet.integers.write(4, 128) // 高度
         packet.byteArrays.write(0, buffer) // 设置地图数据
     }
 }
