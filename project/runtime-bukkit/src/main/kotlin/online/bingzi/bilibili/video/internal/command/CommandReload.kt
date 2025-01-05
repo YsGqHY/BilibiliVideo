@@ -1,5 +1,7 @@
 package online.bingzi.bilibili.video.internal.command
 
+import online.bingzi.bilibili.video.internal.config.MainConfig
+import online.bingzi.bilibili.video.internal.config.VideoConfig
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.subCommand
 import taboolib.platform.util.sendInfo
@@ -23,7 +25,11 @@ object CommandReload {
      */
     val execute = subCommand {
         execute<CommandSender> { sender, _, _ ->
-            // 安慰剂
+            // 重载主配置文件
+            MainConfig.config.reload()
+            // 重载视频配置文件
+            VideoConfig.config.reload()
+            // 发送重载成功消息
             sender.sendInfo("reloadSuccess")
         }
     }
