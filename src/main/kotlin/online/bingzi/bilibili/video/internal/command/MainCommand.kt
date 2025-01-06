@@ -3,6 +3,7 @@ package online.bingzi.bilibili.video.internal.command
 import online.bingzi.bilibili.video.internal.cache.baffleCache
 import online.bingzi.bilibili.video.internal.cache.cookieCache
 import online.bingzi.bilibili.video.internal.cache.midCache
+import online.bingzi.bilibili.video.internal.config.SettingConfig
 import online.bingzi.bilibili.video.internal.config.VideoConfig
 import online.bingzi.bilibili.video.internal.database.Database.Companion.setDataContainer
 import online.bingzi.bilibili.video.internal.engine.NetworkEngine
@@ -35,6 +36,8 @@ object MainCommand {
     @CommandBody(permission = "BilibiliVideo.command.reload", permissionDefault = PermissionDefault.OP)
     val reload = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
+            SettingConfig.config.reload()
+            VideoConfig.config.reload()
             sender.infoAsLang("CommandReloadSuccess")
         }
     }
