@@ -41,7 +41,7 @@ object VirtualItemSession {
         // 3. 保存会话
         sessions[player.uniqueId] = Session(mapView)
 
-        // 4. 发送地图物品到主手槽位
+        // 4. 发送地图物品到主手槽位（网络槽位 = 36 + heldItemSlot）
         val slot = 36 + player.inventory.heldItemSlot
         NMSPacketHandler.instance.sendSlotItem(player, slot, mapItem)
 

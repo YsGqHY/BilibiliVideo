@@ -71,7 +71,9 @@ class NMSPacketHandlerImpl : NMSPacketHandler() {
                     ArgRole.ITEM_STACK to nmsItem
                 )
             )
-            return resolved.ctor.newInstance(*args)
+            val packet = resolved.ctor.newInstance(*args)
+            forceSetSlotFields(packet, windowId, slot)
+            return packet
         }
 
         val constructors = packetClass.constructors.sortedByDescending { it.parameterCount }
@@ -81,6 +83,7 @@ class NMSPacketHandlerImpl : NMSPacketHandler() {
             val attempt = tryConstructSetSlot(constructor, windowId, slot, nmsItem, itemStackClass, errors)
             if (attempt != null) {
                 cacheSetSlotCtor(cacheKey, constructor, itemStackClass)
+                forceSetSlotFields(attempt, windowId, slot)
                 return attempt
             }
         }
@@ -128,12 +131,21 @@ class NMSPacketHandlerImpl : NMSPacketHandler() {
     }
 
     private fun verifySetSlot(packet: Any, windowId: Int, slot: Int, ctor: Constructor<*>, errors: MutableList<String>): Any? {
+        // 期望字段名覆盖：
+        //  - 现代命名：slot/slotId/windowId/containerId
+        //  - Mojang 混淆（Mojang 1.12 - 1.20 原始 NMS）字段名：a=windowId, b=slot, c=item
+        //    在不开启 -parameters 的 CB/Spigot 构建里，反射只能拿到 a/b/c。
+        //  没有这些期望命中时，校验会"空通过"，从而允许 slot 被错植（issue #32）。
         val expected = mapOf(
             "slot" to slot,
-            "slotId" to slot,
+            "slotid" to slot,
+            "slotindex" to slot,
             "i" to slot,
-            "windowId" to windowId,
-            "containerId" to windowId
+            "j" to slot,
+            "b" to slot,
+            "windowid" to windowId,
+            "containerid" to windowId,
+            "a" to windowId
         )
         val mismatches = NMSReflectionToolkit.verifyPacketFields(packet, expected)
         if (mismatches.isEmpty()) return null
@@ -161,6 +173,38 @@ class NMSPacketHandlerImpl : NMSPacketHandler() {
                 buildArgsForSetSlot(ctor, windowId, stateId, slot, nmsItem, itemStackClass)!!
             }
         )
+    }
+
+    /**
+     * 构造后回写 slot 字段，覆盖启发式可能错植的位置。
+     *
+     * 关键问题（issue #32）：在 Paper 1.12.2 等 Mojang 混淆 NMS 上，
+     * 构造启发式可能选到参数顺序与 Spigot 不同的 ctor 导致 slot 落到 0 (合成结果位)。
+     * 构造后通过一组已知的 int 字段名 (`a`/`b`/`i`/`j`/`slot`/`slotid`/`containerid`/`windowid`)
+     * 直接反射强写，确保 slot 字段正确。
+     */
+    private fun forceSetSlotFields(packet: Any, windowId: Int, slot: Int) {
+        val slotFieldNames = setOf("slot", "slotid", "slotindex", "i", "j", "b")
+        val windowFieldNames = setOf("windowid", "containerid", "syncid", "a")
+        forceIntField(packet, slotFieldNames, slot)
+        if (windowFieldNames.isNotEmpty()) forceIntField(packet, windowFieldNames, windowId)
+    }
+
+    private fun forceIntField(packet: Any, candidates: Set<String>, value: Int) {
+        var c: Class<*>? = packet.javaClass
+        while (c != null && c != Any::class.java) {
+            for (f in c.declaredFields) {
+                if (f.type != Int::class.javaPrimitiveType && f.type != Int::class.java) continue
+                if (f.name.lowercase() !in candidates) continue
+                try {
+                    f.isAccessible = true
+                    f.setInt(packet, value)
+                } catch (_: Throwable) {
+                    // 忽略（字段最终状态由其它字段保证）
+                }
+            }
+            c = c.superclass
+        }
     }
 
     /**
