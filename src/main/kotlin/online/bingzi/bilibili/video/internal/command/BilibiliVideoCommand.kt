@@ -26,17 +26,24 @@ import java.util.UUID
  * 当前实现的子命令：
  * - /bv help        查看帮助
  * - /bv qrcode      生成绑定用二维码地图
+ * - /bv videoqr <bvid>  生成跳转指定视频页面的二维码地图
  * - /bv triple <bvid>  使用当前玩家绑定的 B 站账号检测指定稿件的三连状态
  * - /bv status      查看当前绑定状态与凭证信息
  * - /bv reward <bvid>  基于三连记录登记奖励
  * - /bv admin credential ... 管理/查看凭证
  *
  * 权限节点：
- * - bilibili.video.use          玩家基础命令（qrcode/status/triple/reward）
+ * - bilibili.video.use          玩家基础命令（qrcode/status/triple/reward/videoqr）
  * - bilibili.video.admin        管理员命令
  */
 @CommandHeader(name = "bv", aliases = ["bilibili"], permission = "bilibili.video.use", permissionDefault = PermissionDefault.TRUE)
 object BilibiliVideoCommand {
+
+    /**
+     * BVID 正则：BV 开头，长度 10-13 的字母数字组合。
+     * 兼容旧版 9 位与新版 12 位编号。
+     */
+    private val BVID_REGEX = Regex("^BV1[A-Za-z0-9]{8,12}$")
 
     @CommandBody
     val main = mainCommand {
@@ -64,6 +71,38 @@ object BilibiliVideoCommand {
                     VirtualItemSession.sendVirtualItem(player, qrUrl)
                     player.sendMessage("§a[BV] 已为你生成二维码，请使用手机扫码完成绑定。")
                 }
+            }
+        }
+    }
+
+    /**
+     * 生成视频页面跳转二维码地图，供玩家扫码打开 B 站视频。
+     *
+     * 参数：
+     * - bvid：视频的 BVID，例如 BVxxxxxxxxx
+     *
+     * 生成的二维码内容固定为官方视频页 URL：
+     *   https://www.bilibili.com/video/<bvid>
+     *
+     * 与 /bv qrcode 共用 VirtualItemSession 通道，二维码生成本身不需要网络请求，
+     * 因此在主线程同步完成，避免与异步通道互相覆盖导致玩家无法及时看到二维码。
+     */
+    @CommandBody(permission = "bilibili.video.use", permissionDefault = PermissionDefault.TRUE)
+    val videoqr = subCommand {
+        dynamic("bvid") {
+            suggestion<Player> { _, _ ->
+                RewardConfigManager.getConfiguredBvids()
+            }
+            execute<Player> { player, context, _ ->
+                val raw = context["bvid"].trim()
+                val bvid = extractBvid(raw)
+                if (bvid == null) {
+                    player.sendMessage("§c[BV] 无法识别的 BVID：$raw，应为 BV 开头、长度 10-13 的字母数字组合。")
+                    return@execute
+                }
+                val videoUrl = "https://www.bilibili.com/video/$bvid"
+                VirtualItemSession.sendVirtualItem(player, videoUrl)
+                player.sendMessage("§a[BV] 已生成视频跳转二维码，扫码即可打开：$videoUrl")
             }
         }
     }
@@ -290,6 +329,30 @@ object BilibiliVideoCommand {
             return false
         }
         return true
+    }
+
+    /**
+     * 从玩家输入中提取 BVID，支持以下格式：
+     * - BVxxxxxxxxxx            直接输入
+     * - BV1xxxxxxxxxx           直接输入
+     * - https://www.bilibili.com/video/BVxxxxxxxxxx
+     * - https://www.bilibili.com/video/BVxxxxxxxxxx?p=1&spm=...
+     * - https://b23.tv/xxxxxx   （无法定位，提示玩家用 BV 号）
+     *
+     * 仅在格式合法时返回，否则返回 null。
+     */
+    private fun extractBvid(raw: String): String? {
+        if (raw.isEmpty()) return null
+        // 1. 如果玩家直接粘贴了完整 URL，从中截取 BV 段
+        val fromUrl = BVID_REGEX.find(raw)?.value
+        if (fromUrl != null && BVID_REGEX.matches(fromUrl)) {
+            return fromUrl
+        }
+        // 2. 否则按字面 BVID 校验
+        if (BVID_REGEX.matches(raw)) {
+            return raw
+        }
+        return null
     }
 
     private data class UnbindTarget(
