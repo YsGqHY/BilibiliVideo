@@ -15,16 +15,13 @@ import taboolib.common.env.RuntimeDependency
 @RuntimeDependencies(
     RuntimeDependency(
         value = "!org.jetbrains.kotlin:kotlin-reflect:2.2.0",
-        test = "!kotlin.reflect.full.KClasses",
-        transitive = false
+        test = "!kotlin.reflect.full.KClasses"
     ),
     RuntimeDependency(
-        value = "!com.squareup.okio:okio-jvm:3.6.0",
-        transitive = false
+        value = "!com.squareup.okio:okio-jvm:3.6.0"
     ),
     RuntimeDependency(
-        value = "!com.squareup.okhttp3:okhttp:4.12.0",
-        transitive = false
+        value = "!com.squareup.okhttp3:okhttp:4.12.0"
     ),
     RuntimeDependency(
         value = "!com.google.code.gson:gson:2.11.0",
