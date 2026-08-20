@@ -437,6 +437,64 @@ src/main/kotlin/online/bingzi/bilibili/video/
 
 ---
 
+## ❓ 常见问题
+
+### 启动时报 `SocketTimeoutException` / `ConnectException: Connection timed out` 依赖下载失败（issue #30）
+
+控制台出现类似日志即触发本节：
+
+```
+[INFO]: Downloading library org.tabooproject.reflex:reflex:1.0.23
+[WARN]: java.net.SocketTimeoutException: Read timed out
+...
+[WARN]: [TabooLib] Failed to initialize primitive loader, the plugin "BilibiliVideo-x.y.z.jar" will be disabled!
+```
+
+**原因**：TabooLib 在首次启动时会从内置 Maven 仓库（默认 `https://maven.aliyun.com/repository/central` 与 `https://repo.tabooproject.org/repository/releases`）下载自身依赖与本插件声明的运行时依赖。服务器若无法稳定访问上述任一地址（例如海外服务器被阿里云限速、DNS 污染、出口带宽拥堵），就会抛超时并禁用插件。
+
+**解决方式（三选一，按推荐度排序）**：
+
+1. **修改 JVM 启动参数，使用可达镜像（推荐，无需改 jar）**
+
+   在服务器启动脚本的 `java` 参数里加上：
+
+   ```bash
+   java -Dtaboolib.repo.central=https://mirrors.huaweicloud.com/repository/maven/ \
+        -Dtaboolib.repo.self=https://repo.tabooproject.org/repository/releases \
+        -Dtaboolib.repo.reflex=https://repo.tabooproject.org/repository/releases \
+        -jar spigot.jar
+   ```
+
+   常用镜像：
+
+   | 镜像 | URL |
+   |------|-----|
+   | 阿里云（默认） | `https://maven.aliyun.com/repository/central` |
+   | 华为云 | `https://mirrors.huaweicloud.com/repository/maven/` |
+   | 腾讯云 | `https://mirrors.cloud.tencent.com/nexus/repository/maven-public/` |
+   | Maven Central | `https://repo1.maven.org/maven2` |
+
+2. **本地预热缓存后再放回服务器**
+
+   在一台能访问默认仓库的机器上启动一次插件，让 TabooLib 把依赖下载到 `plugins/TabooLib/cache/taboolib/`，然后把整个 `cache/taboolib/` 目录同步到服务器对应位置。
+
+3. **放宽失败处理，保留插件启用状态**
+
+   编辑 `src/main/resources/META-INF/taboolib/extra.properties`（已随源码提供，键均被注释）：
+
+   ```properties
+   # 启用 TabooLib 调试日志，定位具体卡在哪一步
+   taboolib.debug=true
+   # 即使原语加载失败也保持插件启用，避免整个插件被 Bukkit 直接禁用
+   disable-when-primitive-loader-error=false
+   ```
+
+   重新 `./gradlew taboolibBuildApi` 出包即可。
+
+> 以上参数均为 TabooLib 内置支持，详细字段列表参见 `taboolib.common.PrimitiveSettings`（`-Dtaboolib.repo.self` / `-Dtaboolib.repo.central` / `-Dtaboolib.repo.reflex`）。
+
+---
+
 ## 🤝 贡献指南
 
 我们欢迎所有形式的贡献！
